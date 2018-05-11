@@ -105,7 +105,7 @@ namespace ZdrowiePlus
                     textToShow = "Info";
                     break;
                 case Resource.Id.menu_terms:
-                    textToShow = "Something";
+                    textToShow = "Zapisane wizyty";
                     var intent = new Intent(this, typeof(TermHistoryActivity));
                     intent.PutStringArrayListExtra("terms", terms);
                     StartActivity(intent);
