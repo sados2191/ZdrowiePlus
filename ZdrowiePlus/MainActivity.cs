@@ -52,9 +52,16 @@ namespace ZdrowiePlus
         {
             DateTime term = new DateTime(year, month, day, hour, minute, 0);
             string description = FindViewById<EditText>(Resource.Id.descriptionTerm).Text;
-            //Toast.MakeText(this, $"{day}-{month}-{year} {hour}:{minute}", ToastLength.Long).Show();
-            Toast.MakeText(this, $"Dodano\n{term.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
-            terms.Add($"{term.ToString("dd.MM.yyyy HH:mm")} {description}");
+            if (description != string.Empty)
+            {
+                terms.Add($"{term.ToString("dd.MM.yyyy HH:mm")} {description}");
+                //Toast.MakeText(this, $"{day}-{month}-{year} {hour}:{minute}", ToastLength.Long).Show();
+                Toast.MakeText(this, $"Dodano\n{term.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+            }
+            else
+            {
+                Toast.MakeText(this, "Opis nie może być pusty", ToastLength.Short).Show();
+            }
         }
 
         void TimeSelectOnClick(object sender, EventArgs e)

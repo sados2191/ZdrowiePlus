@@ -37,6 +37,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Opis zdarzenia"
         android:id="@+id/descriptionTerm" />
     <Button
         android:text="Dodaj termin"
