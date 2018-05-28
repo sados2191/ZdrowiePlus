@@ -5,11 +5,13 @@ using Android.Views;
 using System;
 using System.Collections.Generic;
 using Android.Content;
+using SupportToolbar = Android.Support.V7.Widget.Toolbar;
+using Android.Support.V7.App;
 
 namespace ZdrowiePlus
 {
-    [Activity(Label = "ZdrowiePlus", MainLauncher = true)]
-    public class MainActivity : Activity
+    [Activity(Label = "ZdrowiePlus", MainLauncher = true, Theme ="@style/MyTheme")]
+    public class MainActivity : AppCompatActivity
     {
         TextView dateDisplay;
         Button buttonDateSelect;
@@ -17,8 +19,8 @@ namespace ZdrowiePlus
         Button buttonTimeSelect;
         static DateTime current = DateTime.Now;
         int year = current.Year, month = current.Month, day = current.Day, hour = current.Hour, minute = current.Minute;
+        static readonly List<string> visitDates = new List<string>();
 
-        static readonly List<string> terms = new List<string>();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -26,15 +28,16 @@ namespace ZdrowiePlus
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<SupportToolbar>(Resource.Id.toolbar);
             //Toolbar takes on default actionbar characteristics
-            SetActionBar(toolbar);
+            SetSupportActionBar(toolbar);
             //ActionBar.Title = "Nowy";
 
             //date choosing
             buttonDateSelect = FindViewById<Button>(Resource.Id.btnDate);
             dateDisplay = FindViewById<TextView>(Resource.Id.textDate);
             dateDisplay.Text = current.ToLongDateString();
+            dateDisplay.Click += DateSelect_OnClick;
             buttonDateSelect.Click += DateSelect_OnClick;
 
             //time choosing
@@ -44,19 +47,19 @@ namespace ZdrowiePlus
             buttonTimeSelect.Click += TimeSelectOnClick;
 
             //Adding term
-            Button buttonAddTerm = FindViewById<Button>(Resource.Id.btnAddTerm);
-            buttonAddTerm.Click += AddTerm;
+            Button buttonAddVisit = FindViewById<Button>(Resource.Id.btnAddVisit);
+            buttonAddVisit.Click += AddVisit;
         }
 
-        private void AddTerm(object sender, EventArgs e)
+        private void AddVisit(object sender, EventArgs e)
         {
-            DateTime term = new DateTime(year, month, day, hour, minute, 0);
-            string description = FindViewById<EditText>(Resource.Id.descriptionTerm).Text;
+            DateTime visit = new DateTime(year, month, day, hour, minute, 0);
+            string description = FindViewById<EditText>(Resource.Id.visitDescription).Text;
             if (description != string.Empty)
             {
-                terms.Add($"{term.ToString("dd.MM.yyyy HH:mm")} {description}");
+                visitDates.Add($"{visit.ToString("dd.MM.yyyy HH:mm")} {description}");
                 //Toast.MakeText(this, $"{day}-{month}-{year} {hour}:{minute}", ToastLength.Long).Show();
-                Toast.MakeText(this, $"Dodano\n{term.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+                Toast.MakeText(this, $"Dodano\n{visit.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
             }
             else
             {
@@ -104,10 +107,10 @@ namespace ZdrowiePlus
                 case Resource.Id.menu_info:
                     textToShow = "Info";
                     break;
-                case Resource.Id.menu_terms:
+                case Resource.Id.menu_visits:
                     textToShow = "Zapisane wizyty";
-                    var intent = new Intent(this, typeof(TermHistoryActivity));
-                    intent.PutStringArrayListExtra("terms", terms);
+                    var intent = new Intent(this, typeof(VisitDatesActivity));
+                    intent.PutStringArrayListExtra("terms", visitDates);
                     StartActivity(intent);
                     break;
             }

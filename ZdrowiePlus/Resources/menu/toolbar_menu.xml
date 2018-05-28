@@ -6,7 +6,7 @@
     android:showAsAction="ifRoom"
     android:title="Info" />
   <item
-    android:id="@+id/menu_terms"
+    android:id="@+id/menu_visits"
     android:showAsAction="never"
-    android:title="Zapisane terminy" />
+    android:title="Terminy wizyt" />
 </menu>
