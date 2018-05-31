@@ -29,7 +29,7 @@ namespace ZdrowiePlus
             SetSupportActionBar(toolbar);
             //ActionBar.Title = "Nowy";
 
-            var visits = Intent.Extras.GetStringArrayList("terms") ?? new string[0];
+            var visits = Intent.Extras.GetStringArrayList("visits") ?? new string[0];
             ArrayAdapter<string> visitAdapter  = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, visits);
             ListView visitListView = FindViewById<ListView>(Resource.Id.listViewVisits);
             visitListView.Adapter = visitAdapter;

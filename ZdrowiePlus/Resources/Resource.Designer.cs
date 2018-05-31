@@ -1906,12 +1906,6 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f0a006d
 			public const int btnAddVisit = 2131361901;
 			
-			// aapt resource value: 0x7f0a0069
-			public const int btnDate = 2131361897;
-			
-			// aapt resource value: 0x7f0a006b
-			public const int btnTime = 2131361899;
-			
 			// aapt resource value: 0x7f0a003e
 			public const int buttonPanel = 2131361854;
 			
@@ -1989,6 +1983,12 @@ namespace ZdrowiePlus
 			
 			// aapt resource value: 0x7f0a0034
 			public const int italic = 2131361844;
+			
+			// aapt resource value: 0x7f0a0068
+			public const int labelDate = 2131361896;
+			
+			// aapt resource value: 0x7f0a006a
+			public const int labelTime = 2131361898;
 			
 			// aapt resource value: 0x7f0a006e
 			public const int left_drawer = 2131361902;
@@ -2155,8 +2155,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f0a000d
 			public const int text2 = 2131361805;
 			
-			// aapt resource value: 0x7f0a0068
-			public const int textDate = 2131361896;
+			// aapt resource value: 0x7f0a0069
+			public const int textDate = 2131361897;
 			
 			// aapt resource value: 0x7f0a0045
 			public const int textSpacerNoButtons = 2131361861;
@@ -2164,8 +2164,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f0a0044
 			public const int textSpacerNoTitle = 2131361860;
 			
-			// aapt resource value: 0x7f0a006a
-			public const int textTime = 2131361898;
+			// aapt resource value: 0x7f0a006b
+			public const int textTime = 2131361899;
 			
 			// aapt resource value: 0x7f0a007a
 			public const int time = 2131361914;
@@ -2512,6 +2512,12 @@ namespace ZdrowiePlus
 			
 			// aapt resource value: 0x7f05001f
 			public const int app_name = 2131034143;
+			
+			// aapt resource value: 0x7f050021
+			public const int closeDrawer = 2131034145;
+			
+			// aapt resource value: 0x7f050020
+			public const int openDrawer = 2131034144;
 			
 			// aapt resource value: 0x7f050011
 			public const int search_menu_title = 2131034129;
