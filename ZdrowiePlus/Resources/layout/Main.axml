@@ -12,59 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <!-- The Main Content View -->
-        <LinearLayout
-            android:orientation="vertical"
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:text="Wybierz datę:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:id="@+id/labelDate" />
-            <TextView
-                android:text="Data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:id="@+id/textDate" />
-            <TextView
-                android:text="Wybierz godzinę:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:id="@+id/labelTime" />
-            <TextView
-                android:text="Godzina"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:id="@+id/textTime" />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Opis zdarzenia"
-                android:id="@+id/visitDescription" />
-            <Button
-                android:text="Dodaj termin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnAddVisit" />
-        </LinearLayout>
+            android:layout_height="match_parent" />
     <!-- The Left Navigation Drawer -->
         <ListView
             android:id="@+id/left_drawer"

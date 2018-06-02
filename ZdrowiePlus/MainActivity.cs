@@ -8,17 +8,15 @@ using Android.Content;
 using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.V7.App;
 using Android.Support.V4.Widget;
+using ZdrowiePlus.Fragments;
 
 namespace ZdrowiePlus
 {
     [Activity(Label = "ZdrowiePlus", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
-        TextView dateDisplay;
-        TextView timeDisplay;
-        static DateTime current = DateTime.Now;
-        int year = current.Year, month = current.Month, day = current.Day, hour = current.Hour, minute = current.Minute;
-        static readonly List<string> visitDates = new List<string>();
+        //list of visits
+        public static List<string> visitList = new List<string>();
 
         //left menu
         private MyActionBarDrawerToggle drawerToggle;
@@ -26,6 +24,12 @@ namespace ZdrowiePlus
         private ListView leftDrawer;
         private ArrayAdapter leftAdapter;
         private List<string> leftDataSet;
+        
+        //fragments
+        //private Fragment currentFragment; show fragment way
+        //private Stack<Fragment> stackFragment;
+        private AddVisitFragment addVisitFragment;
+        private VisitListFragment visitListFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -49,24 +53,76 @@ namespace ZdrowiePlus
             drawerToggle.SyncState();
             leftDataSet = new List<string>();
             leftDataSet.Add("Terminy wizyt");
-            leftDataSet.Add("Item 2");
+            leftDataSet.Add("Dodaj wizytę");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
             leftDrawer.ItemClick += leftDrawer_ItemClick;
 
-            //date choosing
-            dateDisplay = FindViewById<TextView>(Resource.Id.textDate);
-            dateDisplay.Text = current.ToLongDateString();
-            dateDisplay.Click += DateSelect_OnClick;
+            //fragments
+            //stackFragment = new Stack<Fragment>(); show fragment way
+            addVisitFragment = new AddVisitFragment();
+            visitListFragment = new VisitListFragment();
+            var trans = FragmentManager.BeginTransaction();
 
-            //time choosing
-            timeDisplay = FindViewById<TextView>(Resource.Id.textTime);
-            timeDisplay.Text = current.ToShortTimeString();
-            timeDisplay.Click += TimeSelectOnClick;
+            //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
+            //trans.Hide(addVisitFragment);
 
-            //Adding visit
-            Button buttonAddVisit = FindViewById<Button>(Resource.Id.btnAddVisit);
-            buttonAddVisit.Click += AddVisit;
+            trans.Add(Resource.Id.fragmentContainer, visitListFragment, "VisitList");
+            //currentFragment = visitListFragment;
+            //stackFragment.Push(currentFragment);
+            trans.Commit();
+
+        }
+
+        //show fragment method
+        //private void ShowFragment(Fragment fragment)
+        //{
+        //    if (fragment.IsVisible)
+        //    {
+        //        return;
+        //    }
+
+        //    var trans = FragmentManager.BeginTransaction();
+
+        //    //fragment.View.BringToFront();
+        //    //currentFragment.View.BringToFront();
+
+        //    trans.Hide(currentFragment);
+        //    trans.Show(fragment);
+        //    trans.AddToBackStack(null);
+        //    trans.Commit();
+        //    stackFragment.Push(currentFragment);
+        //    currentFragment = fragment;
+        //}
+
+        //replace fragment method
+        private void ReplaceFragment(Fragment fragment)
+        {
+            if (fragment.IsVisible)
+            {
+                return;
+            }
+
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, fragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
+        public override void OnBackPressed()
+        {
+            //if (FragmentManager.BackStackEntryCount > 0) show fragment way
+            //{
+            //    FragmentManager.PopBackStack();
+            //    currentFragment = stackFragment.Pop(); //changing current fragment on back button press
+            //}
+            //else
+            //{
+            //    base.OnBackPressed();
+            //}
+
+            base.OnBackPressed();
         }
 
         //left menu item click
@@ -75,56 +131,18 @@ namespace ZdrowiePlus
             switch (e.Position)
             {
                 case 0:
-                    var intent = new Intent(this, typeof(VisitDatesActivity));
-                    intent.PutStringArrayListExtra("visits", visitDates);
-                    StartActivity(intent);
+                    //ShowFragment(visitListFragment);
+                    ReplaceFragment(visitListFragment);
                     break;
                 case 1:
-                    Toast.MakeText(this, leftDataSet[e.Position], ToastLength.Short).Show();
+                    //ShowFragment(addVisitFragment);
+                    ReplaceFragment(addVisitFragment);
                     break;
                 default:
                     break;
             }
-        }
-
-        private void AddVisit(object sender, EventArgs e)
-        {
-            DateTime visit = new DateTime(year, month, day, hour, minute, 0);
-            string description = FindViewById<EditText>(Resource.Id.visitDescription).Text;
-            if (description != string.Empty)
-            {
-                visitDates.Add($"{visit.ToString("dd.MM.yyyy HH:mm")} {description}");
-                //Toast.MakeText(this, $"{day}-{month}-{year} {hour}:{minute}", ToastLength.Long).Show();
-                Toast.MakeText(this, $"Dodano\n{visit.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
-            }
-            else
-            {
-                Toast.MakeText(this, "Opis nie może być pusty", ToastLength.Short).Show();
-            }
-        }
-
-        void TimeSelectOnClick(object sender, EventArgs e)
-        {
-            TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
-            {
-                timeDisplay.Text = time.ToShortTimeString();
-                hour = time.Hour;
-                minute = time.Minute;
-            });
-
-            frag.Show(FragmentManager, TimePickerFragment.TAG);
-        }
-
-        void DateSelect_OnClick(object sender, EventArgs e)
-        {
-            DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
-            {
-                dateDisplay.Text = time.ToLongDateString();
-                year = time.Year;
-                month = time.Month;
-                day = time.Day;
-            });
-            frag.Show(FragmentManager, DatePickerFragment.TAG);
+            Toast.MakeText(this, leftDataSet[e.Position], ToastLength.Short).Show();
+            drawerLayout.CloseDrawer((int)GravityFlags.Left);
         }
 
         //toolbar menu initialization
@@ -139,22 +157,15 @@ namespace ZdrowiePlus
         {
             drawerToggle.OnOptionsItemSelected(item);
 
-            string textToShow = string.Empty;
-
             switch (item.ItemId)
             {
                 case Resource.Id.menu_info:
-                    textToShow = "Info";
+                    Toast.MakeText(this, Resource.String.app_name, ToastLength.Short).Show();
                     break;
                 case Resource.Id.menu_visits:
-                    textToShow = "Zapisane wizyty";
-                    var intent = new Intent(this, typeof(VisitDatesActivity));
-                    intent.PutStringArrayListExtra("visits", visitDates);
-                    StartActivity(intent);
+                    ReplaceFragment(visitListFragment);
                     break;
             }
-
-            //Toast.MakeText(this, item.TitleFormatted + ": " + textToShow, ToastLength.Short).Show();
 
             return base.OnOptionsItemSelected(item);
         }
