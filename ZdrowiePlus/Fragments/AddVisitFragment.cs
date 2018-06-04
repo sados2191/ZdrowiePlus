@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class AddVisitFragment : Fragment
+    public class AddVisitFragment : Android.App.Fragment
     {
         TextView dateDisplay;
         TextView timeDisplay;
@@ -50,13 +56,42 @@ namespace ZdrowiePlus.Fragments
 
         void AddVisit(object sender, EventArgs e)
         {
-            DateTime visit = new DateTime(year, month, day, hour, minute, 0);
+            DateTime visitTime = new DateTime(year, month, day, hour, minute, 0);
             string description = this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text;
             if (description != string.Empty)
             {
-                MainActivity.visitList.Add($"{visit.ToString("dd.MM.yyyy HH:mm")} {description}");
-                this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
-                Toast.MakeText(this.Activity, $"Dodano\n{visit.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+                if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
+                {
+                    // We have permission
+                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"events.db"));
+                    db.CreateTable<Event>();
+                    var newEvent = new Event();
+                    newEvent.Date = visitTime;
+                    newEvent.Description = description;
+                    newEvent.EventType = EventType.Visit;
+                    db.Insert(newEvent);
+
+                    //MainActivity.visitList.Add($"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
+                    this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
+                    Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+                }
+                else
+                {
+                    // Permission is not granted. If necessary display rationale & request.
+
+                    //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.WriteExternalStorage))
+                    //{
+                    //    //Explain to the user why we need permission
+                    //    Snackbar.Make(View, "Write external storage is required to save a visit", Snackbar.LengthIndefinite)
+                    //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage}, 1))
+                    //            .Show();
+
+                    //    return;
+                    //}
+                    
+                    ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
+
+                }
             }
             else
             {

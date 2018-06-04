@@ -9,6 +9,8 @@ using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.V7.App;
 using Android.Support.V4.Widget;
 using ZdrowiePlus.Fragments;
+using Android.Content.PM;
+using Android.Runtime;
 
 namespace ZdrowiePlus
 {
@@ -168,6 +170,36 @@ namespace ZdrowiePlus
             }
 
             return base.OnOptionsItemSelected(item);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            switch (requestCode)
+            {
+                case 1: //write_external_storage
+                    if (grantResults[0] == Permission.Granted)
+                    {
+                        Toast.MakeText(this, "Permission granted", ToastLength.Short).Show();
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, "Permission denied", ToastLength.Short).Show();
+                    }
+                    break;
+                case 2: //read_external_storage
+                    if (grantResults[0] == Permission.Granted)
+                    {
+                        Toast.MakeText(this, "Permission granted", ToastLength.Short).Show();
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, "Permission denied", ToastLength.Short).Show();
+                    }
+                    break;
+                default:
+                    break;
+            }
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
