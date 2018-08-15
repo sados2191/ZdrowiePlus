@@ -28,7 +28,7 @@ namespace ZdrowiePlus
         private List<string> leftDataSet;
         
         //fragments
-        //private Fragment currentFragment; show fragment way
+        //private Fragment currentFragment; show fragment method
         //private Stack<Fragment> stackFragment;
         private AddVisitFragment addVisitFragment;
         private VisitListFragment visitListFragment;
@@ -56,12 +56,15 @@ namespace ZdrowiePlus
             leftDataSet = new List<string>();
             leftDataSet.Add("Terminy wizyt");
             leftDataSet.Add("Dodaj wizytę");
+            leftDataSet.Add("Leki");
+            leftDataSet.Add("Parametry Zdrowotne");
+            leftDataSet.Add("Raport");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
             leftDrawer.ItemClick += leftDrawer_ItemClick;
 
             //fragments
-            //stackFragment = new Stack<Fragment>(); show fragment way
+            //stackFragment = new Stack<Fragment>(); show fragment method
             addVisitFragment = new AddVisitFragment();
             visitListFragment = new VisitListFragment();
             var trans = FragmentManager.BeginTransaction();

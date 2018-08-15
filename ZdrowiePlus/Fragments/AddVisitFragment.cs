@@ -7,6 +7,7 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -47,7 +48,7 @@ namespace ZdrowiePlus.Fragments
             timeDisplay.Text = currentTime.ToShortTimeString();
             timeDisplay.Click += TimeSelectOnClick;
 
-            //Adding visit
+            //Add visit button
             Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit);
             buttonAddVisit.Click += AddVisit;
 
@@ -74,6 +75,20 @@ namespace ZdrowiePlus.Fragments
                     //MainActivity.visitList.Add($"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
                     this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
                     Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+
+                    //Notification
+
+                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                    notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
+                    notificationIntent.PutExtra("title", "Wizyta");
+
+                    var timer = (long)visitTime.ToUniversalTime().Subtract(
+                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                        ).TotalMilliseconds;
+
+                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
                 }
                 else
                 {
