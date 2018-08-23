@@ -121,9 +121,11 @@
   <ItemGroup>
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="Fragments\AddVisitFragment.cs" />
+    <Compile Include="Fragments\EditVisitFragment.cs" />
     <Compile Include="Fragments\VisitListFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
+    <Compile Include="MyListViewAdapter.cs" />
     <Compile Include="NotificationReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -190,6 +192,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\outline_info_white_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ListViewRow.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.27.0.2\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.27.0.2\build\MonoAndroid81\Xamarin.Android.Support.Annotations.targets')" />

@@ -18,7 +18,7 @@ namespace ZdrowiePlus
     public class MainActivity : AppCompatActivity
     {
         //list of visits
-        public static List<string> visitList = new List<string>();
+        public static List<Event> visitList = new List<Event>();
 
         //left menu
         private MyActionBarDrawerToggle drawerToggle;
@@ -30,8 +30,8 @@ namespace ZdrowiePlus
         //fragments
         //private Fragment currentFragment; show fragment method
         //private Stack<Fragment> stackFragment;
-        private AddVisitFragment addVisitFragment;
-        private VisitListFragment visitListFragment;
+        private static AddVisitFragment addVisitFragment;
+        private static VisitListFragment visitListFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

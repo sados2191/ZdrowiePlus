@@ -20,8 +20,9 @@ namespace ZdrowiePlus.Fragments
 {
     public class VisitListFragment : Android.App.Fragment
     {
-        public static ArrayAdapter<string> visitAdapter;
-        
+        public static MyListViewAdapter visitAdapter;
+        private static EditVisitFragment editVisitFragment;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,15 +42,17 @@ namespace ZdrowiePlus.Fragments
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
                 db.CreateTable<Event>();
                 var events = db.Table<Event>().OrderBy(e => e.Date).ToList();
-                foreach (var e in events)
+                foreach (var visit in events)
                 {
-                    MainActivity.visitList.Add($"{e.Date} {e.Description}");
+                    MainActivity.visitList.Add(visit);
                 }
 
-                visitAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, MainActivity.visitList);
+                visitAdapter = new MyListViewAdapter(this.Activity, MainActivity.visitList);
                 ListView visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
                 visitListView.Adapter = visitAdapter;
                 visitListView.FastScrollEnabled = true;
+
+                visitListView.ItemClick += visitListView_ItemClick;
 
             }
             else
@@ -71,6 +74,15 @@ namespace ZdrowiePlus.Fragments
             }
 
             return view;
+        }
+
+        private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, editVisitFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
         }
 
         public override void OnResume()
