@@ -11,14 +11,19 @@ using Android.Support.V4.Widget;
 using ZdrowiePlus.Fragments;
 using Android.Content.PM;
 using Android.Runtime;
+using SQLite;
+using System.IO;
 
 namespace ZdrowiePlus
 {
     [Activity(Label = "ZdrowiePlus", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
+        //DODAC - ponowic notifikacje po reboot'cie telefonu
+
         //list of visits
         public static List<Event> visitList = new List<Event>();
+        public static Event eventToEdit = new Event();
 
         //left menu
         private MyActionBarDrawerToggle drawerToggle;
@@ -169,6 +174,10 @@ namespace ZdrowiePlus
                     break;
                 case Resource.Id.menu_visits:
                     ReplaceFragment(visitListFragment);
+                    break;
+                case Resource.Id.menu_delete_events:
+                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                    db.DeleteAll<Event>();
                     break;
             }
 

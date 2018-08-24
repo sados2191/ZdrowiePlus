@@ -21,7 +21,7 @@ namespace ZdrowiePlus.Fragments
     public class VisitListFragment : Android.App.Fragment
     {
         public static MyListViewAdapter visitAdapter;
-        private static EditVisitFragment editVisitFragment;
+        private static EditVisitFragment editVisitFragment = new EditVisitFragment();
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,6 +39,8 @@ namespace ZdrowiePlus.Fragments
             if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
             {
                 // We have permission
+
+                //database connection
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
                 db.CreateTable<Event>();
                 var events = db.Table<Event>().OrderBy(e => e.Date).ToList();
@@ -78,6 +80,8 @@ namespace ZdrowiePlus.Fragments
 
         private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
+            MainActivity.eventToEdit = MainActivity.visitList[e.Position];
+
             var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, editVisitFragment);

@@ -25,7 +25,7 @@ namespace ZdrowiePlus.Fragments
         TextView dateDisplay;
         TextView timeDisplay;
         static DateTime currentTime = DateTime.Now;
-        int year = currentTime.Year, month = currentTime.Month, day = currentTime.Day, hour = currentTime.Hour, minute = currentTime.Minute;
+        int year, month, day, hour, minute;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,6 +36,8 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            year = currentTime.Year; month = currentTime.Month; day = currentTime.Day; hour = currentTime.Hour; minute = currentTime.Minute;
+
             View view = inflater.Inflate(Resource.Layout.AddVisit, container, false);
 
             //date choosing
@@ -64,20 +66,20 @@ namespace ZdrowiePlus.Fragments
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
                 {
                     // We have permission
+
+                    //database connection
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"events.db"));
                     db.CreateTable<Event>();
                     var newEvent = new Event();
                     newEvent.Date = visitTime;
                     newEvent.Description = description;
                     newEvent.EventType = EventType.Visit;
-                    db.Insert(newEvent);
+                    newEvent.Id = db.Insert(newEvent); //change to GUID
 
-                    //MainActivity.visitList.Add($"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
                     this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
                     Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
 
                     //Notification
-
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                     notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
                     notificationIntent.PutExtra("title", "Wizyta");
@@ -86,7 +88,7 @@ namespace ZdrowiePlus.Fragments
                         new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                         ).TotalMilliseconds;
 
-                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
                     AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                     alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
                 }
@@ -136,6 +138,13 @@ namespace ZdrowiePlus.Fragments
                 day = time.Day;
             });
             frag.Show(FragmentManager, DatePickerFragment.TAG);
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            //visitAdapter.NotifyDataSetChanged();
         }
     }
 }

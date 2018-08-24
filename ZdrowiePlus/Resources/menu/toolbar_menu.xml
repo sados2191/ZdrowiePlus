@@ -10,4 +10,8 @@
     android:id="@+id/menu_visits"
     app:showAsAction="never"
     android:title="Terminy wizyt" />
+  <item
+    android:id="@+id/menu_delete_events"
+    app:showAsAction="never"
+    android:title="Usuń wszystkie wizyty" />
 </menu>
