@@ -20,6 +20,7 @@ namespace ZdrowiePlus
         {
             var message = intent.GetStringExtra("message");
             var title = intent.GetStringExtra("title");
+            var id = intent.GetIntExtra("id", 1);
 
             // Instantiate the builder and set notification elements:
             Notification.Builder builder = new Notification.Builder(context)
@@ -38,7 +39,7 @@ namespace ZdrowiePlus
                 context.GetSystemService(Context.NotificationService) as NotificationManager;
 
             // Publish the notification:
-            notificationManager.Notify(1, notification);
+            notificationManager.Notify(id, notification);
         }
     }
 }

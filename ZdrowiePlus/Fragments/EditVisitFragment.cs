@@ -56,7 +56,6 @@ namespace ZdrowiePlus.Fragments
             //description
             eventDescription = view.FindViewById<EditText>(Resource.Id.visitEditDescription);
             eventDescription.Text = MainActivity.eventToEdit.Description;
-            //view.FindViewById<EditText>(Resource.Id.visitEditDescription).Text = MainActivity.eventToEdit.Description;
 
             //Save visit button
             Button buttonSaveVisit = view.FindViewById<Button>(Resource.Id.btnSaveVisit);
@@ -82,7 +81,7 @@ namespace ZdrowiePlus.Fragments
             trans.Commit();
         }
 
-        void SaveVisit(object sender, EventArgs e)
+        private void SaveVisit(object sender, EventArgs e)
         {
             MainActivity.eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
             MainActivity.eventToEdit.Description = eventDescription.Text;
@@ -103,6 +102,7 @@ namespace ZdrowiePlus.Fragments
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                     notificationIntent.PutExtra("message", $"{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {MainActivity.eventToEdit.Description}");
                     notificationIntent.PutExtra("title", "Wizyta");
+                    notificationIntent.PutExtra("id", MainActivity.eventToEdit.Id);
 
                     var timer = (long)MainActivity.eventToEdit.Date.ToUniversalTime().Subtract(
                         new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
@@ -170,7 +170,7 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
-            //visitAdapter.NotifyDataSetChanged();
+            eventDescription.Text = MainActivity.eventToEdit.Description;
         }
     }
 }

@@ -83,6 +83,7 @@ namespace ZdrowiePlus.Fragments
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                     notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
                     notificationIntent.PutExtra("title", "Wizyta");
+                    notificationIntent.PutExtra("id", newEvent.Id);
 
                     var timer = (long)visitTime.ToUniversalTime().Subtract(
                         new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)

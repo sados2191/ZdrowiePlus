@@ -23,6 +23,7 @@ namespace ZdrowiePlus
 
         //list of visits
         public static List<Event> visitList = new List<Event>();
+        //visit to edit
         public static Event eventToEdit = new Event();
 
         //left menu
@@ -37,6 +38,7 @@ namespace ZdrowiePlus
         //private Stack<Fragment> stackFragment;
         private static AddVisitFragment addVisitFragment;
         private static VisitListFragment visitListFragment;
+        private static MedicineTherapyFragment medicineTherapyFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -61,9 +63,10 @@ namespace ZdrowiePlus
             leftDataSet = new List<string>();
             leftDataSet.Add("Terminy wizyt");
             leftDataSet.Add("Dodaj wizytę");
-            leftDataSet.Add("Leki");
+            leftDataSet.Add("Terapia lekami");
             leftDataSet.Add("Parametry Zdrowotne");
             leftDataSet.Add("Raport");
+            leftDataSet.Add("Zamknij aplikację");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
             leftDrawer.ItemClick += leftDrawer_ItemClick;
@@ -72,6 +75,7 @@ namespace ZdrowiePlus
             //stackFragment = new Stack<Fragment>(); show fragment method
             addVisitFragment = new AddVisitFragment();
             visitListFragment = new VisitListFragment();
+            medicineTherapyFragment = new MedicineTherapyFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -147,6 +151,12 @@ namespace ZdrowiePlus
                 case 1:
                     //ShowFragment(addVisitFragment);
                     ReplaceFragment(addVisitFragment);
+                    break;
+                case 2:
+                    ReplaceFragment(medicineTherapyFragment);
+                    break;
+                case 5:
+                    this.Finish();
                     break;
                 default:
                     break;
