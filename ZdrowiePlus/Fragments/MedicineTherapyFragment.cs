@@ -22,6 +22,18 @@ namespace ZdrowiePlus.Fragments
 {
     public class MedicineTherapyFragment : Android.App.Fragment
     {
+        public static string pillName;
+        public static List<DateTime> pillTimes = new List<DateTime>();
+
+        TextView medicineDate;
+        SeekBar seekbarFrequency;
+
+        static DateTime currentTime = DateTime.Now;
+        int year, month, day;
+        EditText medicineName;
+
+        private static MedicineTimeListFragment timeListFragment = new MedicineTimeListFragment();
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -31,11 +43,14 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            year = currentTime.Year; month = currentTime.Month; day = currentTime.Day;
+
             View view = inflater.Inflate(Resource.Layout.MedicineTherapy, container, false);
 
-            EditText medicineName = view.FindViewById<EditText>(Resource.Id.medicineName);
+            medicineName = view.FindViewById<EditText>(Resource.Id.medicineName);
 
-            SeekBar seekbarFrequency = view.FindViewById<SeekBar>(Resource.Id.medicineFrequency);
+            //setting pill frequency per day
+            seekbarFrequency = view.FindViewById<SeekBar>(Resource.Id.medicineFrequency);
             TextView labelFrequency = view.FindViewById<TextView>(Resource.Id.labelFrequency);
             labelFrequency.Text = $"Ile razy dziennie:  {seekbarFrequency.Progress}";
             seekbarFrequency.ProgressChanged += (s, e) => {
@@ -43,6 +58,7 @@ namespace ZdrowiePlus.Fragments
                 labelFrequency.Text = $"Ile razy dziennie:  {seekbarFrequency.Progress}";
             };
 
+            //setting day count of therapy
             SeekBar seekbarTimeout = view.FindViewById<SeekBar>(Resource.Id.medicineTimeout);
             TextView labelTimeout = view.FindViewById<TextView>(Resource.Id.labelTimeout);
             labelTimeout.Text = $"Długość kuracji w dniach:  {seekbarTimeout.Progress}";
@@ -51,9 +67,52 @@ namespace ZdrowiePlus.Fragments
                 labelTimeout.Text = $"Długość kuracji w dniach:  {seekbarTimeout.Progress}";
             };
 
-            TextView medicineDate = view.FindViewById<TextView>(Resource.Id.medicineDate);
+            //date choosing
+            medicineDate = view.FindViewById<TextView>(Resource.Id.medicineDate);
+            medicineDate.Text = currentTime.ToLongDateString();
+            medicineDate.Click += DateSelect_OnClick;
+
+            //next screen button
+            Button buttonNext = view.FindViewById<Button>(Resource.Id.btnNextMedicineTherapy);
+            buttonNext.Click += NextChooseTime;
 
             return view;
+        }
+
+        private void NextChooseTime(object sender, EventArgs e)
+        {
+            pillTimes.Clear();
+
+            int pillDelay = 0;
+            if (seekbarFrequency.Progress == 2)
+                pillDelay = 720;
+            if (seekbarFrequency.Progress > 2)
+               pillDelay = 840 / (seekbarFrequency.Progress - 1);
+            
+
+            pillName = medicineName.Text;
+            for (int i = 0; i < seekbarFrequency.Progress; i++)
+            {
+                pillTimes.Add(new DateTime(year, month, day, 8, 0, 0).AddMinutes(pillDelay * i));
+            }
+
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, timeListFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
+        void DateSelect_OnClick(object sender, EventArgs e)
+        {
+            DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+            {
+                medicineDate.Text = time.ToLongDateString();
+                year = time.Year;
+                month = time.Month;
+                day = time.Day;
+            });
+            frag.Show(FragmentManager, DatePickerFragment.TAG);
         }
     }
 }
