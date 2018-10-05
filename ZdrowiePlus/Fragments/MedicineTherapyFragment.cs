@@ -24,9 +24,13 @@ namespace ZdrowiePlus.Fragments
     {
         public static string pillName;
         public static List<DateTime> pillTimes = new List<DateTime>();
+        public static int therapyLength;
+        public static DateTime startDay;
+
 
         TextView medicineDate;
         SeekBar seekbarFrequency;
+        SeekBar seekbarTimeout;
 
         static DateTime currentTime = DateTime.Now;
         int year, month, day;
@@ -58,8 +62,8 @@ namespace ZdrowiePlus.Fragments
                 labelFrequency.Text = $"Ile razy dziennie:  {seekbarFrequency.Progress}";
             };
 
-            //setting day count of therapy
-            SeekBar seekbarTimeout = view.FindViewById<SeekBar>(Resource.Id.medicineTimeout);
+            //setting length of therapy
+            seekbarTimeout = view.FindViewById<SeekBar>(Resource.Id.medicineTimeout);
             TextView labelTimeout = view.FindViewById<TextView>(Resource.Id.labelTimeout);
             labelTimeout.Text = $"Długość kuracji w dniach:  {seekbarTimeout.Progress}";
             seekbarTimeout.ProgressChanged += (s, e) => {
@@ -81,6 +85,10 @@ namespace ZdrowiePlus.Fragments
 
         private void NextChooseTime(object sender, EventArgs e)
         {
+            pillName = medicineName.Text;
+            therapyLength = seekbarTimeout.Progress;
+            startDay = new DateTime(year, month, day, 0, 0, 0);
+
             pillTimes.Clear();
 
             int pillDelay = 0;
@@ -89,8 +97,6 @@ namespace ZdrowiePlus.Fragments
             if (seekbarFrequency.Progress > 2)
                pillDelay = 840 / (seekbarFrequency.Progress - 1);
             
-
-            pillName = medicineName.Text;
             for (int i = 0; i < seekbarFrequency.Progress; i++)
             {
                 pillTimes.Add(new DateTime(year, month, day, 8, 0, 0).AddMinutes(pillDelay * i));

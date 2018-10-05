@@ -31,19 +31,23 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View view = inflater.Inflate(Resource.Layout.VisitList, container, false);
+            View view = inflater.Inflate(Resource.Layout.MedicineTimeList, container, false);
 
             medicineTimeAdapter = new MedicineTimeViewAdapter(this.Activity, MedicineTherapyFragment.pillTimes);
-            ListView medicineTimeListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
+            ListView medicineTimeListView = view.FindViewById<ListView>(Resource.Id.listViewMedicine);
             medicineTimeListView.Adapter = medicineTimeAdapter;
             medicineTimeListView.FastScrollEnabled = true;
 
-            medicineTimeListView.ItemClick += medicineTimeListView_ItemClick;
+            //next screen button
+            Button buttonAdd = view.FindViewById<Button>(Resource.Id.btnAddMedicineTherapy);
+            buttonAdd.Click += AddMedicineTherapy;
+
+            medicineTimeListView.ItemClick += MedicineTimeListView_ItemClick;
 
             return view;
         }
 
-        private void medicineTimeListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        private void MedicineTimeListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
             {
@@ -53,6 +57,71 @@ namespace ZdrowiePlus.Fragments
             });
 
             frag.Show(FragmentManager, TimePickerFragment.TAG);
+        }
+
+        private void AddMedicineTherapy(object sender, EventArgs e)
+        {
+            List<DateTime> medicineTimes = new List<DateTime>();
+
+            for (int i = 0; i < MedicineTherapyFragment.therapyLength; i++)
+            {
+                foreach (DateTime date in MedicineTherapyFragment.pillTimes)
+                {
+                    medicineTimes.Add(date.AddDays(i));
+                }
+            }
+
+            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
+            {
+                // We have permission
+
+                //database connection
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                db.CreateTable<Event>();
+
+                foreach (DateTime date in medicineTimes)
+                {
+                    var newEvent = new Event();
+                    newEvent.Date = date;
+                    newEvent.Description = MedicineTherapyFragment.pillName;
+                    newEvent.EventType = EventType.Medicine;
+                    newEvent.Id = db.Insert(newEvent); //change to GUID
+
+                    //this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
+                    //Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+
+                    //Notification
+                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                    notificationIntent.PutExtra("message", $"{date.ToString("dd.MM.yyyy HH:mm")} {MedicineTherapyFragment.pillName}");
+                    notificationIntent.PutExtra("title", "Terapia lekami");
+                    notificationIntent.PutExtra("id", newEvent.Id);
+
+                    var timer = (long)date.ToUniversalTime().Subtract(
+                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                        ).TotalMilliseconds;
+
+                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                }
+            }
+            else
+            {
+                // Permission is not granted. If necessary display rationale & request.
+
+                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.WriteExternalStorage))
+                //{
+                //    //Explain to the user why we need permission
+                //    Snackbar.Make(View, "Write external storage is required to save a visit", Snackbar.LengthIndefinite)
+                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage}, 1))
+                //            .Show();
+
+                //    return;
+                //}
+
+                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
+
+            }
         }
 
         public override void OnResume()

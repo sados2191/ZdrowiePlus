@@ -96,7 +96,7 @@ namespace ZdrowiePlus.Fragments
                     db.CreateTable<Event>();
                     db.Update(MainActivity.eventToEdit);
 
-                    Toast.MakeText(this.Activity, $"Zapisano\n{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}\n{MainActivity.eventToEdit.Description}", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Zapisano\n{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}\n{MainActivity.eventToEdit.Id}", ToastLength.Short).Show();
 
                     //Notification
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
