@@ -74,7 +74,7 @@ namespace ZdrowiePlus.Fragments
                     newEvent.Date = visitTime;
                     newEvent.Description = description;
                     newEvent.EventType = EventType.Visit;
-                    newEvent.Id = db.Insert(newEvent); //change to GUID
+                    db.Insert(newEvent); //change to GUID
 
                     this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
                     Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{newEvent.Id}", ToastLength.Short).Show();
