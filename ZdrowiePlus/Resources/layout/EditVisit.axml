@@ -3,6 +3,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:hint="Tytuł zdarzenia"
+		android:id="@+id/visitEditTitle" />
     <TextView
         android:text="Data:"
         android:layout_width="match_parent"
@@ -43,6 +48,7 @@
         android:id="@+id/textEditTime" />
     <EditText
 		android:text=""
+		android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Opis zdarzenia"

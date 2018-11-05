@@ -26,6 +26,7 @@ namespace ZdrowiePlus.Fragments
 
         TextView eventDate;
         TextView eventTime;
+        EditText eventTitle;
         EditText eventDescription;
         int year, month, day, hour, minute;
 
@@ -38,8 +39,11 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            year = MainActivity.eventToEdit.Date.Year; month = MainActivity.eventToEdit.Date.Month;
-            day = MainActivity.eventToEdit.Date.Day; hour = MainActivity.eventToEdit.Date.Hour; minute = MainActivity.eventToEdit.Date.Minute;
+            year = MainActivity.eventToEdit.Date.Year;
+            month = MainActivity.eventToEdit.Date.Month;
+            day = MainActivity.eventToEdit.Date.Day;
+            hour = MainActivity.eventToEdit.Date.Hour;
+            minute = MainActivity.eventToEdit.Date.Minute;
 
             View view = inflater.Inflate(Resource.Layout.EditVisit, container, false);
 
@@ -52,6 +56,10 @@ namespace ZdrowiePlus.Fragments
             eventTime = view.FindViewById<TextView>(Resource.Id.textEditTime);
             eventTime.Text = MainActivity.eventToEdit.Date.ToShortTimeString();
             eventTime.Click += TimeSelectOnClick;
+
+            //title
+            eventTitle = view.FindViewById<EditText>(Resource.Id.visitEditTitle);
+            eventTitle.Text = MainActivity.eventToEdit.Title;
 
             //description
             eventDescription = view.FindViewById<EditText>(Resource.Id.visitEditDescription);
@@ -84,8 +92,9 @@ namespace ZdrowiePlus.Fragments
         private void SaveVisit(object sender, EventArgs e)
         {
             MainActivity.eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
+            MainActivity.eventToEdit.Title = eventTitle.Text;
             MainActivity.eventToEdit.Description = eventDescription.Text;
-            if (MainActivity.eventToEdit.Description != string.Empty)
+            if (MainActivity.eventToEdit.Title != string.Empty)
             {
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
                 {
@@ -100,7 +109,7 @@ namespace ZdrowiePlus.Fragments
 
                     //Notification
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {MainActivity.eventToEdit.Description}");
+                    notificationIntent.PutExtra("message", $"{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {MainActivity.eventToEdit.Title}");
                     notificationIntent.PutExtra("title", "Wizyta");
                     notificationIntent.PutExtra("id", MainActivity.eventToEdit.Id);
 
@@ -138,7 +147,7 @@ namespace ZdrowiePlus.Fragments
             }
             else
             {
-                Toast.MakeText(this.Activity, "Opis nie może być pusty", ToastLength.Short).Show();
+                Toast.MakeText(this.Activity, "Tytuł nie może być pusty", ToastLength.Short).Show();
             }
         }
 
@@ -170,6 +179,7 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
+            eventTitle.Text = MainActivity.eventToEdit.Title;
             eventDescription.Text = MainActivity.eventToEdit.Description;
         }
     }

@@ -60,8 +60,9 @@ namespace ZdrowiePlus.Fragments
         void AddVisit(object sender, EventArgs e)
         {
             DateTime visitTime = new DateTime(year, month, day, hour, minute, 0);
+            string title = this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text;
             string description = this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text;
-            if (description != string.Empty)
+            if (title != string.Empty)
             {
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
                 {
@@ -72,16 +73,18 @@ namespace ZdrowiePlus.Fragments
                     db.CreateTable<Event>();
                     var newEvent = new Event();
                     newEvent.Date = visitTime;
+                    newEvent.Title = title;
                     newEvent.Description = description;
                     newEvent.EventType = EventType.Visit;
                     db.Insert(newEvent); //change to GUID
 
+                    this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = String.Empty;
                     this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
                     Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{newEvent.Id}", ToastLength.Short).Show();
 
                     //Notification
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {description}");
+                    notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {title}");
                     notificationIntent.PutExtra("title", "Wizyta");
                     notificationIntent.PutExtra("id", newEvent.Id);
 
@@ -113,7 +116,7 @@ namespace ZdrowiePlus.Fragments
             }
             else
             {
-                Toast.MakeText(this.Activity, "Opis nie może być pusty", ToastLength.Short).Show();
+                Toast.MakeText(this.Activity, "Tytuł nie może być pusty", ToastLength.Short).Show();
             }
         }
 

@@ -57,7 +57,7 @@ namespace ZdrowiePlus
             txtTime.Text = mItems[position].Date.ToString("HH:mm");
 
             TextView txtDesc = row.FindViewById<TextView>(Resource.Id.txtDesc);
-            txtDesc.Text = mItems[position].Description;
+            txtDesc.Text = mItems[position].Title;
 
             return row;
         }

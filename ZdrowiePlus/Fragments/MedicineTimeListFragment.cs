@@ -83,7 +83,7 @@ namespace ZdrowiePlus.Fragments
                 {
                     var newEvent = new Event();
                     newEvent.Date = date;
-                    newEvent.Description = MedicineTherapyFragment.pillName;
+                    newEvent.Title = MedicineTherapyFragment.pillName;
                     newEvent.EventType = EventType.Medicine;
                     db.Insert(newEvent); //change to GUID
 
