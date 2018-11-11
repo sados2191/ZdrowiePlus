@@ -1,16 +1,30 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+	<TextView
+		android:text="Wybierz godziny:"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="5dp"
+		android:textSize="20sp"
+		android:textColor="#404040"
+		android:id="@+id/labelMedicineTimes" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+		android:divider="#818181"
+		android:dividerHeight="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewMedicine" />
 	<Button
 		android:text="Dodaj"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/btnAddMedicineTherapy" />
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listViewMedicine" />
 </LinearLayout>

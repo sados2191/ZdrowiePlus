@@ -73,6 +73,14 @@ namespace ZdrowiePlus.Fragments
             Button buttonDeleteVisit = view.FindViewById<Button>(Resource.Id.btnDeleteVisit);
             buttonDeleteVisit.Click += DeleteVisit;
 
+            //Delete series button
+            Button buttonDeleteSeries = view.FindViewById<Button>(Resource.Id.btnDeleteSeries);
+            buttonDeleteSeries.Click += DeleteSeries;
+            if (MainActivity.eventToEdit.EventType == EventType.Medicine)
+            {
+                buttonDeleteSeries.Visibility = ViewStates.Visible;
+            }
+
             return view;
         }
 
@@ -81,6 +89,24 @@ namespace ZdrowiePlus.Fragments
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
             db.CreateTable<Event>();
             db.Delete(MainActivity.eventToEdit);
+
+            //go to list after delete
+            var trans = FragmentManager.BeginTransaction();
+            trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
+        private void DeleteSeries(object sender, EventArgs e)
+        {
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+            db.CreateTable<Event>();
+            var events = db.Table<Event>().Where(x => x.Title == MainActivity.eventToEdit.Title && x.Description == MainActivity.eventToEdit.Description)
+                                          .OrderBy(x => x.Date).ToList();
+            foreach (var item in events)
+            {
+                db.Delete(item);
+            }
 
             //go to list after delete
             var trans = FragmentManager.BeginTransaction();

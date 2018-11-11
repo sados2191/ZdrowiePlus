@@ -22,6 +22,8 @@ namespace ZdrowiePlus.Fragments
     {
         public static MyListViewAdapter visitAdapter;
         private static EditVisitFragment editVisitFragment = new EditVisitFragment();
+        private static AddVisitFragment addVisitFragment = new AddVisitFragment();
+        private static MedicineTherapyFragment medicineTherapyFragment = new MedicineTherapyFragment();
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,7 +45,24 @@ namespace ZdrowiePlus.Fragments
                 //database connection
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
                 db.CreateTable<Event>();
-                var events = db.Table<Event>().OrderBy(e => e.Date).ToList();
+
+                List<Event> events = new List<Event>();
+                switch (MainActivity.listFilter)
+                {
+                    case 0:
+                        events = db.Table<Event>().OrderBy(e => e.Date).ToList();
+                        break;
+                    case 1:
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Visit).OrderBy(e => e.Date).ToList();
+                        break;
+                    case 2:
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine).OrderBy(e => e.Date).ToList();
+                        break;
+                    default:
+                        events = db.Table<Event>().OrderBy(e => e.Date).ToList();
+                        break;
+                }
+
                 foreach (var visit in events)
                 {
                     MainActivity.visitList.Add(visit);
@@ -55,6 +74,18 @@ namespace ZdrowiePlus.Fragments
                 visitListView.FastScrollEnabled = true;
 
                 visitListView.ItemClick += visitListView_ItemClick;
+
+                // Event list is empty
+                if (events.Count == 0)
+                {
+                    Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
+                    buttonAddVisit.Click += AddVisit;
+                    buttonAddVisit.Visibility = ViewStates.Visible;
+
+                    Button buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
+                    buttonAddMedicine.Click += AddMedicine;
+                    buttonAddMedicine.Visibility = ViewStates.Visible;
+                }
 
             }
             else
@@ -78,6 +109,24 @@ namespace ZdrowiePlus.Fragments
             return view;
         }
 
+        private void AddMedicine(object sender, EventArgs e)
+        {
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, medicineTherapyFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
+        private void AddVisit(object sender, EventArgs e)
+        {
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, addVisitFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
         private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             MainActivity.eventToEdit = MainActivity.visitList[e.Position];
@@ -92,7 +141,7 @@ namespace ZdrowiePlus.Fragments
         public override void OnResume()
         {
             base.OnResume();
-
+            
             //visitAdapter.NotifyDataSetChanged();
         }
     }

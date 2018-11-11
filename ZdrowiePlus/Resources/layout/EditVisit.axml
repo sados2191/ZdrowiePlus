@@ -58,9 +58,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSaveVisit" />
-	<Button
+    <Button
         android:text="Usuń"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnDeleteVisit" />
+        android:id="@+id/btnDeleteVisit"/>
+	<Button
+		android:text="Usuń serię"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/btnDeleteSeries"
+		android:visibility="invisible"  />
 </LinearLayout>

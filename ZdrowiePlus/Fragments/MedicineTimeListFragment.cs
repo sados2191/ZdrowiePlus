@@ -20,6 +20,8 @@ namespace ZdrowiePlus.Fragments
 {
     public class MedicineTimeListFragment : Android.App.Fragment
     {
+        private static VisitListFragment visitListFragment = new VisitListFragment();
+
         public static MedicineTimeViewAdapter medicineTimeAdapter;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -81,28 +83,37 @@ namespace ZdrowiePlus.Fragments
 
                 foreach (DateTime date in medicineTimes)
                 {
-                    var newEvent = new Event();
-                    newEvent.Date = date;
-                    newEvent.Title = MedicineTherapyFragment.pillName;
-                    newEvent.EventType = EventType.Medicine;
-                    db.Insert(newEvent); //change to GUID
+                    if (date >= DateTime.Now)
+                    {
+                        var newEvent = new Event();
+                        newEvent.Date = date;
+                        newEvent.Title = MedicineTherapyFragment.pillName;
+                        newEvent.EventType = EventType.Medicine;
+                        db.Insert(newEvent); //change to GUID
 
-                    //this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
-                    //Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
+                        //this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
+                        //Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{description}", ToastLength.Short).Show();
 
-                    //Notification
-                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{date.ToString("dd.MM.yyyy HH:mm")} {MedicineTherapyFragment.pillName}");
-                    notificationIntent.PutExtra("title", "Terapia lekami");
-                    notificationIntent.PutExtra("id", newEvent.Id);
+                        //Notification
+                        Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                        notificationIntent.PutExtra("message", $"{date.ToString("dd.MM.yyyy HH:mm")} {MedicineTherapyFragment.pillName}");
+                        notificationIntent.PutExtra("title", "Terapia lekami");
+                        notificationIntent.PutExtra("id", newEvent.Id);
 
-                    var timer = (long)date.ToUniversalTime().Subtract(
-                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        ).TotalMilliseconds;
+                        var timer = (long)date.ToUniversalTime().Subtract(
+                            new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                            ).TotalMilliseconds;
 
-                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                        PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                        AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                        alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+
+                        //go to list after save
+                        var trans = FragmentManager.BeginTransaction();
+                        trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                        trans.AddToBackStack(null);
+                        trans.Commit();
+                    }
                 }
             }
             else

@@ -22,8 +22,25 @@ namespace ZdrowiePlus
             var title = intent.GetStringExtra("title");
             var id = intent.GetIntExtra("id", 1);
 
+            string channelId = "zdrowieplus-111";
+            string channelName = "ZdrowiePlus";
+
+            // Get the notification manager:
+            NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+
+            // Creating notification channel
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                var channel = new NotificationChannel(channelId, channelName, NotificationImportance.High)
+                {
+                    Description = "ZdrowiePlus"
+                };
+
+                notificationManager.CreateNotificationChannel(channel);
+            }
+
             // Instantiate the builder and set notification elements:
-            Notification.Builder builder = new Notification.Builder(context)
+            Notification.Builder builder = new Notification.Builder(context, channelId)
                 .SetPriority(2) //NotificationPriority.Max = 2, .Min = -2
                 .SetContentTitle(title)
                 .SetContentText(message)
@@ -33,10 +50,6 @@ namespace ZdrowiePlus
 
             // Build the notification:
             Notification notification = builder.Build();
-
-            // Get the notification manager:
-            NotificationManager notificationManager =
-                context.GetSystemService(Context.NotificationService) as NotificationManager;
 
             // Publish the notification:
             notificationManager.Notify(id, notification);

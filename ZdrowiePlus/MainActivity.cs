@@ -26,6 +26,9 @@ namespace ZdrowiePlus
         //visit to edit
         public static Event eventToEdit = new Event();
 
+        //list filter
+        public static int listFilter = 0;
+
         //left menu
         private MyActionBarDrawerToggle drawerToggle;
         private DrawerLayout drawerLayout;
@@ -112,12 +115,17 @@ namespace ZdrowiePlus
         //replace fragment method
         private void ReplaceFragment(Fragment fragment)
         {
+            var trans = FragmentManager.BeginTransaction();
+
             if (fragment.IsVisible)
             {
+                trans.SetReorderingAllowed(false);
+                trans.Detach(fragment);
+                trans.Attach(fragment);
+                trans.Commit();
+
                 return;
             }
-
-            var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, fragment);
             trans.AddToBackStack(null);
@@ -182,12 +190,22 @@ namespace ZdrowiePlus
                 case Resource.Id.menu_info:
                     Toast.MakeText(this, Resource.String.app_name, ToastLength.Short).Show();
                     break;
-                case Resource.Id.menu_visits:
+                case Resource.Id.menu_all:
+                    listFilter = 0;
+                    ReplaceFragment(visitListFragment);
+                    break;
+                case Resource.Id.menu_visit:
+                    listFilter = 1;
+                    ReplaceFragment(visitListFragment);
+                    break;
+                case Resource.Id.menu_medicine:
+                    listFilter = 2;
                     ReplaceFragment(visitListFragment);
                     break;
                 case Resource.Id.menu_delete_events:
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
                     db.DeleteAll<Event>();
+                    ReplaceFragment(visitListFragment);
                     break;
             }
 

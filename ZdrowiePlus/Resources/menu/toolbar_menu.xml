@@ -7,11 +7,19 @@
     app:showAsAction="always"
     android:title="Info" />
   <item
-    android:id="@+id/menu_visits"
+    android:id="@+id/menu_all"
     app:showAsAction="never"
-    android:title="Terminy wizyt" />
+    android:title="Pokaż wszystko" />
+  <item
+    android:id="@+id/menu_visit"
+    app:showAsAction="never"
+    android:title="Pokaż wizyty" />
+  <item
+    android:id="@+id/menu_medicine"
+    app:showAsAction="never"
+    android:title="Pokaż leki" />
   <item
     android:id="@+id/menu_delete_events"
     app:showAsAction="never"
-    android:title="Usuń wszystkie wizyty" />
+    android:title="Usuń wszystkie wpisy" />
 </menu>

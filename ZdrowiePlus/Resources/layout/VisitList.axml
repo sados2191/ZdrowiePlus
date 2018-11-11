@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
+		android:divider="#818181"
+		android:dividerHeight="1dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listViewVisits" />
+	<Button
+		android:text="Dodaj wizytę"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:visibility="invisible"
+		android:id="@+id/btnAddVisit_list" />
+	<Button
+		android:text="Dodaj terapię lekami"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:visibility="invisible"
+		android:id="@+id/btnAddMedicine_list" />
 </LinearLayout>

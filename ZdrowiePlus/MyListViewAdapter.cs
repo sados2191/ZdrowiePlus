@@ -59,6 +59,21 @@ namespace ZdrowiePlus
             TextView txtDesc = row.FindViewById<TextView>(Resource.Id.txtDesc);
             txtDesc.Text = mItems[position].Title;
 
+            TextView txtType = row.FindViewById<TextView>(Resource.Id.txtType);
+            switch (mItems[position].EventType)
+            {
+                case EventType.Visit:
+                    txtType.Text = "Wizyta";
+                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#cc6600"));
+                    break;
+                case EventType.Medicine:
+                    txtType.Text = "Leki";
+                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
+                    break;
+                default:
+                    break;
+            }
+
             return row;
         }
     }

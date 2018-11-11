@@ -22,6 +22,8 @@ namespace ZdrowiePlus.Fragments
 {
     public class AddVisitFragment : Android.App.Fragment
     {
+        private static VisitListFragment visitListFragment = new VisitListFragment();
+
         TextView dateDisplay;
         TextView timeDisplay;
         static DateTime currentTime = DateTime.Now;
@@ -95,6 +97,12 @@ namespace ZdrowiePlus.Fragments
                     PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
                     AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                     alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+
+                    //go to list after save
+                    var trans = FragmentManager.BeginTransaction();
+                    trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                    trans.AddToBackStack(null);
+                    trans.Commit();
                 }
                 else
                 {
