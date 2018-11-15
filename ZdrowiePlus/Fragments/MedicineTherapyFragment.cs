@@ -120,5 +120,13 @@ namespace ZdrowiePlus.Fragments
             });
             frag.Show(FragmentManager, DatePickerFragment.TAG);
         }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            medicineName.Text = String.Empty;
+            medicineDate.Text = currentTime.ToLongDateString();
+        }
     }
 }

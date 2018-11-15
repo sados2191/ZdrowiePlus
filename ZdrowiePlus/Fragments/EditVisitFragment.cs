@@ -86,9 +86,16 @@ namespace ZdrowiePlus.Fragments
 
         private void DeleteVisit(object sender, EventArgs e)
         {
+            //delete from database
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
             db.CreateTable<Event>();
             db.Delete(MainActivity.eventToEdit);
+
+            //canceling alarm manager
+            Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, MainActivity.eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+            AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+            alarmManager.Cancel(pendingIntent);
 
             //go to list after delete
             var trans = FragmentManager.BeginTransaction();
@@ -99,6 +106,7 @@ namespace ZdrowiePlus.Fragments
 
         private void DeleteSeries(object sender, EventArgs e)
         {
+            //selecting events to delete
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
             db.CreateTable<Event>();
             var events = db.Table<Event>().Where(x => x.Title == MainActivity.eventToEdit.Title && x.Description == MainActivity.eventToEdit.Description)
@@ -106,6 +114,12 @@ namespace ZdrowiePlus.Fragments
             foreach (var item in events)
             {
                 db.Delete(item);
+
+                //canceling alarm manager
+                Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, item.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                alarmManager.Cancel(pendingIntent);
             }
 
             //go to list after delete

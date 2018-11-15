@@ -42,6 +42,7 @@ namespace ZdrowiePlus
         private static AddVisitFragment addVisitFragment;
         private static VisitListFragment visitListFragment;
         private static MedicineTherapyFragment medicineTherapyFragment;
+        private static HistoryListFragment historyListFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,11 +65,12 @@ namespace ZdrowiePlus
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             drawerToggle.SyncState();
             leftDataSet = new List<string>();
-            leftDataSet.Add("Terminy wizyt");
+            leftDataSet.Add("Terminarz");
             leftDataSet.Add("Dodaj wizytę");
             leftDataSet.Add("Terapia lekami");
             leftDataSet.Add("Parametry Zdrowotne");
             leftDataSet.Add("Raport");
+            leftDataSet.Add("Historia");
             leftDataSet.Add("Zamknij aplikację");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
@@ -79,6 +81,7 @@ namespace ZdrowiePlus
             addVisitFragment = new AddVisitFragment();
             visitListFragment = new VisitListFragment();
             medicineTherapyFragment = new MedicineTherapyFragment();
+            historyListFragment = new HistoryListFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -119,7 +122,11 @@ namespace ZdrowiePlus
 
             if (fragment.IsVisible)
             {
-                trans.SetReorderingAllowed(false);
+                //check if android API is >= 26 (Oreo 8.0)
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                {
+                    trans.SetReorderingAllowed(false);
+                }
                 trans.Detach(fragment);
                 trans.Attach(fragment);
                 trans.Commit();
@@ -164,6 +171,9 @@ namespace ZdrowiePlus
                     ReplaceFragment(medicineTherapyFragment);
                     break;
                 case 5:
+                    ReplaceFragment(historyListFragment);
+                    break;
+                case 6:
                     this.Finish();
                     break;
                 default:

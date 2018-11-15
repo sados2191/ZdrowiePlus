@@ -38,7 +38,11 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            year = currentTime.Year; month = currentTime.Month; day = currentTime.Day; hour = currentTime.Hour; minute = currentTime.Minute;
+            year = currentTime.Year;
+            month = currentTime.Month;
+            day = currentTime.Day;
+            hour = currentTime.Hour;
+            minute = currentTime.Minute;
 
             View view = inflater.Inflate(Resource.Layout.AddVisit, container, false);
 
@@ -156,7 +160,8 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
-            //visitAdapter.NotifyDataSetChanged();
+            dateDisplay.Text = currentTime.ToLongDateString();
+            timeDisplay.Text = currentTime.ToShortTimeString();
         }
     }
 }

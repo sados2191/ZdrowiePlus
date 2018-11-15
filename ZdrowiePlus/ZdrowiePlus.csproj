@@ -122,6 +122,7 @@
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="Fragments\AddVisitFragment.cs" />
     <Compile Include="Fragments\EditVisitFragment.cs" />
+    <Compile Include="Fragments\HistoryListFragment.cs" />
     <Compile Include="Fragments\MedicineTherapyFragment.cs" />
     <Compile Include="Fragments\MedicineTimeListFragment.cs" />
     <Compile Include="Fragments\VisitListFragment.cs" />

@@ -18,7 +18,7 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class VisitListFragment : Android.App.Fragment
+    public class HistoryListFragment : Android.App.Fragment
     {
         public static MyListViewAdapter visitAdapter;
         private static EditVisitFragment editVisitFragment = new EditVisitFragment();
@@ -50,16 +50,16 @@ namespace ZdrowiePlus.Fragments
                 switch (MainActivity.listFilter)
                 {
                     case 0:
-                        events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        events = db.Table<Event>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     case 1:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Visit && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Visit && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     case 2:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     default:
-                        events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        events = db.Table<Event>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                 }
 
@@ -141,7 +141,7 @@ namespace ZdrowiePlus.Fragments
         public override void OnResume()
         {
             base.OnResume();
-            
+
             //visitAdapter.NotifyDataSetChanged();
         }
     }
