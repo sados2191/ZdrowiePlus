@@ -119,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BootBroadcastReceiver.cs" />
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="Fragments\AddVisitFragment.cs" />
     <Compile Include="Fragments\EditVisitFragment.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="NotificationReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestartAlarmsService.cs" />
     <Compile Include="TimePickerFragment.cs" />
     <Compile Include="Event.cs" />
   </ItemGroup>

@@ -26,56 +26,18 @@ namespace ZdrowiePlus
             string channelId = "zdrowieplus-111";
             string channelName = "ZdrowiePlus";
 
-            // WHen user click notification start a activity
-            Intent activityIntent = new Intent(context, typeof(MainActivity));
-            PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
+            // When user click notification start a activity
+            Intent notifyIntent = new Intent(context, typeof(MainActivity));
+            // Set the activity to start in a new, empty task
+            //notifyIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+            PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, notifyIntent, PendingIntentFlags.UpdateCurrent);
+            // Create the TaskStackBuilder and add the intent, which inflates the back stack
+            //Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(context);
+            //stackBuilder.AddNextIntentWithParentStack(notifyIntent);
+            //PendingIntent contentIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
 
             // Get the notification manager:
             NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
-
-            //// Check if android API is >= 26 (Oreo 8.0)
-            //if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            //{
-            //    // Creating notification channel
-            //    var channel = new NotificationChannel(channelId, channelName, NotificationImportance.High)
-            //    {
-            //        Description = "ZdrowiePlus"
-            //    };
-
-            //    notificationManager.CreateNotificationChannel(channel);
-
-            //    // Instantiate the builder and set notification elements:
-            //    Notification.Builder builder = new Notification.Builder(context, channelId)
-            //        .SetPriority(2) //NotificationPriority.Max = 2, .Min = -2
-            //        .SetContentTitle(title)
-            //        .SetContentText(message)
-            //        .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
-            //        .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
-            //        .SetSmallIcon(Resource.Drawable.outline_info_white_24);
-
-            //    // Build the notification:
-            //    Notification notification = builder.Build();
-
-            //    // Publish the notification:
-            //    notificationManager.Notify(id, notification);
-            //}
-            //else
-            //{
-            //    // Instantiate the builder and set notification elements:
-            //    Notification.Builder builder = new Notification.Builder(context)
-            //        .SetPriority(2) //NotificationPriority.Max = 2, .Min = -2
-            //        .SetContentTitle(title)
-            //        .SetContentText(message)
-            //        .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
-            //        .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
-            //        .SetSmallIcon(Resource.Drawable.outline_info_white_24);
-
-            //    // Build the notification:
-            //    Notification notification = builder.Build();
-
-            //    // Publish the notification:
-            //    notificationManager.Notify(id, notification);
-            //}
 
             // Check if android API is >= 26 (Oreo 8.0)
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
@@ -94,6 +56,7 @@ namespace ZdrowiePlus
                 .SetPriority(2) //NotificationPriority.Max = 2, .Min = -2
                 .SetContentTitle(title)
                 .SetContentText(message)
+                .SetColor(Android.Graphics.Color.Blue)
                 .SetContentIntent(contentIntent)
                 .SetCategory(NotificationCompat.CategoryReminder)
                 .SetAutoCancel(true)

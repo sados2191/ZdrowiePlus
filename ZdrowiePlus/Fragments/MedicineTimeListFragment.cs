@@ -97,7 +97,7 @@ namespace ZdrowiePlus.Fragments
                         //Notification
                         Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                         notificationIntent.PutExtra("message", $"{date.ToString("dd.MM.yyyy HH:mm")} {MedicineTherapyFragment.pillName}");
-                        notificationIntent.PutExtra("title", "Terapia lekami");
+                        notificationIntent.PutExtra("title", "Leki");
                         notificationIntent.PutExtra("id", newEvent.Id);
 
                         var timer = (long)date.ToUniversalTime().Subtract(
