@@ -13,6 +13,7 @@ using Android.Content.PM;
 using Android.Runtime;
 using SQLite;
 using System.IO;
+using System.Linq;
 
 namespace ZdrowiePlus
 {
@@ -22,7 +23,7 @@ namespace ZdrowiePlus
         //DODAC - ponowic notifikacje po reboot'cie telefonu
 
         //list of visits
-        public static List<Event> visitList = new List<Event>();
+        //public static List<Event> visitList = new List<Event>();
         //visit to edit
         public static Event eventToEdit = new Event();
 
@@ -43,6 +44,7 @@ namespace ZdrowiePlus
         private static VisitListFragment visitListFragment;
         private static MedicineTherapyFragment medicineTherapyFragment;
         private static HistoryListFragment historyListFragment;
+        private static CalendarFragment calendarFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -71,6 +73,7 @@ namespace ZdrowiePlus
             leftDataSet.Add("Parametry Zdrowotne");
             leftDataSet.Add("Raport");
             leftDataSet.Add("Historia");
+            leftDataSet.Add("Kalendarz");
             leftDataSet.Add("Zamknij aplikację");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
@@ -82,6 +85,7 @@ namespace ZdrowiePlus
             visitListFragment = new VisitListFragment();
             medicineTherapyFragment = new MedicineTherapyFragment();
             historyListFragment = new HistoryListFragment();
+            calendarFragment = new CalendarFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -160,26 +164,34 @@ namespace ZdrowiePlus
             switch (e.Position)
             {
                 case 0:
+                    this.Title = leftDataSet[e.Position];
                     //ShowFragment(visitListFragment);
                     ReplaceFragment(visitListFragment);
                     break;
                 case 1:
+                    this.Title = leftDataSet[e.Position];
                     //ShowFragment(addVisitFragment);
                     ReplaceFragment(addVisitFragment);
                     break;
                 case 2:
+                    this.Title = leftDataSet[e.Position];
                     ReplaceFragment(medicineTherapyFragment);
                     break;
                 case 5:
+                    this.Title = leftDataSet[e.Position];
                     ReplaceFragment(historyListFragment);
                     break;
                 case 6:
+                    this.Title = leftDataSet[e.Position];
+                    ReplaceFragment(calendarFragment);
+                    break;
+                case 7:
                     this.Finish();
                     break;
                 default:
                     break;
             }
-            Toast.MakeText(this, leftDataSet[e.Position], ToastLength.Short).Show();
+            //Toast.MakeText(this, leftDataSet[e.Position], ToastLength.Short).Show();
             drawerLayout.CloseDrawer((int)GravityFlags.Left);
         }
 
@@ -214,6 +226,16 @@ namespace ZdrowiePlus
                     break;
                 case Resource.Id.menu_delete_events:
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                    db.CreateTable<Event>();
+                    var events = db.Table<Event>().ToList();
+                    foreach (var x in events)
+                    {
+                        //canceling alarm manager
+                        Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                        PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, x.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                        AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                        alarmManager.Cancel(pendingIntent);
+                    }
                     db.DeleteAll<Event>();
                     ReplaceFragment(visitListFragment);
                     break;

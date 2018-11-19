@@ -25,6 +25,8 @@ namespace ZdrowiePlus.Fragments
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         private static MedicineTherapyFragment medicineTherapyFragment = new MedicineTherapyFragment();
 
+        List<Event> events;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,7 +38,7 @@ namespace ZdrowiePlus.Fragments
         {
             View view = inflater.Inflate(Resource.Layout.VisitList, container, false);
 
-            MainActivity.visitList.Clear();
+            //MainActivity.visitList.Clear();
 
             if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
             {
@@ -46,7 +48,7 @@ namespace ZdrowiePlus.Fragments
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
                 db.CreateTable<Event>();
 
-                List<Event> events = new List<Event>();
+                events = new List<Event>();
                 switch (MainActivity.listFilter)
                 {
                     case 0:
@@ -63,12 +65,12 @@ namespace ZdrowiePlus.Fragments
                         break;
                 }
 
-                foreach (var visit in events)
-                {
-                    MainActivity.visitList.Add(visit);
-                }
+                //foreach (var visit in events)
+                //{
+                //    MainActivity.visitList.Add(visit);
+                //}
 
-                visitAdapter = new MyListViewAdapter(this.Activity, MainActivity.visitList);
+                visitAdapter = new MyListViewAdapter(this.Activity, /* MainActivity.visitList */ events);
                 ListView visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
                 visitListView.Adapter = visitAdapter;
                 visitListView.FastScrollEnabled = true;
@@ -129,7 +131,7 @@ namespace ZdrowiePlus.Fragments
 
         private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            MainActivity.eventToEdit = MainActivity.visitList[e.Position];
+            MainActivity.eventToEdit = events[e.Position];
 
             var trans = FragmentManager.BeginTransaction();
 

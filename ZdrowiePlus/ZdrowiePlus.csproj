@@ -122,6 +122,7 @@
     <Compile Include="BootBroadcastReceiver.cs" />
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="Fragments\AddVisitFragment.cs" />
+    <Compile Include="Fragments\CalendarFragment.cs" />
     <Compile Include="Fragments\EditVisitFragment.cs" />
     <Compile Include="Fragments\HistoryListFragment.cs" />
     <Compile Include="Fragments\MedicineTherapyFragment.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="MedicineTimeViewAdapter.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
     <Compile Include="MyListViewAdapter.cs" />
+    <Compile Include="MyListViewCalendarAdapter.cs" />
     <Compile Include="NotificationReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +223,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MedicineTimeList.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Calendar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ListViewCalendarRow.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
