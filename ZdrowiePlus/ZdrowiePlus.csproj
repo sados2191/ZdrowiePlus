@@ -124,11 +124,14 @@
     <Compile Include="Fragments\AddVisitFragment.cs" />
     <Compile Include="Fragments\CalendarFragment.cs" />
     <Compile Include="Fragments\EditVisitFragment.cs" />
+    <Compile Include="Fragments\AddMeasurementFragment.cs" />
+    <Compile Include="Fragments\MeasurementsListFragment.cs" />
     <Compile Include="Fragments\HistoryListFragment.cs" />
     <Compile Include="Fragments\MedicineTherapyFragment.cs" />
     <Compile Include="Fragments\MedicineTimeListFragment.cs" />
     <Compile Include="Fragments\VisitListFragment.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Measurement.cs" />
     <Compile Include="MedicineTimeViewAdapter.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
     <Compile Include="MyListViewAdapter.cs" />
@@ -233,6 +236,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ListViewCalendarRow.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddMeasurement.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MeasurementsList.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -13,20 +13,22 @@ using SQLite;
 
 namespace ZdrowiePlus
 {
-    public class Event
+    public class Measurement
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; } //change to GUID
-        public string Title { get; set; }
+        public MeasurementType MeasurementType { get; set; }
+        public string Value { get; set; }
         public DateTime Date { get; set; }
-        public EventType EventType { get; set; }
         public string Description { get; set; }
     }
 
-    public enum EventType
+    public enum MeasurementType
     {
-        Visit,
-        Medicine,
-        Measurement
+        BloodPressure,
+        GlucoseLevel,
+        Temperature,
+        HeartRate,
+        BodyWeight
     }
 }

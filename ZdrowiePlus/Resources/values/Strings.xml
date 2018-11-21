@@ -3,4 +3,19 @@
   <string name="app_name">ZdrowiePlus</string>
   <string name="openDrawer"></string>
   <string name="closeDrawer"></string>
+
+  <string name="measurements_prompt">Wybierz pomiar</string>
+  <string-array name="measurements_array">
+    <item>Ciśnienie</item>
+    <item>Poziom glukozy</item>
+    <item>Temperatura</item>
+    <item>Tętno</item>
+    <item>Waga</item>
+  </string-array>
+
+  <string-array name="visits_array">
+    <item>Wszystko</item>
+    <item>Wizyty</item>
+    <item>Leki</item>
+  </string-array>
 </resources>

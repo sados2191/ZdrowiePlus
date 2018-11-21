@@ -28,7 +28,7 @@ namespace ZdrowiePlus
         protected override void OnHandleWork(Intent intent)
         {
             //database connection
-            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Event>();
 
             List<Event> eventsToRestart = new List<Event>();

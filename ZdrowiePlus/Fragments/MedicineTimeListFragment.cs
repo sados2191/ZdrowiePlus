@@ -78,7 +78,7 @@ namespace ZdrowiePlus.Fragments
                 // We have permission
 
                 //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                 db.CreateTable<Event>();
 
                 foreach (DateTime date in medicineTimes)

@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace ZdrowiePlus
 {
-    [Activity(Label = "ZdrowiePlus", MainLauncher = true, Theme ="@style/MyTheme")]
+    [Activity(Label = "Zdrowie+", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
         //DODAC - ponowic notifikacje po reboot'cie telefonu
@@ -45,6 +45,7 @@ namespace ZdrowiePlus
         private static MedicineTherapyFragment medicineTherapyFragment;
         private static HistoryListFragment historyListFragment;
         private static CalendarFragment calendarFragment;
+        private static AddMeasurementFragment measurementsFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -70,7 +71,7 @@ namespace ZdrowiePlus
             leftDataSet.Add("Terminarz");
             leftDataSet.Add("Dodaj wizytę");
             leftDataSet.Add("Terapia lekami");
-            leftDataSet.Add("Parametry Zdrowotne");
+            leftDataSet.Add("Pomiary zdrowotne");
             leftDataSet.Add("Raport");
             leftDataSet.Add("Historia");
             leftDataSet.Add("Kalendarz");
@@ -86,6 +87,7 @@ namespace ZdrowiePlus
             medicineTherapyFragment = new MedicineTherapyFragment();
             historyListFragment = new HistoryListFragment();
             calendarFragment = new CalendarFragment();
+            measurementsFragment = new AddMeasurementFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -177,6 +179,10 @@ namespace ZdrowiePlus
                     this.Title = leftDataSet[e.Position];
                     ReplaceFragment(medicineTherapyFragment);
                     break;
+                case 3:
+                    this.Title = leftDataSet[e.Position];
+                    ReplaceFragment(measurementsFragment);
+                    break;
                 case 5:
                     this.Title = leftDataSet[e.Position];
                     ReplaceFragment(historyListFragment);
@@ -225,7 +231,7 @@ namespace ZdrowiePlus
                     ReplaceFragment(visitListFragment);
                     break;
                 case Resource.Id.menu_delete_events:
-                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                     db.CreateTable<Event>();
                     var events = db.Table<Event>().ToList();
                     foreach (var x in events)

@@ -47,7 +47,7 @@ namespace ZdrowiePlus.Fragments
                 //MainActivity.visitList.Clear();
 
                 //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                 db.CreateTable<Event>();
 
                 //List<Event> events = new List<Event>();
@@ -96,7 +96,7 @@ namespace ZdrowiePlus.Fragments
             //MainActivity.visitList.Clear();
 
             //database connection
-            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Event>();
 
             DateTime nextDay = selectedDate.AddDays(1);

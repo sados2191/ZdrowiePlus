@@ -25,6 +25,11 @@ namespace ZdrowiePlus.Fragments
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         private static MedicineTherapyFragment medicineTherapyFragment = new MedicineTherapyFragment();
 
+        ListView visitListView;
+        Button buttonAddMedicine;
+        Button buttonAddVisit;
+        Spinner spinner;
+
         List<Event> events;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -38,77 +43,32 @@ namespace ZdrowiePlus.Fragments
         {
             View view = inflater.Inflate(Resource.Layout.VisitList, container, false);
 
+            visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
+            buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
+            buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
+
+            //measurement type spinner
+            spinner = view.FindViewById<Spinner>(Resource.Id.visitSpinner);
+            spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
+
             //MainActivity.visitList.Clear();
+            loadData();
 
-            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
-            {
-                // We have permission
-
-                //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
-                db.CreateTable<Event>();
-
-                events = new List<Event>();
-                switch (MainActivity.listFilter)
-                {
-                    case 0:
-                        events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    case 1:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Visit && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    case 2:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    default:
-                        events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                }
-
-                //foreach (var visit in events)
-                //{
-                //    MainActivity.visitList.Add(visit);
-                //}
-
-                visitAdapter = new MyListViewAdapter(this.Activity, /* MainActivity.visitList */ events);
-                ListView visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
-                visitListView.Adapter = visitAdapter;
-                visitListView.FastScrollEnabled = true;
-
-                visitListView.ItemClick += visitListView_ItemClick;
-
-                // Event list is empty
-                if (events.Count == 0)
-                {
-                    Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
-                    buttonAddVisit.Click += AddVisit;
-                    buttonAddVisit.Visibility = ViewStates.Visible;
-
-                    Button buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
-                    buttonAddMedicine.Click += AddMedicine;
-                    buttonAddMedicine.Visibility = ViewStates.Visible;
-                }
-
-            }
-            else
-            {
-                // Permission is not granted. If necessary display rationale & request.
-
-                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.ReadExternalStorage))
-                //{
-                //    //Explain to the user why we need permission
-                //    Snackbar.Make(View, "Read external storage is required to read the events", Snackbar.LengthIndefinite)
-                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage}, 2))
-                //            .Show();
-
-                //    return;
-                //}
-
-                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
-
-            }
+            visitListView.ItemClick += visitListView_ItemClick;
+            buttonAddMedicine.Click += AddMedicine;
+            buttonAddVisit.Click += AddVisit;
 
             return view;
+        }
+
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
+            MainActivity.listFilter = e.Position;
+            loadData();
         }
 
         private void AddMedicine(object sender, EventArgs e)
@@ -138,6 +98,69 @@ namespace ZdrowiePlus.Fragments
             trans.Replace(Resource.Id.fragmentContainer, editVisitFragment);
             trans.AddToBackStack(null);
             trans.Commit();
+        }
+
+        public void loadData() //zmienić na przekazywanie enuma
+        {
+            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
+            {
+                // We have permission
+
+                //database connection
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+                db.CreateTable<Event>();
+
+                events = new List<Event>();
+                switch (MainActivity.listFilter)
+                {
+                    case 0:
+                        events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        break;
+                    case 1:
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Visit && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        break;
+                    case 2:
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        break;
+                    default:
+                        events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        break;
+                }
+
+                //foreach (var visit in events)
+                //{
+                //    MainActivity.visitList.Add(visit);
+                //}
+
+                visitAdapter = new MyListViewAdapter(this.Activity, /* MainActivity.visitList */ events);
+                visitListView.Adapter = visitAdapter;
+                visitListView.FastScrollEnabled = true;
+
+                // Event list is empty
+                if (events.Count == 0)
+                {
+                    buttonAddVisit.Visibility = ViewStates.Visible;
+                    buttonAddMedicine.Visibility = ViewStates.Visible;
+                }
+
+            }
+            else
+            {
+                // Permission is not granted. If necessary display rationale & request.
+
+                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.ReadExternalStorage))
+                //{
+                //    //Explain to the user why we need permission
+                //    Snackbar.Make(View, "Read external storage is required to read the events", Snackbar.LengthIndefinite)
+                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage}, 2))
+                //            .Show();
+
+                //    return;
+                //}
+
+                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
+
+            }
         }
 
         public override void OnResume()

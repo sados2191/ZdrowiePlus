@@ -20,12 +20,11 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class AddVisitFragment : Android.App.Fragment
+    public class AddMeasurementFragment : Android.App.Fragment
     {
-        private static VisitListFragment visitListFragment = new VisitListFragment();
-
         TextView dateDisplay;
         TextView timeDisplay;
+        Spinner spinner;
         static DateTime currentTime = DateTime.Now;
         int year, month, day, hour, minute;
 
@@ -44,69 +43,81 @@ namespace ZdrowiePlus.Fragments
             hour = currentTime.Hour;
             minute = currentTime.Minute;
 
-            View view = inflater.Inflate(Resource.Layout.AddVisit, container, false);
+            View view = inflater.Inflate(Resource.Layout.AddMeasurement, container, false);
+
+            //measurement type spinner
+            spinner = view.FindViewById<Spinner>(Resource.Id.measurementSpinner);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
 
             //date choosing
-            dateDisplay = view.FindViewById<TextView>(Resource.Id.textDate);
+            dateDisplay = view.FindViewById<TextView>(Resource.Id.textMeasurementDate);
             dateDisplay.Text = currentTime.ToLongDateString();
             dateDisplay.Click += DateSelect_OnClick;
 
             //time choosing
-            timeDisplay = view.FindViewById<TextView>(Resource.Id.textTime);
+            timeDisplay = view.FindViewById<TextView>(Resource.Id.textMeasurementTime);
             timeDisplay.Text = currentTime.ToShortTimeString();
             timeDisplay.Click += TimeSelectOnClick;
 
-            //Add visit button
-            Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit);
-            buttonAddVisit.Click += AddVisit;
+            //Add measurement button
+            Button buttonAddMeasurement = view.FindViewById<Button>(Resource.Id.btnAddMeasurement);
+            buttonAddMeasurement.Click += AddMeasurement;
 
             return view;
         }
 
-        void AddVisit(object sender, EventArgs e)
+        void AddMeasurement(object sender, EventArgs e)
         {
-            DateTime visitTime = new DateTime(year, month, day, hour, minute, 0);
-            string title = this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text;
-            string description = this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text;
-            if (title != string.Empty)
+            int measurementType = spinner.SelectedItemPosition;
+            DateTime measurementTime = new DateTime(year, month, day, hour, minute, 0);
+            string value = this.Activity.FindViewById<EditText>(Resource.Id.measurementValue).Text;
+            //string description = this.Activity.FindViewById<EditText>(Resource.Id.).Text;
+
+            var newMeasurement = new Measurement();
+            newMeasurement.Date = measurementTime;
+            newMeasurement.Value = value;
+            switch (measurementType)
+            {
+                case 0:
+                    newMeasurement.MeasurementType = MeasurementType.BloodPressure;
+                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    break;
+                case 1:
+                    newMeasurement.MeasurementType = MeasurementType.GlucoseLevel;
+                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    break;
+                case 2:
+                    newMeasurement.MeasurementType = MeasurementType.Temperature;
+                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    break;
+                case 3:
+                    newMeasurement.MeasurementType = MeasurementType.HeartRate;
+                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    break;
+                case 4:
+                    newMeasurement.MeasurementType = MeasurementType.BodyWeight;
+                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    break;
+                default:
+                    break;
+            }
+            if (value != string.Empty)
             {
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
                 {
                     // We have permission
 
                     //database connection
-                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"zdrowieplus.db"));
-                    db.CreateTable<Event>();
-                    var newEvent = new Event();
-                    newEvent.Date = visitTime;
-                    newEvent.Title = title;
-                    newEvent.Description = description;
-                    newEvent.EventType = EventType.Visit;
-                    db.Insert(newEvent); //change to GUID
+                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+                    db.CreateTable<Measurement>();
+                    db.Insert(newMeasurement); //change to GUID
 
-                    this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = String.Empty;
-                    this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
-                    Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{newEvent.Id}", ToastLength.Short).Show();
-
-                    //Notification
-                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {title}");
-                    notificationIntent.PutExtra("title", "Wizyta");
-                    notificationIntent.PutExtra("id", newEvent.Id);
-
-                    var timer = (long)visitTime.ToUniversalTime().Subtract(
-                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        ).TotalMilliseconds;
-
-                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                    this.Activity.FindViewById<EditText>(Resource.Id.measurementValue).Text = String.Empty;
+                    Toast.MakeText(this.Activity, $"Dodano\n{measurementTime.ToString("dd.MM.yyyy HH:mm")}\n{newMeasurement.Id}", ToastLength.Short).Show();
 
                     //go to list after save
-                    var trans = FragmentManager.BeginTransaction();
-                    trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                    trans.AddToBackStack(null);
-                    trans.Commit();
                 }
                 else
                 {
@@ -121,16 +132,16 @@ namespace ZdrowiePlus.Fragments
 
                     //    return;
                     //}
-                    
+
                     ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
 
                 }
             }
             else
             {
-                Toast.MakeText(this.Activity, "Tytuł nie może być pusty", ToastLength.Short).Show();
+                Toast.MakeText(this.Activity, "Wartość pomiaru nie może być pusta", ToastLength.Short).Show();
             }
-        }
+        }    
 
         void TimeSelectOnClick(object sender, EventArgs e)
         {

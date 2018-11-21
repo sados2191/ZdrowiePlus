@@ -87,7 +87,7 @@ namespace ZdrowiePlus.Fragments
         private void DeleteVisit(object sender, EventArgs e)
         {
             //delete from database
-            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Event>();
             db.Delete(MainActivity.eventToEdit);
 
@@ -107,7 +107,7 @@ namespace ZdrowiePlus.Fragments
         private void DeleteSeries(object sender, EventArgs e)
         {
             //selecting events to delete
-            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Event>();
             var events = db.Table<Event>().Where(x => x.Title == MainActivity.eventToEdit.Title && x.Description == MainActivity.eventToEdit.Description)
                                           .OrderBy(x => x.Date).ToList();
@@ -141,7 +141,7 @@ namespace ZdrowiePlus.Fragments
                     // We have permission
 
                     //database connection
-                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "events.db"));
+                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                     db.CreateTable<Event>();
                     db.Update(MainActivity.eventToEdit);
 
