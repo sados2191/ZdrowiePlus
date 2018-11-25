@@ -26,7 +26,7 @@ namespace ZdrowiePlus.Fragments
 
         TextView dateDisplay;
         TextView timeDisplay;
-        static DateTime currentTime = DateTime.Now;
+        static DateTime currentTime;
         int year, month, day, hour, minute;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -38,6 +38,7 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            currentTime = DateTime.Now;
             year = currentTime.Year;
             month = currentTime.Month;
             day = currentTime.Day;

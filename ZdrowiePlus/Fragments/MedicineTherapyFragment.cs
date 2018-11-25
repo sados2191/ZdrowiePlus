@@ -25,16 +25,15 @@ namespace ZdrowiePlus.Fragments
         public static string pillName;
         public static List<DateTime> pillTimes = new List<DateTime>();
         public static int therapyLength;
-        public static DateTime startDay;
-
+        //public static DateTime startDay;
 
         TextView medicineDate;
         SeekBar seekbarFrequency;
         SeekBar seekbarTimeout;
-
-        static DateTime currentTime = DateTime.Now;
-        int year, month, day;
         EditText medicineName;
+
+        static DateTime currentTime;
+        int year, month, day;
 
         private static MedicineTimeListFragment timeListFragment = new MedicineTimeListFragment();
 
@@ -47,7 +46,10 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            year = currentTime.Year; month = currentTime.Month; day = currentTime.Day;
+            currentTime = DateTime.Now;
+            year = currentTime.Year;
+            month = currentTime.Month;
+            day = currentTime.Day;
 
             View view = inflater.Inflate(Resource.Layout.MedicineTherapy, container, false);
 
@@ -87,7 +89,7 @@ namespace ZdrowiePlus.Fragments
         {
             pillName = medicineName.Text;
             therapyLength = seekbarTimeout.Progress;
-            startDay = new DateTime(year, month, day, 0, 0, 0);
+            //startDay = new DateTime(year, month, day, 0, 0, 0);
 
             pillTimes.Clear();
 

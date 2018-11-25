@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:minWidth="25px"
+	android:minHeight="25px">
+	<Spinner
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:textSize="20sp"
+		android:prompt="@string/measurements_prompt"
+		android:id="@+id/measurementReminderSpinner" />
+	<TextView
+        android:text="Wybierz datę początku:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp"
+        android:textColor="#404040"
+        android:id="@+id/labelMeasurementReminderStartDate" />
+	<TextView
+		android:text="Data początku"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp"
+		android:textSize="20sp"
+		android:gravity="center"
+		android:id="@+id/measurementReminderStartDate" />
+	<TextView
+        android:text="Wybierz datę końca:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp"
+        android:textColor="#404040"
+        android:id="@+id/labelMeasurementReminderEndDate" />
+	<TextView
+		android:text="Data końca"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp"
+		android:textSize="20sp"
+		android:gravity="center"
+		android:id="@+id/measurementReminderEndDate" />
+	<TextView
+        android:text="Ilość pomiarów dziennie:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp"
+        android:textColor="#404040"
+        android:id="@+id/labelMeasurementReminderFrequency" />
+	<SeekBar
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:max="8"
+		android:min="1"
+		android:progress="1"
+		android:id="@+id/measurementReminderFrequency"/>
+	<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+		android:fillViewport="true" >
+		<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1"		
+				android:orientation="horizontal">
+				<TextView
+					android:text="Wybierz godziny:"
+					android:layout_width="0dp"
+					android:layout_weight="40"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:layout_marginLeft="5dp"
+					android:textColor="#404040"
+					android:textSize="18sp"
+					android:id="@+id/measurementReminderEndDate" />
+				<ListView
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:divider="#818181"
+					android:dividerHeight="1dp"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="60"
+					android:id="@+id/listViewMeasurementReminder" />
+			</LinearLayout>
+			<Button
+				android:text="Dodaj"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/btnAddMeasurementReminder" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

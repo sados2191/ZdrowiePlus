@@ -20,6 +20,7 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie+", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
+        //maksymalnie 500 alarmów - error
         //DODAC - ponowic notifikacje po reboot'cie telefonu
 
         //list of visits
@@ -45,7 +46,9 @@ namespace ZdrowiePlus
         private static MedicineTherapyFragment medicineTherapyFragment;
         private static HistoryListFragment historyListFragment;
         private static CalendarFragment calendarFragment;
-        private static AddMeasurementFragment measurementsFragment;
+        private static AddMeasurementFragment addMeasurementFragment;
+        private static MeasurementsListFragment measurementsListFragment;
+        private static MeasurementReminderFragment measurementReminderFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -68,13 +71,15 @@ namespace ZdrowiePlus
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             drawerToggle.SyncState();
             leftDataSet = new List<string>();
-            leftDataSet.Add("Terminarz");
+            leftDataSet.Add("Przypomnienia");
             leftDataSet.Add("Dodaj wizytę");
             leftDataSet.Add("Terapia lekami");
-            leftDataSet.Add("Pomiary zdrowotne");
+            leftDataSet.Add("Dodaj pomiar");
+            leftDataSet.Add("Lista pomiarów");
             leftDataSet.Add("Raport");
             leftDataSet.Add("Historia");
             leftDataSet.Add("Kalendarz");
+            leftDataSet.Add("Zaplanuj pomiar");
             leftDataSet.Add("Zamknij aplikację");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
@@ -87,7 +92,9 @@ namespace ZdrowiePlus
             medicineTherapyFragment = new MedicineTherapyFragment();
             historyListFragment = new HistoryListFragment();
             calendarFragment = new CalendarFragment();
-            measurementsFragment = new AddMeasurementFragment();
+            addMeasurementFragment = new AddMeasurementFragment();
+            measurementsListFragment = new MeasurementsListFragment();
+            measurementReminderFragment = new MeasurementReminderFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -181,17 +188,25 @@ namespace ZdrowiePlus
                     break;
                 case 3:
                     this.Title = leftDataSet[e.Position];
-                    ReplaceFragment(measurementsFragment);
+                    ReplaceFragment(addMeasurementFragment);
                     break;
-                case 5:
+                case 4:
                     this.Title = leftDataSet[e.Position];
-                    ReplaceFragment(historyListFragment);
+                    ReplaceFragment(measurementsListFragment);
                     break;
                 case 6:
                     this.Title = leftDataSet[e.Position];
-                    ReplaceFragment(calendarFragment);
+                    ReplaceFragment(historyListFragment);
                     break;
                 case 7:
+                    this.Title = leftDataSet[e.Position];
+                    ReplaceFragment(calendarFragment);
+                    break;
+                case 8:
+                    this.Title = leftDataSet[e.Position];
+                    ReplaceFragment(measurementReminderFragment);
+                    break;
+                case 9:
                     this.Finish();
                     break;
                 default:

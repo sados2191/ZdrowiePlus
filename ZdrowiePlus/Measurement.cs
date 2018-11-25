@@ -25,6 +25,7 @@ namespace ZdrowiePlus
 
     public enum MeasurementType
     {
+        //same order as measurements_array in Strings.xml
         BloodPressure,
         GlucoseLevel,
         Temperature,

@@ -47,7 +47,7 @@ namespace ZdrowiePlus.Fragments
             buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
             buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
 
-            //measurement type spinner
+            //event type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.visitSpinner);
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_array, Android.Resource.Layout.SimpleSpinnerItem);
