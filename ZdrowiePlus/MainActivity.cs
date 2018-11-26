@@ -21,6 +21,7 @@ namespace ZdrowiePlus
     public class MainActivity : AppCompatActivity
     {
         //maksymalnie 500 alarmów - error
+        //dodać alarmy jako powtarzające (set repeating)
         //DODAC - ponowic notifikacje po reboot'cie telefonu
 
         //list of visits

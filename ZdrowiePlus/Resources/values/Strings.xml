@@ -17,5 +17,16 @@
     <item>Wszystko</item>
     <item>Wizyty</item>
     <item>Leki</item>
+    <item>Pomiary</item>
+  </string-array>
+
+  <string-array name="week_days_array">
+    <item>Poniedziałek</item>
+    <item>Wtorek</item>
+    <item>Środa</item>
+    <item>Czwartek</item>
+    <item>Piątek</item>
+    <item>Sobota</item>
+    <item>Niedziela</item>
   </string-array>
 </resources>

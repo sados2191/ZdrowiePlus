@@ -122,6 +122,9 @@ namespace ZdrowiePlus.Fragments
                     case 2:
                         events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
                         break;
+                    case 3:
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Measurement && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                        break;
                     default:
                         events = db.Table<Event>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
                         break;
