@@ -16,10 +16,10 @@
         android:text="Ile razy dziennie:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
         android:layout_marginLeft="5dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="#404040"
         android:id="@+id/labelFrequency" />
 	<SeekBar
@@ -33,10 +33,10 @@
         android:text="Długość kuracji w dniach:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
         android:layout_marginLeft="5dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="#404040"
         android:id="@+id/labelTimeout" />
 	<SeekBar
@@ -50,19 +50,19 @@
         android:text="Wybierz datę początku kuracji:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
         android:layout_marginLeft="5dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="#404040"
         android:id="@+id/labelMedicineDate" />
 	<TextView
 		android:text="Data początku"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="10dp"
-		android:layout_marginBottom="10dp"
-		android:textSize="20sp"
+		android:layout_marginTop="7dp"
+		android:layout_marginBottom="7dp"
+		android:textSize="18sp"
 		android:gravity="center"
 		android:id="@+id/medicineDate" />
 	<Button

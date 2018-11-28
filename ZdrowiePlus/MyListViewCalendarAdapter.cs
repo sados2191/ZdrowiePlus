@@ -67,6 +67,10 @@ namespace ZdrowiePlus
                     txtType.Text = "Leki";
                     txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     break;
+                case EventType.Measurement:
+                    txtType.Text = "Pomiar";
+                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#3700b3"));
+                    break;
                 default:
                     break;
             }

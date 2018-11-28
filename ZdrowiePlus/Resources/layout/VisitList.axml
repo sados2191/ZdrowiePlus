@@ -7,7 +7,7 @@
 	<Spinner
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="10dp"
+		android:layout_marginTop="7dp"
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:id="@+id/visitSpinner" />

@@ -30,6 +30,7 @@ namespace ZdrowiePlus.Fragments
         TextView endDate;
         //TextView repeatDays;
         ListView measurementTimesListView;
+        TextView Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
 
         public DateTime startDay;
         public DateTime endDay;
@@ -51,8 +52,8 @@ namespace ZdrowiePlus.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             dateTime = DateTime.Now;
-            startDay = DateTime.Now;
-            endDay = DateTime.Now;
+            startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+            endDay = startDay;
 
             View view = inflater.Inflate(Resource.Layout.AddMeasurementReminder, container, false);
 
@@ -121,11 +122,57 @@ namespace ZdrowiePlus.Fragments
             //repeatDays = view.FindViewById<TextView>(Resource.Id.measurementReminderRepeatDays);
             //repeatDays.Click += WeekDaysDialog;
 
+            Monday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderMonday);
+            Monday.Selected = true;
+            Monday.Click += ChangeDayStatus;
+
+            Tuesday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderTuesday);
+            Tuesday.Selected = true;
+            Tuesday.Click += ChangeDayStatus;
+
+            Wednesday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderWednesday);
+            Wednesday.Selected = true;
+            Wednesday.Click += ChangeDayStatus;
+
+            Thursday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderThursday);
+            Thursday.Selected = true;
+            Thursday.Click += ChangeDayStatus;
+
+            Friday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderFriday);
+            Friday.Selected = true;
+            Friday.Click += ChangeDayStatus;
+
+            Saturday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderSaturday);
+            Saturday.Selected = true;
+            Saturday.Click += ChangeDayStatus;
+
+            Sunday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderSunday);
+            Sunday.Selected = true;
+            Sunday.Click += ChangeDayStatus;
+
             //add button
             Button buttonAdd = view.FindViewById<Button>(Resource.Id.btnAddMeasurementReminder);
             buttonAdd.Click += AddMeasurementReminder;
 
             return view;
+        }
+
+        private void ChangeDayStatus(object sender, EventArgs e)
+        {
+            TextView textView = (TextView)sender;
+
+            if (textView.Selected == true)
+            {
+                textView.SetTextColor(Android.Graphics.Color.ParseColor("#808080"));
+                textView.Selected = false;
+                return;
+            }
+            if (textView.Selected == false)
+            {
+                textView.SetTextColor(Android.Graphics.Color.ParseColor("#2C75FF"));
+                textView.Selected = true;
+                return;
+            }
         }
 
         //private void WeekDaysDialog(object sender, EventArgs e)
@@ -141,8 +188,7 @@ namespace ZdrowiePlus.Fragments
             TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
             {
                 //property hour and minute are read only
-                measurementTimes[e.Position] = measurementTimes[e.Position].AddHours(time.Hour - measurementTimes[e.Position].Hour);
-                measurementTimes[e.Position] = measurementTimes[e.Position].AddMinutes(time.Minute - measurementTimes[e.Position].Minute);
+                measurementTimes[e.Position] = new DateTime(2000, 12, 12, time.Hour, time.Minute, 0);
                 measurementTimesString[e.Position] = measurementTimes[e.Position].ToString("HH:mm");
                 //arrayAdapter.NotifyDataSetChanged();
                 arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
@@ -169,38 +215,50 @@ namespace ZdrowiePlus.Fragments
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                 db.CreateTable<Event>();
 
+                List<int> weekDays = new List<int>();
+                if (Sunday.Selected) weekDays.Add(0);
+                if (Monday.Selected) weekDays.Add(1);
+                if (Tuesday.Selected) weekDays.Add(2);
+                if (Wednesday.Selected) weekDays.Add(3);
+                if (Thursday.Selected) weekDays.Add(4);
+                if (Friday.Selected) weekDays.Add(5);
+                if (Saturday.Selected) weekDays.Add(6);
+
                 while (startDay <= endDay)
                 {
-                    foreach (var item in measurementTimes)
+                    if (weekDays.Contains((int)startDay.DayOfWeek))
                     {
-                        DateTime date = new DateTime(startDay.Year, startDay.Month, startDay.Day, item.Hour, item.Minute, 0);
-                        if (date >= DateTime.Now)
+                        foreach (var item in measurementTimes)
                         {
-                            var newEvent = new Event();
-                            newEvent.Date = date;
-                            newEvent.Title = spinnerMeasurementType.GetItemAtPosition(spinnerMeasurementType.SelectedItemPosition).ToString();
-                            newEvent.EventType = EventType.Measurement;
-                            db.Insert(newEvent);
+                            DateTime date = new DateTime(startDay.Year, startDay.Month, startDay.Day, item.Hour, item.Minute, 0);
+                            if (date >= DateTime.Now)
+                            {
+                                var newEvent = new Event();
+                                newEvent.Date = date;
+                                newEvent.Title = spinnerMeasurementType.GetItemAtPosition(spinnerMeasurementType.SelectedItemPosition).ToString();
+                                newEvent.EventType = EventType.Measurement;
+                                db.Insert(newEvent);
 
-                            //Notification
-                            Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                            notificationIntent.PutExtra("message", $"{newEvent.Date.ToString("dd.MM.yyyy HH:mm")} {newEvent.Title}");
-                            notificationIntent.PutExtra("title", "Pomiar");
-                            notificationIntent.PutExtra("id", newEvent.Id);
+                                //Notification
+                                Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                                notificationIntent.PutExtra("message", $"{newEvent.Date.ToString("dd.MM.yyyy HH:mm")} {newEvent.Title}");
+                                notificationIntent.PutExtra("title", "Pomiar");
+                                notificationIntent.PutExtra("id", newEvent.Id);
 
-                            var timer = (long)newEvent.Date.ToUniversalTime().Subtract(
-                                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                                ).TotalMilliseconds;
+                                var timer = (long)newEvent.Date.ToUniversalTime().Subtract(
+                                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                    ).TotalMilliseconds;
 
-                            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                            AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                            alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                                AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                                alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
 
-                            //go to list after save
-                            var trans = FragmentManager.BeginTransaction();
-                            trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                            trans.AddToBackStack(null);
-                            trans.Commit();
+                                //go to list after save
+                                var trans = FragmentManager.BeginTransaction();
+                                trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                                trans.AddToBackStack(null);
+                                trans.Commit();
+                            }
                         }
                     }
                     startDay = startDay.AddDays(1);
@@ -246,8 +304,8 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
-            measurementTimesString.Clear();
-            measurementTimes.Clear();
+            //measurementTimesString.Clear();
+            //measurementTimes.Clear();
         }
     }
 }

@@ -20,9 +20,12 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie+", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
+        //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru
+        //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error
         //dodać alarmy jako powtarzające (set repeating)
-        //DODAC - ponowic notifikacje po reboot'cie telefonu
+        //DODAC - ponowic notifikacje po reboot'cie telefonu - zrobione
+        //zmiana czcionki w zależności od dpi
 
         //list of visits
         //public static List<Event> visitList = new List<Event>();

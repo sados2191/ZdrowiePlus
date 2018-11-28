@@ -54,8 +54,10 @@ namespace ZdrowiePlus.Fragments
             TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
             {
                 //property hour and minute are read only
-                MedicineTherapyFragment.pillTimes[e.Position] = MedicineTherapyFragment.pillTimes[e.Position].AddHours(time.Hour - MedicineTherapyFragment.pillTimes[e.Position].Hour);
-                MedicineTherapyFragment.pillTimes[e.Position] = MedicineTherapyFragment.pillTimes[e.Position].AddMinutes(time.Minute - MedicineTherapyFragment.pillTimes[e.Position].Minute);
+                MedicineTherapyFragment.pillTimes[e.Position] = new DateTime(MedicineTherapyFragment.pillTimes[e.Position].Year,
+                    MedicineTherapyFragment.pillTimes[e.Position].Month, MedicineTherapyFragment.pillTimes[e.Position].Day, time.Hour, time.Minute, 0);
+                //MedicineTherapyFragment.pillTimes[e.Position] = MedicineTherapyFragment.pillTimes[e.Position].AddHours(time.Hour - MedicineTherapyFragment.pillTimes[e.Position].Hour);
+                //MedicineTherapyFragment.pillTimes[e.Position] = MedicineTherapyFragment.pillTimes[e.Position].AddMinutes(time.Minute - MedicineTherapyFragment.pillTimes[e.Position].Minute);
                 medicineTimeAdapter.NotifyDataSetChanged();
             });
 
