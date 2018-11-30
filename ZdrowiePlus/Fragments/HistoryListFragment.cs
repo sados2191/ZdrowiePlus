@@ -23,7 +23,7 @@ namespace ZdrowiePlus.Fragments
         public static MyListViewAdapter visitAdapter;
         private static EditVisitFragment editVisitFragment = new EditVisitFragment();
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
-        private static MedicineTherapyFragment medicineTherapyFragment = new MedicineTherapyFragment();
+        private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
         List<Event> events;
 

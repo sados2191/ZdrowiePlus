@@ -20,7 +20,7 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class MeasurementReminderFragment : Android.App.Fragment
+    public class AddMeasurementReminderFragment : Android.App.Fragment
     {
         private static VisitListFragment visitListFragment = new VisitListFragment();
 
@@ -28,7 +28,6 @@ namespace ZdrowiePlus.Fragments
         SeekBar seekbarFrequency;
         TextView startDate;
         TextView endDate;
-        //TextView repeatDays;
         ListView measurementTimesListView;
         TextView Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
 
@@ -39,8 +38,6 @@ namespace ZdrowiePlus.Fragments
         public List<string> measurementTimesString = new List<string>(); //add custom list adapter
         ArrayAdapter<string> arrayTimeAdapter;
         MeasurementType measurementType;
-        //static string[] weekDays;
-        //bool[] checkedItems;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -117,11 +114,6 @@ namespace ZdrowiePlus.Fragments
             endDate.TextChanged += (s,e) => { endDay = dateTime; };
 
             //repeat days choosing
-            //weekDays = Resources.GetStringArray(Resource.Array.week_days_array);
-            //checkedItems = new bool[weekDays.Length];
-            //repeatDays = view.FindViewById<TextView>(Resource.Id.measurementReminderRepeatDays);
-            //repeatDays.Click += WeekDaysDialog;
-
             Monday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderMonday);
             Monday.Selected = true;
             Monday.Click += ChangeDayStatus;
@@ -175,20 +167,12 @@ namespace ZdrowiePlus.Fragments
             }
         }
 
-        //private void WeekDaysDialog(object sender, EventArgs e)
-        //{
-        //    AlertDialog.Builder mBuilder = new AlertDialog.Builder(this.Activity);
-        //    mBuilder.SetTitle("Dni tygodnia");
-        //    //mBuilder.SetMultiChoiceItems(weekDays, checkedItems,IDialogInterfaceOnMultiChoiceClickListener);
-        //    mBuilder.Create();
-        //}
-
         private void MeasurementTimesListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
             {
                 //property hour and minute are read only
-                measurementTimes[e.Position] = new DateTime(2000, 12, 12, time.Hour, time.Minute, 0);
+                measurementTimes[e.Position] = time;
                 measurementTimesString[e.Position] = measurementTimes[e.Position].ToString("HH:mm");
                 //arrayAdapter.NotifyDataSetChanged();
                 arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
@@ -224,13 +208,23 @@ namespace ZdrowiePlus.Fragments
                 if (Friday.Selected) weekDays.Add(5);
                 if (Saturday.Selected) weekDays.Add(6);
 
-                while (startDay <= endDay)
+                if(weekDays.Count == 0)
                 {
-                    if (weekDays.Contains((int)startDay.DayOfWeek))
+                    Toast.MakeText(this.Activity, $"Nie wybrano żadnego dnia dygodnia", ToastLength.Short).Show();
+                    return;
+                }
+
+                int i = 0;
+
+                DateTime eventDay = startDay;
+
+                while (eventDay <= endDay)
+                {
+                    if (weekDays.Contains((int)eventDay.DayOfWeek))
                     {
                         foreach (var item in measurementTimes)
                         {
-                            DateTime date = new DateTime(startDay.Year, startDay.Month, startDay.Day, item.Hour, item.Minute, 0);
+                            DateTime date = new DateTime(eventDay.Year, eventDay.Month, eventDay.Day, item.Hour, item.Minute, 0);
                             if (date >= DateTime.Now)
                             {
                                 var newEvent = new Event();
@@ -258,10 +252,21 @@ namespace ZdrowiePlus.Fragments
                                 trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
                                 trans.AddToBackStack(null);
                                 trans.Commit();
+
+                                i++;
                             }
                         }
                     }
-                    startDay = startDay.AddDays(1);
+                    eventDay = eventDay.AddDays(1);
+                }
+
+                if (i == 0)
+                {
+                    Toast.MakeText(this.Activity, $"Niewłaściwe ustawienia", ToastLength.Short).Show();
+                }
+                else
+                {
+                    Toast.MakeText(this.Activity, $"Zaplanowano {i} pomiarów", ToastLength.Short).Show();
                 }
             }
             else

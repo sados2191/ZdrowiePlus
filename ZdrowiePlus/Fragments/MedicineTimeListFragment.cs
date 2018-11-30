@@ -35,7 +35,7 @@ namespace ZdrowiePlus.Fragments
         {
             View view = inflater.Inflate(Resource.Layout.MedicineTimeList, container, false);
 
-            medicineTimeAdapter = new MedicineTimeViewAdapter(this.Activity, MedicineTherapyFragment.pillTimes);
+            medicineTimeAdapter = new MedicineTimeViewAdapter(this.Activity, AddMedicineTherapyFragment.pillTimes);
             ListView medicineTimeListView = view.FindViewById<ListView>(Resource.Id.listViewMedicine);
             medicineTimeListView.Adapter = medicineTimeAdapter;
             medicineTimeListView.FastScrollEnabled = true;
@@ -54,8 +54,8 @@ namespace ZdrowiePlus.Fragments
             TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
             {
                 //property hour and minute are read only
-                MedicineTherapyFragment.pillTimes[e.Position] = new DateTime(MedicineTherapyFragment.pillTimes[e.Position].Year,
-                    MedicineTherapyFragment.pillTimes[e.Position].Month, MedicineTherapyFragment.pillTimes[e.Position].Day, time.Hour, time.Minute, 0);
+                AddMedicineTherapyFragment.pillTimes[e.Position] = new DateTime(AddMedicineTherapyFragment.pillTimes[e.Position].Year,
+                    AddMedicineTherapyFragment.pillTimes[e.Position].Month, AddMedicineTherapyFragment.pillTimes[e.Position].Day, time.Hour, time.Minute, 0);
                 //MedicineTherapyFragment.pillTimes[e.Position] = MedicineTherapyFragment.pillTimes[e.Position].AddHours(time.Hour - MedicineTherapyFragment.pillTimes[e.Position].Hour);
                 //MedicineTherapyFragment.pillTimes[e.Position] = MedicineTherapyFragment.pillTimes[e.Position].AddMinutes(time.Minute - MedicineTherapyFragment.pillTimes[e.Position].Minute);
                 medicineTimeAdapter.NotifyDataSetChanged();
@@ -68,9 +68,9 @@ namespace ZdrowiePlus.Fragments
         {
             List<DateTime> medicineTimes = new List<DateTime>();
 
-            for (int i = 0; i < MedicineTherapyFragment.therapyLength; i++)
+            for (int i = 0; i < AddMedicineTherapyFragment.therapyLength; i++)
             {
-                foreach (DateTime date in MedicineTherapyFragment.pillTimes)
+                foreach (DateTime date in AddMedicineTherapyFragment.pillTimes)
                 {
                     medicineTimes.Add(date.AddDays(i));
                 }
@@ -90,7 +90,7 @@ namespace ZdrowiePlus.Fragments
                     {
                         var newEvent = new Event();
                         newEvent.Date = date;
-                        newEvent.Title = MedicineTherapyFragment.pillName;
+                        newEvent.Title = AddMedicineTherapyFragment.pillName;
                         newEvent.EventType = EventType.Medicine;
                         db.Insert(newEvent); //change to GUID
 
@@ -99,7 +99,7 @@ namespace ZdrowiePlus.Fragments
 
                         //Notification
                         Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                        notificationIntent.PutExtra("message", $"{date.ToString("dd.MM.yyyy HH:mm")} {MedicineTherapyFragment.pillName}");
+                        notificationIntent.PutExtra("message", $"{date.ToString("dd.MM.yyyy HH:mm")} {AddMedicineTherapyFragment.pillName}");
                         notificationIntent.PutExtra("title", "Leki");
                         notificationIntent.PutExtra("id", newEvent.Id);
 

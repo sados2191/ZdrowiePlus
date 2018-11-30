@@ -5,8 +5,10 @@
     <item name="android:itemBackground">#02547E</item>
     <item name="drawerArrowStyle">@style/MyDrawerArrowStyle</item>
     <item name="colorAccent">#02547E</item>
+    <item name="android:textColor">#2C75FF</item>
     <item name="android:timePickerStyle">@style/SpinnerTimePicker</item>
     <item name="android:datePickerStyle">@style/SpinnerDatePicker</item>
+    <item name="android:listViewStyle">@style/ListFont</item>
   </style>
 
   <style name="MyDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -20,6 +22,11 @@
 
   <style name="SpinnerDatePicker" parent="android:Widget.Material.Light.DatePicker">
     <item name="android:datePickerMode">spinner</item>
+  </style>
+
+  <style name="ListFont" parent="@android:style/Widget.ListView">
+    <item name="android:textColor">#000000</item>
+    <item name="android:typeface">sans</item>
   </style>
   
 </resources>

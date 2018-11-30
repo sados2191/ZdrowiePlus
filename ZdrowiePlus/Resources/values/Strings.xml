@@ -29,4 +29,10 @@
     <item>Sobota</item>
     <item>Niedziela</item>
   </string-array>
+
+  <string-array name="visits_reminder_array">
+    <item>min. przed</item>
+    <item>godz. przed</item>
+    <item>dni przed</item>>
+  </string-array>
 </resources>

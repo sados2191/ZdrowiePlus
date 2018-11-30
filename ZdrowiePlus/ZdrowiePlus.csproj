@@ -125,10 +125,10 @@
     <Compile Include="Fragments\CalendarFragment.cs" />
     <Compile Include="Fragments\EditVisitFragment.cs" />
     <Compile Include="Fragments\AddMeasurementFragment.cs" />
-    <Compile Include="Fragments\MeasurementReminderFragment.cs" />
+    <Compile Include="Fragments\AddMeasurementReminderFragment.cs" />
     <Compile Include="Fragments\MeasurementsListFragment.cs" />
     <Compile Include="Fragments\HistoryListFragment.cs" />
-    <Compile Include="Fragments\MedicineTherapyFragment.cs" />
+    <Compile Include="Fragments\AddMedicineTherapyFragment.cs" />
     <Compile Include="Fragments\MedicineTimeListFragment.cs" />
     <Compile Include="Fragments\VisitListFragment.cs" />
     <Compile Include="MainActivity.cs" />

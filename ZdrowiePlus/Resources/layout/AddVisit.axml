@@ -7,7 +7,7 @@
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:hint="Tytuł zdarzenia"
+		android:hint="Typ wizyty"
 		android:id="@+id/visitTitle" />
 	<TextView
 		android:text="Wybierz datę:"
@@ -47,11 +47,44 @@
 		android:textSize="18sp"
 		android:gravity="center"
 		android:id="@+id/textTime" />
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+		<TextView
+			android:text="Przypomienie:"
+			android:layout_width="0dp"
+			android:layout_weight="35"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:textSize="18sp"
+			android:textColor="#404040"
+			android:id="@+id/labelAddVisitReminder" />
+		<EditText
+			android:inputType="number"
+			android:maxLength="3"
+			android:selectAllOnFocus="true"
+			android:layout_width="0dp"
+			android:layout_weight="15"
+			android:layout_height="wrap_content"
+			android:id="@+id/textAddVisitReminder" />
+		<Spinner
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:textSize="18sp"
+				android:id="@+id/addVisitReminderSpinner" />
+	</LinearLayout>
 	<EditText
 		android:inputType="textMultiLine"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:hint="Opis zdarzenia"
+		android:hint="Opis wizyty"
 		android:id="@+id/visitDescription" />
 	<Button
 		android:text="Dodaj termin"

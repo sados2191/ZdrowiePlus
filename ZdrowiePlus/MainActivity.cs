@@ -26,6 +26,7 @@ namespace ZdrowiePlus
         //dodać alarmy jako powtarzające (set repeating)
         //DODAC - ponowic notifikacje po reboot'cie telefonu - zrobione
         //zmiana czcionki w zależności od dpi
+        //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
 
         //list of visits
         //public static List<Event> visitList = new List<Event>();
@@ -47,12 +48,12 @@ namespace ZdrowiePlus
         //private Stack<Fragment> stackFragment;
         private static AddVisitFragment addVisitFragment;
         private static VisitListFragment visitListFragment;
-        private static MedicineTherapyFragment medicineTherapyFragment;
+        private static AddMedicineTherapyFragment medicineTherapyFragment;
         private static HistoryListFragment historyListFragment;
         private static CalendarFragment calendarFragment;
         private static AddMeasurementFragment addMeasurementFragment;
         private static MeasurementsListFragment measurementsListFragment;
-        private static MeasurementReminderFragment measurementReminderFragment;
+        private static AddMeasurementReminderFragment measurementReminderFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -93,12 +94,12 @@ namespace ZdrowiePlus
             //stackFragment = new Stack<Fragment>(); show fragment method
             addVisitFragment = new AddVisitFragment();
             visitListFragment = new VisitListFragment();
-            medicineTherapyFragment = new MedicineTherapyFragment();
+            medicineTherapyFragment = new AddMedicineTherapyFragment();
             historyListFragment = new HistoryListFragment();
             calendarFragment = new CalendarFragment();
             addMeasurementFragment = new AddMeasurementFragment();
             measurementsListFragment = new MeasurementsListFragment();
-            measurementReminderFragment = new MeasurementReminderFragment();
+            measurementReminderFragment = new AddMeasurementReminderFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");

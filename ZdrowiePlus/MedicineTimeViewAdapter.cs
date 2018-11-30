@@ -55,7 +55,7 @@ namespace ZdrowiePlus
             pillTime.Text = mItems[position].ToString("HH:mm");
 
             TextView pillName = row.FindViewById<TextView>(Resource.Id.pillName);
-            pillName.Text = MedicineTherapyFragment.pillName;
+            pillName.Text = AddMedicineTherapyFragment.pillName;
 
             return row;
         }

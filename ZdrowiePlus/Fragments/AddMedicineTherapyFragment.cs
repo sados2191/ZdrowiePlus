@@ -20,7 +20,7 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class MedicineTherapyFragment : Android.App.Fragment
+    public class AddMedicineTherapyFragment : Android.App.Fragment
     {
         public static string pillName;
         public static List<DateTime> pillTimes = new List<DateTime>();
