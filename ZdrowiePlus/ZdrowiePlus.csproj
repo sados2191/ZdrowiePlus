@@ -129,11 +129,10 @@
     <Compile Include="Fragments\MeasurementsListFragment.cs" />
     <Compile Include="Fragments\HistoryListFragment.cs" />
     <Compile Include="Fragments\AddMedicineTherapyFragment.cs" />
-    <Compile Include="Fragments\MedicineTimeListFragment.cs" />
     <Compile Include="Fragments\VisitListFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Measurement.cs" />
-    <Compile Include="MedicineTimeViewAdapter.cs" />
+    <Compile Include="TimeListViewAdapter.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
     <Compile Include="MyListViewMeasurementAdapter.cs" />
     <Compile Include="MyListViewAdapter.cs" />
@@ -224,12 +223,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\MedicineTimeRow.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\MedicineTimeList.axml">
+    <AndroidResource Include="Resources\layout\TimeListRow.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

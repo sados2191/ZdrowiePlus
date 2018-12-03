@@ -43,7 +43,7 @@
 			android:gravity="right"
 			android:id="@+id/txtTime" />
 		<TextView
-			android:text="Descryption"
+			android:text="Title"
 			android:textSize="18sp"
 			android:layout_width="0dp"
 			android:layout_weight="70"

@@ -35,8 +35,9 @@ namespace ZdrowiePlus.Fragments
         public DateTime endDay;
         public DateTime dateTime;
         public List<DateTime> measurementTimes = new List<DateTime>();
-        public List<string> measurementTimesString = new List<string>(); //add custom list adapter
-        ArrayAdapter<string> arrayTimeAdapter;
+        public static TimeListViewAdapter timeListAdapter;
+        //public List<string> measurementTimesString = new List<string>(); //add custom list adapter
+        //ArrayAdapter<string> arrayTimeAdapter;
         MeasurementType measurementType;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -49,12 +50,12 @@ namespace ZdrowiePlus.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             dateTime = DateTime.Now;
-            startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
-            endDay = startDay;
+            startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+            endDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
 
             View view = inflater.Inflate(Resource.Layout.AddMeasurementReminder, container, false);
 
-            measurementTimesString.Clear();
+            //measurementTimesString.Clear();
             measurementTimes.Clear();
 
             //measurement type spinner
@@ -66,24 +67,25 @@ namespace ZdrowiePlus.Fragments
             measurementType = (MeasurementType)spinnerMeasurementType.SelectedItemPosition;
 
             //times list
-            measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).ToString("HH:mm"));
+            //measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).ToString("HH:mm"));
             measurementTimes.Add(new DateTime(2000, 12, 12, 8, 0, 0));
             measurementTimesListView = view.FindViewById<ListView>(Resource.Id.listViewMeasurementReminder);
             measurementTimesListView.FastScrollEnabled = true;
-            arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
-            measurementTimesListView.Adapter = arrayTimeAdapter;
+            //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
+            timeListAdapter = new TimeListViewAdapter(this.Activity, measurementTimes);
+            measurementTimesListView.Adapter = timeListAdapter;
             measurementTimesListView.ItemClick += MeasurementTimesListView_ItemClick;
 
             //setting measurement frequency per day
             seekbarFrequency = view.FindViewById<SeekBar>(Resource.Id.measurementReminderFrequency);
             TextView labelFrequency = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderFrequency);
-            labelFrequency.Text = $"Ile pomiarów dziennie:  {seekbarFrequency.Progress}";
             seekbarFrequency.Progress = 1;
+            labelFrequency.Text = $"Ile pomiarów dziennie:  {seekbarFrequency.Progress}";
             seekbarFrequency.ProgressChanged += (s, e) => {
                 if (e.Progress < 1) seekbarFrequency.Progress = 1;
                 labelFrequency.Text = $"Ile pomiarów dziennie:  {seekbarFrequency.Progress}";
 
-                measurementTimesString.Clear();
+                //measurementTimesString.Clear();
                 measurementTimes.Clear();
 
                 int delay = 0;
@@ -95,23 +97,24 @@ namespace ZdrowiePlus.Fragments
                 for (int i = 0; i < seekbarFrequency.Progress; i++)
                 {
                     measurementTimes.Add(new DateTime(2000, 12, 12, 8, 0, 0).AddMinutes(delay * i));
-                    measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).AddMinutes(delay * i).ToString("HH:mm"));
+                    //measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).AddMinutes(delay * i).ToString("HH:mm"));
                 }
-                arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
-                measurementTimesListView.Adapter = arrayTimeAdapter;
+                //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
+                //measurementTimesListView.Adapter = arrayTimeAdapter;
+                timeListAdapter.NotifyDataSetChanged();
             };
 
             //start date choosing
             startDate = view.FindViewById<TextView>(Resource.Id.measurementReminderStartDate);
             startDate.Text = dateTime.ToLongDateString();
             startDate.Click += DateSelect_OnClick;
-            startDate.TextChanged += (s, e) => { startDay = dateTime; };
+            startDate.TextChanged += (s, e) => { startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0); };
 
             //end date choosing
             endDate = view.FindViewById<TextView>(Resource.Id.measurementReminderEndDate);
             endDate.Text = dateTime.ToLongDateString();
             endDate.Click += DateSelect_OnClick;
-            endDate.TextChanged += (s,e) => { endDay = dateTime; };
+            endDate.TextChanged += (s,e) => { endDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59); };
 
             //repeat days choosing
             Monday = view.FindViewById<TextView>(Resource.Id.labelMeasurementReminderMonday);
@@ -173,10 +176,10 @@ namespace ZdrowiePlus.Fragments
             {
                 //property hour and minute are read only
                 measurementTimes[e.Position] = time;
-                measurementTimesString[e.Position] = measurementTimes[e.Position].ToString("HH:mm");
-                //arrayAdapter.NotifyDataSetChanged();
-                arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
-                measurementTimesListView.Adapter = arrayTimeAdapter;
+                //measurementTimesString[e.Position] = measurementTimes[e.Position].ToString("HH:mm");
+                timeListAdapter.NotifyDataSetChanged();
+                //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
+                //measurementTimesListView.Adapter = arrayTimeAdapter;
             });
 
             frag.Show(FragmentManager, TimePickerFragment.TAG);
@@ -311,6 +314,8 @@ namespace ZdrowiePlus.Fragments
 
             //measurementTimesString.Clear();
             //measurementTimes.Clear();
+            startDate.Text = dateTime.ToLongDateString();
+            startDate.Text = dateTime.ToLongDateString();
         }
     }
 }

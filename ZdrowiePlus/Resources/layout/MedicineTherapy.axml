@@ -12,6 +12,158 @@
 		android:layout_height="wrap_content"
 		android:hint="Nazwa leku"
 		android:id="@+id/medicineName" />
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+		<TextView
+			android:text="Data początku:"
+			android:layout_width="0dp"
+			android:layout_weight="40"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:textSize="18sp"
+			android:textColor="#404040"
+			android:id="@+id/labelMedicineStartDate" />
+		<TextView
+			android:text="Data początku"
+			android:layout_width="0dp"
+			android:layout_weight="65"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:textSize="18sp"
+			android:gravity="left"
+			android:id="@+id/medicineStartDate" />
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView
+			android:text="Data końca:"
+			android:layout_width="0dp"
+			android:layout_weight="40"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:textSize="18sp"
+			android:textColor="#404040"
+			android:id="@+id/labelMedicineEndDate" />
+		<TextView
+			android:text="Data końca"
+			android:layout_width="0dp"
+			android:layout_weight="65"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:textSize="18sp"
+			android:gravity="left"
+			android:id="@+id/medicineEndDate" />
+	</LinearLayout>
+	<TextView
+		android:text="Powtórz:"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="7dp"
+		android:layout_marginBottom="7dp"
+		android:layout_marginLeft="5dp"
+		android:textSize="18sp"
+		android:textColor="#404040"
+		android:id="@+id/labelMedicineRepeat" />
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+		<TextView
+			android:text="Pn"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineMonday" />
+		<TextView
+			android:text="Wt"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineTuesday" />
+		<TextView
+			android:text="Śr"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineWednesday" />
+		<TextView
+			android:text="Cz"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineThursday" />
+		<TextView
+			android:text="Pt"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineFriday" />
+		<TextView
+			android:text="Sb"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineSaturday" />
+		<TextView
+			android:text="Nd"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:layout_marginBottom="7dp"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:gravity="center"
+			android:textSize="18sp"
+			android:textColor="#2C75FF"
+			android:id="@+id/labelMedicineSunday" />
+	</LinearLayout>
 	<TextView
         android:text="Ile razy dziennie:"
         android:layout_width="match_parent"
@@ -29,45 +181,45 @@
 		android:min="1"
 		android:progress="3"
 		android:id="@+id/medicineFrequency"/>
-	<TextView
-        android:text="Długość kuracji w dniach:"
+	<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+		android:fillViewport="true" >
+		<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:textColor="#404040"
-        android:id="@+id/labelTimeout" />
-	<SeekBar
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:max="31"
-		android:min="1"
-		android:progress="7"
-		android:id="@+id/medicineTimeout" />
-	<TextView
-        android:text="Wybierz datę początku kuracji:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:textColor="#404040"
-        android:id="@+id/labelMedicineDate" />
-	<TextView
-		android:text="Data początku"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:textSize="18sp"
-		android:gravity="center"
-		android:id="@+id/medicineDate" />
-	<Button
-		android:text="Dalej"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/btnNextMedicineTherapy" />
+        android:orientation="vertical">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1"		
+				android:orientation="horizontal">
+				<TextView
+					android:text="Wybierz godziny:"
+					android:layout_width="0dp"
+					android:layout_weight="40"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp"
+					android:layout_marginBottom="7dp"
+					android:layout_marginLeft="5dp"
+					android:textColor="#404040"
+					android:textSize="18sp"
+					android:id="@+id/labelMedicineTimes" />
+				<ListView
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:divider="#818181"
+					android:dividerHeight="1dp"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="60"
+					android:id="@+id/listViewMedicine" />
+			</LinearLayout>
+			<Button
+				android:text="Dodaj"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/btnAddMedicineTherapy" />
+		</LinearLayout>
+	</ScrollView>
 </LinearLayout>

@@ -20,6 +20,7 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie+", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
+        //przerobić MedicineTimeViewAdapter na TimeAdapter dla Medicine i Measurement, po przerobieniu usunąć MedicineTimesList
         //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error

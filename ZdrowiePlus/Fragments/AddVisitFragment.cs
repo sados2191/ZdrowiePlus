@@ -116,7 +116,7 @@ namespace ZdrowiePlus.Fragments
         {
             DateTime visitTime = new DateTime(year, month, day, hour, minute, 0);
             DateTime reminderTime = visitTime.AddMinutes(reminderMinutesBefore * (-1));
-            string title = this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text;
+            string title = this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text.Trim();
             string description = this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text;
             if (title != string.Empty)
             {
