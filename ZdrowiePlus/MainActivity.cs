@@ -20,14 +20,16 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie+", MainLauncher = true, Theme ="@style/MyTheme")]
     public class MainActivity : AppCompatActivity
     {
-        //przerobić MedicineTimeViewAdapter na TimeAdapter dla Medicine i Measurement, po przerobieniu usunąć MedicineTimesList
-        //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru
+        //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru - zrobione inaczej
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error
         //dodać alarmy jako powtarzające (set repeating)
         //DODAC - ponowic notifikacje po reboot'cie telefonu - zrobione
         //zmiana czcionki w zależności od dpi
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
+        //okrągły przycisk do dodawania
+        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki
+        //kolory pomiarów w zależności od norm
 
         //list of visits
         //public static List<Event> visitList = new List<Event>();
@@ -43,18 +45,19 @@ namespace ZdrowiePlus
         private ListView leftDrawer;
         private ArrayAdapter leftAdapter;
         private List<string> leftDataSet;
-        
+
         //fragments
         //private Fragment currentFragment; show fragment method
         //private Stack<Fragment> stackFragment;
-        private static AddVisitFragment addVisitFragment;
+        private AddReminderFragment addReminderFragment;
+        //private static AddVisitFragment addVisitFragment;
         private static VisitListFragment visitListFragment;
-        private static AddMedicineTherapyFragment medicineTherapyFragment;
+        //private static AddMedicineTherapyFragment medicineTherapyFragment;
         private static HistoryListFragment historyListFragment;
         private static CalendarFragment calendarFragment;
         private static AddMeasurementFragment addMeasurementFragment;
         private static MeasurementsListFragment measurementsListFragment;
-        private static AddMeasurementReminderFragment measurementReminderFragment;
+        //private static AddMeasurementReminderFragment measurementReminderFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -77,15 +80,16 @@ namespace ZdrowiePlus
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             drawerToggle.SyncState();
             leftDataSet = new List<string>();
+            leftDataSet.Add("Dodaj przypomnienie");
             leftDataSet.Add("Przypomnienia");
-            leftDataSet.Add("Dodaj wizytę");
-            leftDataSet.Add("Terapia lekami");
+            //leftDataSet.Add("Dodaj wizytę");
+            //leftDataSet.Add("Terapia lekami");
             leftDataSet.Add("Dodaj pomiar");
             leftDataSet.Add("Lista pomiarów");
             leftDataSet.Add("Raport");
             leftDataSet.Add("Historia");
             leftDataSet.Add("Kalendarz");
-            leftDataSet.Add("Zaplanuj pomiar");
+            //leftDataSet.Add("Zaplanuj pomiar");
             leftDataSet.Add("Zamknij aplikację");
             leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
             leftDrawer.Adapter = leftAdapter;
@@ -93,14 +97,15 @@ namespace ZdrowiePlus
 
             //fragments
             //stackFragment = new Stack<Fragment>(); show fragment method
-            addVisitFragment = new AddVisitFragment();
+            addReminderFragment = new AddReminderFragment();
+            //addVisitFragment = new AddVisitFragment();
             visitListFragment = new VisitListFragment();
-            medicineTherapyFragment = new AddMedicineTherapyFragment();
+            //medicineTherapyFragment = new AddMedicineTherapyFragment();
             historyListFragment = new HistoryListFragment();
             calendarFragment = new CalendarFragment();
             addMeasurementFragment = new AddMeasurementFragment();
             measurementsListFragment = new MeasurementsListFragment();
-            measurementReminderFragment = new AddMeasurementReminderFragment();
+            //measurementReminderFragment = new AddMeasurementReminderFragment();
             var trans = FragmentManager.BeginTransaction();
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -180,39 +185,43 @@ namespace ZdrowiePlus
             {
                 case 0:
                     this.Title = leftDataSet[e.Position];
-                    //ShowFragment(visitListFragment);
-                    ReplaceFragment(visitListFragment);
+                    ReplaceFragment(addReminderFragment);
                     break;
                 case 1:
                     this.Title = leftDataSet[e.Position];
-                    //ShowFragment(addVisitFragment);
-                    ReplaceFragment(addVisitFragment);
+                    //ShowFragment(visitListFragment);
+                    ReplaceFragment(visitListFragment);
                     break;
+                //case 2:
+                //    this.Title = leftDataSet[e.Position];
+                //    //ShowFragment(addVisitFragment);
+                //    ReplaceFragment(addVisitFragment);
+                //    break;
+                //case 3:
+                //    this.Title = leftDataSet[e.Position];
+                //    ReplaceFragment(medicineTherapyFragment);
+                //    break;
                 case 2:
-                    this.Title = leftDataSet[e.Position];
-                    ReplaceFragment(medicineTherapyFragment);
-                    break;
-                case 3:
                     this.Title = leftDataSet[e.Position];
                     ReplaceFragment(addMeasurementFragment);
                     break;
-                case 4:
+                case 3:
                     this.Title = leftDataSet[e.Position];
                     ReplaceFragment(measurementsListFragment);
                     break;
-                case 6:
+                case 5:
                     this.Title = leftDataSet[e.Position];
                     ReplaceFragment(historyListFragment);
                     break;
-                case 7:
+                case 6:
                     this.Title = leftDataSet[e.Position];
                     ReplaceFragment(calendarFragment);
                     break;
-                case 8:
-                    this.Title = leftDataSet[e.Position];
-                    ReplaceFragment(measurementReminderFragment);
-                    break;
-                case 9:
+                //case 9:
+                //    this.Title = leftDataSet[e.Position];
+                //    ReplaceFragment(measurementReminderFragment);
+                //    break;
+                case 7:
                     this.Finish();
                     break;
                 default:

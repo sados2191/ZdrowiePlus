@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="BootBroadcastReceiver.cs" />
     <Compile Include="DatePickerFragment.cs" />
+    <Compile Include="Fragments\AddReminderFragment.cs" />
     <Compile Include="Fragments\AddVisitFragment.cs" />
     <Compile Include="Fragments\CalendarFragment.cs" />
     <Compile Include="Fragments\EditVisitFragment.cs" />
@@ -218,7 +219,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\MedicineTherapy.axml">
+    <AndroidResource Include="Resources\layout\AddMedicineTherapy.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -255,6 +256,11 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AddMeasurementReminder.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddReminder.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

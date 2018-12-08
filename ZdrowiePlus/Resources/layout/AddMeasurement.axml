@@ -42,20 +42,57 @@
 		android:textSize="18sp"
 		android:textColor="#404040"
 		android:id="@+id/labelMeasurementTime" />
-	<TextView
-		android:text="Godzina"
+    <TextView
+        android:text="Godzina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:id="@+id/textMeasurementTime" />
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<EditText
+			android:layout_width="0dp"
+			android:layout_weight="70"
+			android:layout_height="wrap_content"
+			android:hint="Wynik pomiaru"
+			android:inputType="numberDecimal"
+			android:id="@+id/measurementValue" />
+		<TextView
+			android:text="jednostka"
+			android:textSize="18sp"
+			android:textColor="#404040"
+			android:layout_width="0dp"
+			android:layout_weight="30"
+			android:layout_height="wrap_content"
+			android:id="@+id/measurementValueUnit" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:textSize="18sp"
-		android:gravity="center"
-		android:id="@+id/textMeasurementTime" />
-	<EditText
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="Wynik pomiaru"
-		android:id="@+id/measurementValue" />
+		android:visibility="gone"
+		android:id="@+id/measurementLayout2" >
+		<EditText
+			android:layout_width="0dp"
+			android:layout_weight="70"
+			android:layout_height="wrap_content"
+			android:hint="Wynik pomiaru"
+			android:inputType="numberDecimal"
+			android:id="@+id/measurementValue2" />
+		<TextView
+			android:text="jednostka"
+			android:textSize="18sp"
+			android:textColor="#404040"
+			android:layout_width="0dp"
+			android:layout_weight="30"
+			android:layout_height="wrap_content"
+			android:id="@+id/measurementValueUnit2" />
+	</LinearLayout>
 	<Button
 		android:text="Dodaj"
 		android:layout_width="match_parent"

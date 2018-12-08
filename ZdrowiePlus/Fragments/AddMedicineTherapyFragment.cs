@@ -53,7 +53,7 @@ namespace ZdrowiePlus.Fragments
             startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
             endDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
 
-            View view = inflater.Inflate(Resource.Layout.MedicineTherapy, container, false);
+            View view = inflater.Inflate(Resource.Layout.AddMedicineTherapy, container, false);
 
             //pillTimesString.Clear();
             pillTimes.Clear();
