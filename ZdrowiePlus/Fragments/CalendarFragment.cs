@@ -20,7 +20,7 @@ namespace ZdrowiePlus.Fragments
 {
     public class CalendarFragment : Android.App.Fragment
     {
-        public static MyListViewCalendarAdapter visitAdapter;
+        public static ListViewCalendarAdapter visitAdapter;
         public CalendarView calendarView;
         ListView visitListView;
 
@@ -62,7 +62,7 @@ namespace ZdrowiePlus.Fragments
                 //    MainActivity.visitList.Add(visit);
                 //}
 
-                visitAdapter = new MyListViewCalendarAdapter(this.Activity, /* MainActivity.visitList */ events);
+                visitAdapter = new ListViewCalendarAdapter(this.Activity, /* MainActivity.visitList */ events);
                 visitListView = view.FindViewById<ListView>(Resource.Id.listViewCalendar);
                 visitListView.Adapter = visitAdapter;
                 visitListView.FastScrollEnabled = true;
@@ -104,7 +104,7 @@ namespace ZdrowiePlus.Fragments
             events.Clear();
             events = db.Table<Event>().Where(x => x.Date >= selectedDate && x.Date < nextDay).OrderBy(x => x.Date).ToList();
 
-            visitAdapter = new MyListViewCalendarAdapter(this.Activity, events);
+            visitAdapter = new ListViewCalendarAdapter(this.Activity, events);
             visitListView.Adapter = visitAdapter;
             //visitAdapter.NotifyDataSetChanged();
         }

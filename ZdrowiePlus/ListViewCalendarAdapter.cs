@@ -12,12 +12,12 @@ using Android.Widget;
 
 namespace ZdrowiePlus
 {
-    public class MyListViewCalendarAdapter : BaseAdapter<Event>
+    public class ListViewCalendarAdapter : BaseAdapter<Event>
     {
         private List<Event> mItems;
         private Context mContext;
 
-        public MyListViewCalendarAdapter(Context context, List<Event> items)
+        public ListViewCalendarAdapter(Context context, List<Event> items)
         {
             mItems = items;
             mContext = context;
@@ -47,7 +47,7 @@ namespace ZdrowiePlus
 
             if (row == null)
             {
-                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.ListViewCalendarRow, null, false);
+                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.RowCalendarList, null, false);
             }
 
             TextView txtTime = row.FindViewById<TextView>(Resource.Id.txtTimeCalendar);

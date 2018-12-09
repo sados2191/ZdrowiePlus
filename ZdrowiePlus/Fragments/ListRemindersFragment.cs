@@ -18,9 +18,9 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class VisitListFragment : Android.App.Fragment
+    public class ListRemindersFragment : Android.App.Fragment
     {
-        public static MyListViewAdapter visitAdapter;
+        public static ListViewReminderAdapter visitAdapter;
         private static EditVisitFragment editVisitFragment = new EditVisitFragment();
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
@@ -41,7 +41,7 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View view = inflater.Inflate(Resource.Layout.VisitList, container, false);
+            View view = inflater.Inflate(Resource.Layout.ListReminders, container, false);
 
             visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
             buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
@@ -135,7 +135,7 @@ namespace ZdrowiePlus.Fragments
                 //    MainActivity.visitList.Add(visit);
                 //}
 
-                visitAdapter = new MyListViewAdapter(this.Activity, /* MainActivity.visitList */ events);
+                visitAdapter = new ListViewReminderAdapter(this.Activity, /* MainActivity.visitList */ events);
                 visitListView.Adapter = visitAdapter;
                 visitListView.FastScrollEnabled = true;
 

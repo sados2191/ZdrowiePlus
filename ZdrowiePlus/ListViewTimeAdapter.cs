@@ -13,12 +13,12 @@ using ZdrowiePlus.Fragments;
 
 namespace ZdrowiePlus
 {
-    public class TimeListViewAdapter : BaseAdapter<DateTime>
+    public class ListViewTimeAdapter : BaseAdapter<DateTime>
     {
         private List<DateTime> mItems;
         private Context mContext;
 
-        public TimeListViewAdapter(Context context, List<DateTime> items)
+        public ListViewTimeAdapter(Context context, List<DateTime> items)
         {
             mItems = items;
             mContext = context;
@@ -48,7 +48,7 @@ namespace ZdrowiePlus
 
             if (row == null)
             {
-                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.TimeListRow, null, false);
+                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.RowTimeList, null, false);
             }
 
             TextView pillTime = row.FindViewById<TextView>(Resource.Id.time);

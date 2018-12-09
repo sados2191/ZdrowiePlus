@@ -127,17 +127,17 @@
     <Compile Include="Fragments\EditVisitFragment.cs" />
     <Compile Include="Fragments\AddMeasurementFragment.cs" />
     <Compile Include="Fragments\AddMeasurementReminderFragment.cs" />
-    <Compile Include="Fragments\MeasurementsListFragment.cs" />
-    <Compile Include="Fragments\HistoryListFragment.cs" />
+    <Compile Include="Fragments\ListMeasurementsFragment.cs" />
+    <Compile Include="Fragments\ListHistoryFragment.cs" />
     <Compile Include="Fragments\AddMedicineTherapyFragment.cs" />
-    <Compile Include="Fragments\VisitListFragment.cs" />
+    <Compile Include="Fragments\ListRemindersFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Measurement.cs" />
-    <Compile Include="TimeListViewAdapter.cs" />
+    <Compile Include="ListViewTimeAdapter.cs" />
     <Compile Include="MyActionBarDrawerToggle.cs" />
-    <Compile Include="MyListViewMeasurementAdapter.cs" />
-    <Compile Include="MyListViewAdapter.cs" />
-    <Compile Include="MyListViewCalendarAdapter.cs" />
+    <Compile Include="ListViewMeasurementAdapter.cs" />
+    <Compile Include="ListViewReminderAdapter.cs" />
+    <Compile Include="ListViewCalendarAdapter.cs" />
     <Compile Include="NotificationReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -188,7 +188,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\VisitList.axml">
+    <AndroidResource Include="Resources\layout\ListReminders.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -208,7 +208,7 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\outline_info_white_24.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\ListViewRow.axml">
+    <AndroidResource Include="Resources\layout\RowReminderList.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -224,7 +224,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\TimeListRow.axml">
+    <AndroidResource Include="Resources\layout\RowTimeList.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -234,7 +234,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\ListViewCalendarRow.axml">
+    <AndroidResource Include="Resources\layout\RowCalendarList.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -244,12 +244,12 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\MeasurementsList.axml">
+    <AndroidResource Include="Resources\layout\ListMeasurements.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\ListViewMeasurementRow.axml">
+    <AndroidResource Include="Resources\layout\RowMeasurementList.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

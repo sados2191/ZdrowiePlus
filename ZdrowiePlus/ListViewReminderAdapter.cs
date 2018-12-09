@@ -12,12 +12,12 @@ using Android.Widget;
 
 namespace ZdrowiePlus
 {
-    public class MyListViewAdapter : BaseAdapter<Event>
+    public class ListViewReminderAdapter : BaseAdapter<Event>
     {
         private List<Event> mItems;
         private Context mContext;
 
-        public MyListViewAdapter(Context context, List<Event> items)
+        public ListViewReminderAdapter(Context context, List<Event> items)
         {
             mItems = items;
             mContext = context;
@@ -47,7 +47,7 @@ namespace ZdrowiePlus
 
             if (row == null)
             {
-                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.ListViewRow, null, false);
+                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.RowReminderList, null, false);
             }
 
             TextView txtDate = row.FindViewById<TextView>(Resource.Id.txtDate);

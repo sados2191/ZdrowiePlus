@@ -22,7 +22,7 @@ namespace ZdrowiePlus.Fragments
 {
     public class EditVisitFragment : Android.App.Fragment
     {
-        private static VisitListFragment visitListFragment = new VisitListFragment();
+        private static ListRemindersFragment visitListFragment = new ListRemindersFragment();
 
         TextView eventDate;
         TextView eventTime;

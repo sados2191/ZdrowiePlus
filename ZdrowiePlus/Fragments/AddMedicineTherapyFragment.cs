@@ -22,7 +22,7 @@ namespace ZdrowiePlus.Fragments
 {
     public class AddMedicineTherapyFragment : Android.App.Fragment
     {
-        private static VisitListFragment visitListFragment = new VisitListFragment();
+        private static ListRemindersFragment visitListFragment = new ListRemindersFragment();
 
         EditText medicineName;
         SeekBar seekbarFrequency;
@@ -36,7 +36,7 @@ namespace ZdrowiePlus.Fragments
         public DateTime dateTime;
         public static string pillName;
         public static List<DateTime> pillTimes = new List<DateTime>();
-        public static TimeListViewAdapter timeListAdapter;
+        public static ListViewTimeAdapter timeListAdapter;
         //public List<string> pillTimesString = new List<string>(); //add custom list adapter
         //ArrayAdapter<string> arrayTimeAdapter;
 
@@ -70,7 +70,7 @@ namespace ZdrowiePlus.Fragments
             pillTimesListView = view.FindViewById<ListView>(Resource.Id.listViewMedicine);
             pillTimesListView.FastScrollEnabled = true;
             //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, pillTimesString);
-            timeListAdapter = new TimeListViewAdapter(this.Activity, pillTimes);
+            timeListAdapter = new ListViewTimeAdapter(this.Activity, pillTimes);
             pillTimesListView.Adapter = timeListAdapter;
             pillTimesListView.ItemClick += PillTimesListView_ItemClick;
 

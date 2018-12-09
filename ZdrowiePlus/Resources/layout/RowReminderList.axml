@@ -7,30 +7,28 @@
 	android:paddingLeft="0dp"
 	android:paddingRight="0dp"
 	android:paddingTop="2dp"
-	android:paddingBottom="2dp"
-	android:background="#eeeeee"
-	android:id="@+id/layoutMeasurementRow">
+	android:paddingBottom="2dp" >
 	<LinearLayout
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent" >
 		<TextView
 			android:text="Date"
-			android:textSize="18sp"
+			android:textSize="17sp"
 			android:layout_width="0dp"
 			android:layout_weight="30"
 			android:layout_height="wrap_content"
 			android:gravity="right"
-			android:id="@+id/listMeasurementDate" />
+			android:id="@+id/txtDate" />
 		<TextView 
-			android:text=""
-			android:textSize="18sp"
+			android:text="Type"
+			android:textSize="16sp"
 			android:layout_width="0dp"
 			android:layout_weight="70"
 			android:layout_height="wrap_content"
 			android:gravity="right"
 			android:layout_marginRight="7dp"
-			android:id="@+id/listMeasurementType" />
+			android:id="@+id/txtType" />
 	</LinearLayout>
 	<LinearLayout
 		android:orientation="horizontal"
@@ -38,20 +36,20 @@
 		android:layout_height="match_parent" >
 		<TextView
 			android:text="Time"
-			android:textSize="18sp"
+			android:textSize="17sp"
 			android:layout_width="0dp"
 			android:layout_weight="30"
 			android:layout_height="wrap_content"
 			android:gravity="right"
-			android:id="@+id/listMeasurementTime" />
+			android:id="@+id/txtTime" />
 		<TextView
-			android:text="Value"
+			android:text="Title"
 			android:textSize="18sp"
 			android:layout_width="0dp"
 			android:layout_weight="70"
 			android:layout_height="wrap_content"
 			android:gravity="left"
 			android:layout_marginLeft="7dp"
-			android:id="@+id/listMeasurementValue" />
+			android:id="@+id/txtDesc" />
 	</LinearLayout>
 </LinearLayout>

@@ -22,8 +22,7 @@ namespace ZdrowiePlus
     {
         //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru - zrobione inaczej
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
-        //maksymalnie 500 alarmów - error
-        //dodać alarmy jako powtarzające (set repeating)
+        //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające (set repeating)
         //DODAC - ponowic notifikacje po reboot'cie telefonu - zrobione
         //zmiana czcionki w zależności od dpi
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
@@ -31,6 +30,7 @@ namespace ZdrowiePlus
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki
         //kolory pomiarów w zależności od norm
         //cukier na czczo czy po posiłku
+        //tętno w spoczynku
 
         //list of visits
         //public static List<Event> visitList = new List<Event>();
@@ -52,12 +52,12 @@ namespace ZdrowiePlus
         //private Stack<Fragment> stackFragment;
         private AddReminderFragment addReminderFragment;
         //private static AddVisitFragment addVisitFragment;
-        private static VisitListFragment visitListFragment;
+        private static ListRemindersFragment visitListFragment;
         //private static AddMedicineTherapyFragment medicineTherapyFragment;
-        private static HistoryListFragment historyListFragment;
+        private static ListHistoryFragment historyListFragment;
         private static CalendarFragment calendarFragment;
         private static AddMeasurementFragment addMeasurementFragment;
-        private static MeasurementsListFragment measurementsListFragment;
+        private static ListMeasurementsFragment measurementsListFragment;
         //private static AddMeasurementReminderFragment measurementReminderFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -100,12 +100,12 @@ namespace ZdrowiePlus
             //stackFragment = new Stack<Fragment>(); show fragment method
             addReminderFragment = new AddReminderFragment();
             //addVisitFragment = new AddVisitFragment();
-            visitListFragment = new VisitListFragment();
+            visitListFragment = new ListRemindersFragment();
             //medicineTherapyFragment = new AddMedicineTherapyFragment();
-            historyListFragment = new HistoryListFragment();
+            historyListFragment = new ListHistoryFragment();
             calendarFragment = new CalendarFragment();
             addMeasurementFragment = new AddMeasurementFragment();
-            measurementsListFragment = new MeasurementsListFragment();
+            measurementsListFragment = new ListMeasurementsFragment();
             //measurementReminderFragment = new AddMeasurementReminderFragment();
             var trans = FragmentManager.BeginTransaction();
 

@@ -22,7 +22,7 @@ namespace ZdrowiePlus.Fragments
 {
     public class AddMeasurementReminderFragment : Android.App.Fragment
     {
-        private static VisitListFragment visitListFragment = new VisitListFragment();
+        private static ListRemindersFragment remindersListFragment = new ListRemindersFragment();
 
         Spinner spinnerMeasurementType;
         SeekBar seekbarFrequency;
@@ -35,7 +35,7 @@ namespace ZdrowiePlus.Fragments
         public DateTime endDay;
         public DateTime dateTime;
         public List<DateTime> measurementTimes = new List<DateTime>();
-        public static TimeListViewAdapter timeListAdapter;
+        public static ListViewTimeAdapter timeListAdapter;
         //public List<string> measurementTimesString = new List<string>(); //add custom list adapter
         //ArrayAdapter<string> arrayTimeAdapter;
         MeasurementType measurementType;
@@ -72,7 +72,7 @@ namespace ZdrowiePlus.Fragments
             measurementTimesListView = view.FindViewById<ListView>(Resource.Id.listViewMeasurementReminder);
             measurementTimesListView.FastScrollEnabled = true;
             //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
-            timeListAdapter = new TimeListViewAdapter(this.Activity, measurementTimes);
+            timeListAdapter = new ListViewTimeAdapter(this.Activity, measurementTimes);
             measurementTimesListView.Adapter = timeListAdapter;
             measurementTimesListView.ItemClick += MeasurementTimesListView_ItemClick;
 
@@ -252,7 +252,7 @@ namespace ZdrowiePlus.Fragments
 
                                 //go to list after save
                                 var trans = FragmentManager.BeginTransaction();
-                                trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                                trans.Replace(Resource.Id.fragmentContainer, remindersListFragment);
                                 trans.AddToBackStack(null);
                                 trans.Commit();
 

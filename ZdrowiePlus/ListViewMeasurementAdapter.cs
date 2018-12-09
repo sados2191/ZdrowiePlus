@@ -12,12 +12,12 @@ using Android.Widget;
 
 namespace ZdrowiePlus
 {
-    public class MyListViewMeasurementAdapter : BaseAdapter<Measurement>
+    public class ListViewMeasurementAdapter : BaseAdapter<Measurement>
     {
         private List<Measurement> mItems;
         private Context mContext;
 
-        public MyListViewMeasurementAdapter(Context context, List<Measurement> items)
+        public ListViewMeasurementAdapter(Context context, List<Measurement> items)
         {
             mItems = items;
             mContext = context;
@@ -47,7 +47,7 @@ namespace ZdrowiePlus
 
             if (row == null)
             {
-                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.ListViewMeasurementRow, null, false);
+                row = LayoutInflater.From(mContext).Inflate(Resource.Layout.RowMeasurementList, null, false);
             }
 
             LinearLayout linearLayout = row.FindViewById<LinearLayout>(Resource.Id.layoutMeasurementRow);
@@ -91,7 +91,7 @@ namespace ZdrowiePlus
                     }
                     else if (value1 > 120 || value2 > 80)
                     {
-                        txtType.Text = "Wysokie prawidłowe";
+                        txtType.Text = "Prawidłowe podwyższone";
                         //txtValue.SetTextColor(Android.Graphics.Color.ParseColor("#ffff00"));
                         linearLayout.SetBackgroundColor(Android.Graphics.Color.ParseColor("#99b433"));
                     }

@@ -18,9 +18,9 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class MeasurementsListFragment : Android.App.Fragment
+    public class ListMeasurementsFragment : Android.App.Fragment
     {
-        public static MyListViewMeasurementAdapter measurementAdapter;
+        public static ListViewMeasurementAdapter measurementAdapter;
 
         ListView measurementListView;
         Spinner spinner;
@@ -39,7 +39,7 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View view = inflater.Inflate(Resource.Layout.MeasurementsList, container, false);
+            View view = inflater.Inflate(Resource.Layout.ListMeasurements, container, false);
 
             measurementListView = view.FindViewById<ListView>(Resource.Id.listViewMeasurements);
 
@@ -81,7 +81,7 @@ namespace ZdrowiePlus.Fragments
 
                 measurements = db.Table<Measurement>().Where(e => e.MeasurementType == measurementType && e.Date >= DateTime.Today).OrderByDescending(e => e.Date).ToList();
 
-                measurementAdapter = new MyListViewMeasurementAdapter(this.Activity, measurements);
+                measurementAdapter = new ListViewMeasurementAdapter(this.Activity, measurements);
                 measurementListView.Adapter = measurementAdapter;
                 measurementListView.FastScrollEnabled = true;
 
