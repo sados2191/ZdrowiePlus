@@ -6,12 +6,13 @@ using Android.App;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ZdrowiePlus")]
+[assembly: AssemblyTitle("Zdrowie Plus")]
+[assembly: Application(Icon = "@drawable/icon")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ZdrowiePlus")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyProduct("Zdrowie Plus")]
+[assembly: AssemblyCopyright("Copyright © Sebastian Sadowski 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

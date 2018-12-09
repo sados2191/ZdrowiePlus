@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace ZdrowiePlus
 {
-    [Activity(Label = "Zdrowie+", MainLauncher = true, Theme ="@style/MyTheme")]
+    [Activity(Label = "Zdrowie Plus", MainLauncher = true, Theme ="@style/MyTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
         //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru - zrobione inaczej
@@ -30,6 +30,7 @@ namespace ZdrowiePlus
         //okrągły przycisk do dodawania
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki
         //kolory pomiarów w zależności od norm
+        //cukier na czczo czy po posiłku
 
         //list of visits
         //public static List<Event> visitList = new List<Event>();
