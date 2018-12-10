@@ -28,6 +28,12 @@ namespace ZdrowiePlus
 
             // When user click notification start a activity
             Intent notifyIntent = new Intent(context, typeof(MainActivity));
+            if (title == "Pomiar")
+            {
+                notifyIntent.PutExtra("notification", "measurement");
+                int type = intent.GetIntExtra("type", 0);
+                notifyIntent.PutExtra("type", type);
+            }
             // Set the activity to start in a new, empty task
             //notifyIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
             PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, notifyIntent, PendingIntentFlags.UpdateCurrent);

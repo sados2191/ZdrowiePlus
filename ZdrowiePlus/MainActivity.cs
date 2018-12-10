@@ -20,6 +20,8 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie Plus", MainLauncher = true, Theme ="@style/MyTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
+        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar
+        //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić
         //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru - zrobione inaczej
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające (set repeating)
@@ -27,18 +29,18 @@ namespace ZdrowiePlus
         //zmiana czcionki w zależności od dpi
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
         //okrągły przycisk do dodawania
-        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki
         //kolory pomiarów w zależności od norm
         //cukier na czczo czy po posiłku
         //tętno w spoczynku
 
         //list of visits
         //public static List<Event> visitList = new List<Event>();
+
         //visit to edit
-        public static Event eventToEdit = new Event();
+        public static Event eventToEdit = new Event();//zmienic na przekazywanie w Bundle
 
         //list filter
-        public static int listFilter = 0;
+        public static int listFilter = 0;//zmienic tak jak w liscie pomiarów
 
         //left menu
         private MyActionBarDrawerToggle drawerToggle;
@@ -52,7 +54,7 @@ namespace ZdrowiePlus
         //private Stack<Fragment> stackFragment;
         private AddReminderFragment addReminderFragment;
         //private static AddVisitFragment addVisitFragment;
-        private static ListRemindersFragment visitListFragment;
+        private static ListRemindersFragment reminderListFragment;
         //private static AddMedicineTherapyFragment medicineTherapyFragment;
         private static ListHistoryFragment historyListFragment;
         private static CalendarFragment calendarFragment;
@@ -100,7 +102,7 @@ namespace ZdrowiePlus
             //stackFragment = new Stack<Fragment>(); show fragment method
             addReminderFragment = new AddReminderFragment();
             //addVisitFragment = new AddVisitFragment();
-            visitListFragment = new ListRemindersFragment();
+            reminderListFragment = new ListRemindersFragment();
             //medicineTherapyFragment = new AddMedicineTherapyFragment();
             historyListFragment = new ListHistoryFragment();
             calendarFragment = new CalendarFragment();
@@ -109,10 +111,22 @@ namespace ZdrowiePlus
             //measurementReminderFragment = new AddMeasurementReminderFragment();
             var trans = FragmentManager.BeginTransaction();
 
+            //check if notification opened the app
+            string notification = Intent.GetStringExtra("notification");
+            if (notification == "measurement")
+            {
+                Bundle bundle = new Bundle();
+                bundle.PutInt("type", Intent.GetIntExtra("type", 0));
+                addMeasurementFragment.Arguments = bundle;
+                trans.Add(Resource.Id.fragmentContainer, addMeasurementFragment);
+            }
+            else
+            {
+                trans.Add(Resource.Id.fragmentContainer, reminderListFragment, "RemaindersList");
+            }
+
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
             //trans.Hide(addVisitFragment);
-
-            trans.Add(Resource.Id.fragmentContainer, visitListFragment, "VisitList");
             //currentFragment = visitListFragment;
             //stackFragment.Push(currentFragment);
             trans.Commit();
@@ -191,7 +205,7 @@ namespace ZdrowiePlus
                 case 1:
                     this.Title = leftDataSet[e.Position];
                     //ShowFragment(visitListFragment);
-                    ReplaceFragment(visitListFragment);
+                    ReplaceFragment(reminderListFragment);
                     break;
                 //case 2:
                 //    this.Title = leftDataSet[e.Position];
@@ -251,15 +265,15 @@ namespace ZdrowiePlus
                     break;
                 case Resource.Id.menu_all:
                     listFilter = 0;
-                    ReplaceFragment(visitListFragment);
+                    ReplaceFragment(reminderListFragment);
                     break;
                 case Resource.Id.menu_visit:
                     listFilter = 1;
-                    ReplaceFragment(visitListFragment);
+                    ReplaceFragment(reminderListFragment);
                     break;
                 case Resource.Id.menu_medicine:
                     listFilter = 2;
-                    ReplaceFragment(visitListFragment);
+                    ReplaceFragment(reminderListFragment);
                     break;
                 case Resource.Id.menu_delete_events:
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
@@ -274,7 +288,7 @@ namespace ZdrowiePlus
                         alarmManager.Cancel(pendingIntent);
                     }
                     db.DeleteAll<Event>();
-                    ReplaceFragment(visitListFragment);
+                    ReplaceFragment(reminderListFragment);
                     break;
             }
 

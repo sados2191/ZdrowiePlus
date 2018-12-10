@@ -38,7 +38,7 @@ namespace ZdrowiePlus.Fragments
         public static ListViewTimeAdapter timeListAdapter;
         //public List<string> measurementTimesString = new List<string>(); //add custom list adapter
         //ArrayAdapter<string> arrayTimeAdapter;
-        MeasurementType measurementType;
+        //MeasurementType measurementType;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,7 +64,7 @@ namespace ZdrowiePlus.Fragments
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinnerMeasurementType.Adapter = adapter;
-            measurementType = (MeasurementType)spinnerMeasurementType.SelectedItemPosition;
+            //measurementType = (MeasurementType)spinnerMeasurementType.SelectedItemPosition;
 
             //times list
             //measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).ToString("HH:mm"));
@@ -241,6 +241,7 @@ namespace ZdrowiePlus.Fragments
                                 notificationIntent.PutExtra("message", $"{newEvent.Date.ToString("dd.MM.yyyy HH:mm")} {newEvent.Title}");
                                 notificationIntent.PutExtra("title", "Pomiar");
                                 notificationIntent.PutExtra("id", newEvent.Id);
+                                notificationIntent.PutExtra("type", spinnerMeasurementType.SelectedItemPosition);
 
                                 var timer = (long)newEvent.Date.ToUniversalTime().Subtract(
                                     new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
@@ -269,7 +270,7 @@ namespace ZdrowiePlus.Fragments
                 }
                 else
                 {
-                    Toast.MakeText(this.Activity, $"Zaplanowano {i} pomiarów", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Zaplanowano {i} pomiarów, pozycja spinnera {spinnerMeasurementType.SelectedItemPosition}", ToastLength.Short).Show();
                 }
             }
             else
@@ -304,7 +305,8 @@ namespace ZdrowiePlus.Fragments
 
         //private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         //{
-        //    selected = e.Position;
+        //    int selected = e.Position;
+        //    //Toast.MakeText(this.Activity, $"{selected}", ToastLength.Short).Show();
         //    measurementType = (MeasurementType)selected;
         //}
 

@@ -79,7 +79,7 @@ namespace ZdrowiePlus.Fragments
 
                 measurements = new List<Measurement>();
 
-                measurements = db.Table<Measurement>().Where(e => e.MeasurementType == measurementType && e.Date >= DateTime.Today).OrderByDescending(e => e.Date).ToList();
+                measurements = db.Table<Measurement>().Where(e => e.MeasurementType == measurementType).OrderByDescending(e => e.Date).ToList();
 
                 measurementAdapter = new ListViewMeasurementAdapter(this.Activity, measurements);
                 measurementListView.Adapter = measurementAdapter;

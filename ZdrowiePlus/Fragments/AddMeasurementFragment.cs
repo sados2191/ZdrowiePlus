@@ -49,18 +49,32 @@ namespace ZdrowiePlus.Fragments
             minute = currentTime.Minute;
 
             View view = inflater.Inflate(Resource.Layout.AddMeasurement, container, false);
-
+            
             //measurement type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.measurementSpinner);
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
+            //spinner.SetSelection(1, true);
 
+            //if opened by notification get measurement type position that was passed
+            if (Arguments != null)
+            {
+                //jak nie działa - if contain???
+                int spinnerPosition = Arguments.GetInt("type", 0);
+                spinner.SetSelection(spinnerPosition, true);
+                Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
+                //Arguments.Clear();
+                Arguments = null;
+            }
+
+            //additionals for blood presure
             linearLayout2 = view.FindViewById<LinearLayout>(Resource.Id.measurementLayout2);
 
             measurementValue = view.FindViewById<EditText>(Resource.Id.measurementValue);
             measurementValue2 = view.FindViewById<EditText>(Resource.Id.measurementValue2);
+
             //value unit
             valueUnit = view.FindViewById<TextView>(Resource.Id.measurementValueUnit);
             valueUnit2 = view.FindViewById<TextView>(Resource.Id.measurementValueUnit2);
