@@ -20,7 +20,7 @@ using SQLite;
 
 namespace ZdrowiePlus.Fragments
 {
-    public class EditVisitFragment : Android.App.Fragment
+    public class EditReminderFragment : Android.App.Fragment
     {
         private static ListRemindersFragment visitListFragment = new ListRemindersFragment();
 
@@ -28,6 +28,7 @@ namespace ZdrowiePlus.Fragments
         TextView eventTime;
         EditText eventTitle;
         EditText eventDescription;
+        Event eventToEdit;
         int year, month, day, hour, minute;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -39,31 +40,41 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            year = MainActivity.eventToEdit.Date.Year;
-            month = MainActivity.eventToEdit.Date.Month;
-            day = MainActivity.eventToEdit.Date.Day;
-            hour = MainActivity.eventToEdit.Date.Hour;
-            minute = MainActivity.eventToEdit.Date.Minute;
+            if (Arguments != null)
+            {
+                int id = Arguments.GetInt("id", 0);
+                Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
+                //Arguments.Clear();
+                Arguments = null;
 
-            View view = inflater.Inflate(Resource.Layout.EditVisit, container, false);
+                SelectEvent(id);
+            }
+
+            year = eventToEdit.Date.Year;
+            month = eventToEdit.Date.Month;
+            day = eventToEdit.Date.Day;
+            hour = eventToEdit.Date.Hour;
+            minute = eventToEdit.Date.Minute;
+
+            View view = inflater.Inflate(Resource.Layout.EditReminder, container, false);
 
             //date choosing
             eventDate = view.FindViewById<TextView>(Resource.Id.textEditDate);
-            eventDate.Text = MainActivity.eventToEdit.Date.ToLongDateString();
+            eventDate.Text = eventToEdit.Date.ToLongDateString();
             eventDate.Click += DateSelect_OnClick;
 
             //time choosing
             eventTime = view.FindViewById<TextView>(Resource.Id.textEditTime);
-            eventTime.Text = MainActivity.eventToEdit.Date.ToShortTimeString();
+            eventTime.Text = eventToEdit.Date.ToShortTimeString();
             eventTime.Click += TimeSelectOnClick;
 
             //title
             eventTitle = view.FindViewById<EditText>(Resource.Id.visitEditTitle);
-            eventTitle.Text = MainActivity.eventToEdit.Title;
+            eventTitle.Text = eventToEdit.Title;
 
             //description
             eventDescription = view.FindViewById<EditText>(Resource.Id.visitEditDescription);
-            eventDescription.Text = MainActivity.eventToEdit.Description;
+            eventDescription.Text = eventToEdit.Description;
 
             //Save visit button
             Button buttonSaveVisit = view.FindViewById<Button>(Resource.Id.btnSaveVisit);
@@ -76,7 +87,7 @@ namespace ZdrowiePlus.Fragments
             //Delete series button
             Button buttonDeleteSeries = view.FindViewById<Button>(Resource.Id.btnDeleteSeries);
             buttonDeleteSeries.Click += DeleteSeries;
-            if (MainActivity.eventToEdit.EventType == EventType.Medicine)
+            if (eventToEdit.EventType == EventType.Medicine || eventToEdit.EventType == EventType.Measurement)
             {
                 buttonDeleteSeries.Visibility = ViewStates.Visible;
             }
@@ -84,16 +95,23 @@ namespace ZdrowiePlus.Fragments
             return view;
         }
 
+        private void SelectEvent(int id)
+        {
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+            //db.CreateTable<Event>();
+            eventToEdit = db.Get<Event>(id);
+        }
+
         private void DeleteVisit(object sender, EventArgs e)
         {
             //delete from database
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Event>();
-            db.Delete(MainActivity.eventToEdit);
+            db.Delete(eventToEdit);
 
-            //canceling alarm manager
+            //cancel alarm manager
             Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, MainActivity.eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
             AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
             alarmManager.Cancel(pendingIntent);
 
@@ -109,7 +127,7 @@ namespace ZdrowiePlus.Fragments
             //selecting events to delete
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Event>();
-            var events = db.Table<Event>().Where(x => x.Title == MainActivity.eventToEdit.Title && x.Description == MainActivity.eventToEdit.Description)
+            var events = db.Table<Event>().Where(x => x.Title == eventToEdit.Title && x.Description == eventToEdit.Description)
                                           .OrderBy(x => x.Date).ToList();
             foreach (var item in events)
             {
@@ -131,10 +149,10 @@ namespace ZdrowiePlus.Fragments
 
         private void SaveVisit(object sender, EventArgs e)
         {
-            MainActivity.eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
-            MainActivity.eventToEdit.Title = eventTitle.Text;
-            MainActivity.eventToEdit.Description = eventDescription.Text;
-            if (MainActivity.eventToEdit.Title != string.Empty)
+            eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
+            eventToEdit.Title = eventTitle.Text;
+            eventToEdit.Description = eventDescription.Text;
+            if (eventToEdit.Title != string.Empty)
             {
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
                 {
@@ -143,21 +161,32 @@ namespace ZdrowiePlus.Fragments
                     //database connection
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                     db.CreateTable<Event>();
-                    db.Update(MainActivity.eventToEdit);
+                    db.Update(eventToEdit);
 
-                    Toast.MakeText(this.Activity, $"Zapisano\n{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}\n{MainActivity.eventToEdit.Id}", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Zapisano\n{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}\n{eventToEdit.Id}", ToastLength.Short).Show();
 
                     //Notification
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{MainActivity.eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {MainActivity.eventToEdit.Title}");
-                    notificationIntent.PutExtra("title", "Wizyta");
-                    notificationIntent.PutExtra("id", MainActivity.eventToEdit.Id);
+                    notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title}");
+                    if (eventToEdit.EventType == EventType.Visit)
+                    {
+                        notificationIntent.PutExtra("title", "Wizyta");
+                    }
+                    else if (eventToEdit.EventType == EventType.Medicine)
+                    {
+                        notificationIntent.PutExtra("title", "Leki");
+                    }
+                    else if (eventToEdit.EventType == EventType.Measurement)
+                    {
+                        notificationIntent.PutExtra("title", "Pomiar");
+                    }
+                    notificationIntent.PutExtra("id", eventToEdit.Id);
 
-                    var timer = (long)MainActivity.eventToEdit.Date.ToUniversalTime().Subtract(
+                    var timer = (long)eventToEdit.Date.ToUniversalTime().Subtract(
                         new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                         ).TotalMilliseconds;
 
-                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, MainActivity.eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
                     AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                     alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
 
@@ -219,8 +248,8 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
-            eventTitle.Text = MainActivity.eventToEdit.Title;
-            eventDescription.Text = MainActivity.eventToEdit.Description;
+            eventTitle.Text = eventToEdit.Title;
+            eventDescription.Text = eventToEdit.Description;
         }
     }
 }

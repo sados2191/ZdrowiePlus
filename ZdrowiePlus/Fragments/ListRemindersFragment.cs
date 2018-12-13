@@ -21,7 +21,7 @@ namespace ZdrowiePlus.Fragments
     public class ListRemindersFragment : Android.App.Fragment
     {
         public static ListViewReminderAdapter visitAdapter;
-        private static EditVisitFragment editVisitFragment = new EditVisitFragment();
+        private static EditReminderFragment editVisitFragment = new EditReminderFragment();
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
@@ -91,7 +91,13 @@ namespace ZdrowiePlus.Fragments
 
         private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            MainActivity.eventToEdit = events[e.Position];
+            //MainActivity.eventToEdit = events[e.Position];
+
+            int id = events[e.Position].Id; //przesłać id w bundlu
+
+            Bundle bundle = new Bundle();
+            bundle.PutInt("id", id);
+            editVisitFragment.Arguments = bundle;
 
             var trans = FragmentManager.BeginTransaction();
 

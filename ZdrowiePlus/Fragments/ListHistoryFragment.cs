@@ -21,7 +21,7 @@ namespace ZdrowiePlus.Fragments
     public class ListHistoryFragment : Android.App.Fragment
     {
         public static ListViewReminderAdapter visitAdapter;
-        private static EditVisitFragment editVisitFragment = new EditVisitFragment();
+        private static EditReminderFragment editVisitFragment = new EditReminderFragment();
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
@@ -75,7 +75,7 @@ namespace ZdrowiePlus.Fragments
                 visitListView.Adapter = visitAdapter;
                 visitListView.FastScrollEnabled = true;
 
-                visitListView.ItemClick += visitListView_ItemClick;
+                //visitListView.ItemClick += visitListView_ItemClick;
 
                 // Event list is empty
                 if (events.Count == 0)
@@ -131,7 +131,7 @@ namespace ZdrowiePlus.Fragments
 
         private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            MainActivity.eventToEdit = events[e.Position];
+            //MainActivity.eventToEdit = events[e.Position];
 
             var trans = FragmentManager.BeginTransaction();
 

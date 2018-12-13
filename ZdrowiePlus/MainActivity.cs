@@ -20,24 +20,18 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie Plus", MainLauncher = true, Theme ="@style/MyTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
+        //edytowanie pomiaru, zamiast edycji tytułu spiner
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar
         //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić
-        //sprawdzać wartość pomiaru regex? jednostka w zależności od wyboru - zrobione inaczej
+        //czy wszystkie fragmenty powinny miec AddToBackstack?
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające (set repeating)
-        //DODAC - ponowic notifikacje po reboot'cie telefonu - zrobione
         //zmiana czcionki w zależności od dpi
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
         //okrągły przycisk do dodawania
         //kolory pomiarów w zależności od norm
         //cukier na czczo czy po posiłku
         //tętno w spoczynku
-
-        //list of visits
-        //public static List<Event> visitList = new List<Event>();
-
-        //visit to edit
-        public static Event eventToEdit = new Event();//zmienic na przekazywanie w Bundle
 
         //list filter
         public static int listFilter = 0;//zmienic tak jak w liscie pomiarów
@@ -109,6 +103,7 @@ namespace ZdrowiePlus
             addMeasurementFragment = new AddMeasurementFragment();
             measurementsListFragment = new ListMeasurementsFragment();
             //measurementReminderFragment = new AddMeasurementReminderFragment();
+
             var trans = FragmentManager.BeginTransaction();
 
             //check if notification opened the app
@@ -118,7 +113,15 @@ namespace ZdrowiePlus
                 Bundle bundle = new Bundle();
                 bundle.PutInt("type", Intent.GetIntExtra("type", 0));
                 addMeasurementFragment.Arguments = bundle;
-                trans.Add(Resource.Id.fragmentContainer, addMeasurementFragment);
+                trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
+            }
+            else if (notification == "visit" || notification == "medicine")
+            {
+                EventFromNotificationFragment eventFragment = new EventFromNotificationFragment();
+                Bundle bundle = new Bundle();
+                bundle.PutInt("id", Intent.GetIntExtra("id", 0));
+                eventFragment.Arguments = bundle;
+                trans.Replace(Resource.Id.fragmentContainer, eventFragment);
             }
             else
             {
@@ -131,6 +134,34 @@ namespace ZdrowiePlus
             //stackFragment.Push(currentFragment);
             trans.Commit();
 
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+
+            var trans = FragmentManager.BeginTransaction();
+
+            //check if notification opened the app
+            string notification = intent.GetStringExtra("notification");
+            if (notification == "measurement")
+            {
+                Bundle bundle = new Bundle();
+                bundle.PutInt("type", intent.GetIntExtra("type", 0));
+                addMeasurementFragment.Arguments = bundle;
+                trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
+            }
+            else if (notification == "visit" || notification == "medicine")
+            {
+                EventFromNotificationFragment eventFragment = new EventFromNotificationFragment();
+                Bundle bundle = new Bundle();
+                bundle.PutInt("id", intent.GetIntExtra("id", 0));
+                eventFragment.Arguments = bundle;
+                trans.Replace(Resource.Id.fragmentContainer, eventFragment);
+            }
+
+            trans.AddToBackStack(null);
+            trans.Commit();
         }
 
         //show fragment method

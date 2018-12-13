@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<TextView
+		android:text="Tytuł"
+		android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+		android:gravity="center"
+		android:id="@+id/eventTitle" />
+    <TextView
+        android:text="Data:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:id="@+id/labelEventDate" />
+    <TextView
+        android:text="Data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:id="@+id/eventDate" />
+    <TextView
+        android:text="Godzina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:id="@+id/labelEventTime" />
+    <TextView
+        android:text="Godzina:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:id="@+id/eventTime" />
+	<TextView
+        android:text="Opis:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:id="@+id/labelEventDescription" />
+    <TextView
+		android:text=""
+		android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+        android:id="@+id/eventDescription" />
+</LinearLayout>

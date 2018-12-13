@@ -61,7 +61,7 @@ namespace ZdrowiePlus.Fragments
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            Spinner spinner = (Spinner)sender;
+            Spinner spinner = (Spinner)sender;//raczej niepotrzebne
             selected = e.Position;
             measurementType = (MeasurementType)selected;
             loadData(measurementType);

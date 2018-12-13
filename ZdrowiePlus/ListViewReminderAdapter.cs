@@ -36,7 +36,7 @@ namespace ZdrowiePlus
             }
         }
  
-        public override long GetItemId(int position)
+        public override long GetItemId(int position)//zmienic na zwracanie id z bazy?
         {
             return position;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -111,10 +112,10 @@ namespace ZdrowiePlus
                 case MeasurementType.Temperature:
                     txtValue.Text = $"{mItems[position].Value} °C";
 
-                    double value = double.Parse(mItems[position].Value);
+                    double value = double.Parse(mItems[position].Value, CultureInfo.InvariantCulture);//sprawdzic czy . czy ,
                     if (value < 35.9)
                     {
-                        txtType.Text = "Niska";
+                        txtType.Text = "Obniżona";
                         linearLayout.SetBackgroundColor(Android.Graphics.Color.ParseColor("#4da6ff"));
                     }
                     else if (value < 37)
