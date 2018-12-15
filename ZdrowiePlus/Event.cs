@@ -22,6 +22,7 @@ namespace ZdrowiePlus
         public int ReminderMinutesBefore { get; set; }
         public EventType EventType { get; set; }
         public string Description { get; set; }
+        //public MeasurementType MeasurementType { get; set; } // if event = measurement
     }
 
     public enum EventType

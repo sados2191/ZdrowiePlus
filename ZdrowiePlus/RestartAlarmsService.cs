@@ -40,9 +40,17 @@ namespace ZdrowiePlus
                 Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                 notificationIntent.PutExtra("message", $"{item.Date.ToString("dd.MM.yyyy HH:mm")} {item.Title}");
                 if (item.EventType == EventType.Visit)
+                {
                     notificationIntent.PutExtra("title", "Wizyta");
-                else
+                }
+                else if (item.EventType == EventType.Medicine)
+                {
                     notificationIntent.PutExtra("title", "Leki");
+                }
+                else if (item.EventType == EventType.Measurement)
+                {
+                    notificationIntent.PutExtra("title", "Pomiar");
+                }
                 notificationIntent.PutExtra("id", item.Id);
 
                 var timer = (long)item.Date.ToUniversalTime().Subtract(

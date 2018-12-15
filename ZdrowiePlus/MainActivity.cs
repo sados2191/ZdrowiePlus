@@ -20,7 +20,7 @@ namespace ZdrowiePlus
     [Activity(Label = "Zdrowie Plus", MainLauncher = true, Theme ="@style/MyTheme", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
-        //edytowanie pomiaru, zamiast edycji tytułu spiner
+        //edytowanie pomiaru, zamiast edycji tytułu, spiner
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar
         //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić
         //czy wszystkie fragmenty powinny miec AddToBackstack?

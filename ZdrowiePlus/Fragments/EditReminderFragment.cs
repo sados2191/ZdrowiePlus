@@ -29,6 +29,8 @@ namespace ZdrowiePlus.Fragments
         EditText eventTitle;
         EditText eventDescription;
         Event eventToEdit;
+        TextView eventType;
+        Spinner measurementSpinner;
         int year, month, day, hour, minute;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -57,6 +59,47 @@ namespace ZdrowiePlus.Fragments
             minute = eventToEdit.Date.Minute;
 
             View view = inflater.Inflate(Resource.Layout.EditReminder, container, false);
+            
+            //type
+            eventType = view.FindViewById<TextView>(Resource.Id.textEditType);
+            //eventType.Text = eventToEdit.EventType.ToString();
+            if (eventToEdit.EventType == EventType.Measurement)
+            {
+                eventType.Text = "Pomiar";
+            }
+            else if (eventToEdit.EventType == EventType.Visit)
+            {
+                eventType.Text = "Wizyta";
+            }
+            else if (eventToEdit.EventType == EventType.Medicine)
+            {
+                eventType.Text = "Leki";
+            }
+
+            //title
+            eventTitle = view.FindViewById<EditText>(Resource.Id.visitEditTitle);
+            eventTitle.Text = eventToEdit.Title;
+
+            //measurement type spinner
+            measurementSpinner = view.FindViewById<Spinner>(Resource.Id.editSpinner);
+            //measurementSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            measurementSpinner.Adapter = adapter;
+            //spinner.SetSelection(1, true);
+
+            if (eventToEdit.EventType == EventType.Measurement)
+            {
+                eventTitle.Visibility = ViewStates.Gone;
+                measurementSpinner.Visibility = ViewStates.Visible;
+
+                measurementSpinner.SetSelection(adapter.GetPosition(eventToEdit.Title), true);
+            }
+            else
+            {
+                eventTitle.Visibility = ViewStates.Visible;
+                measurementSpinner.Visibility = ViewStates.Gone;
+            }
 
             //date choosing
             eventDate = view.FindViewById<TextView>(Resource.Id.textEditDate);
@@ -67,10 +110,6 @@ namespace ZdrowiePlus.Fragments
             eventTime = view.FindViewById<TextView>(Resource.Id.textEditTime);
             eventTime.Text = eventToEdit.Date.ToShortTimeString();
             eventTime.Click += TimeSelectOnClick;
-
-            //title
-            eventTitle = view.FindViewById<EditText>(Resource.Id.visitEditTitle);
-            eventTitle.Text = eventToEdit.Title;
 
             //description
             eventDescription = view.FindViewById<EditText>(Resource.Id.visitEditDescription);
@@ -150,7 +189,15 @@ namespace ZdrowiePlus.Fragments
         private void SaveVisit(object sender, EventArgs e)
         {
             eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
-            eventToEdit.Title = eventTitle.Text;
+            if (eventToEdit.EventType == EventType.Measurement)
+            {
+                //eventToEdit.Title = measurementSpinner.GetItemAtPosition(measurementSpinner.SelectedItemPosition).ToString();
+                eventToEdit.Title = measurementSpinner.SelectedItem.ToString();
+            }
+            else
+            {
+                eventToEdit.Title = eventTitle.Text;
+            }
             eventToEdit.Description = eventDescription.Text;
             if (eventToEdit.Title != string.Empty)
             {

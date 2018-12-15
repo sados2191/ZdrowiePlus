@@ -3,11 +3,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+	<TextView
+        android:text="Typ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+		android:layout_marginRight="50dp"
+        android:textSize="14sp"
+        android:gravity="right"
+        android:id="@+id/textEditType" />
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:hint="Tytuł zdarzenia"
+		android:visibility="visible"
 		android:id="@+id/visitEditTitle" />
+	<Spinner
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="7dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:textSize="18sp"
+		android:visibility="gone"
+		android:prompt="@string/measurements_prompt"
+		android:id="@+id/editSpinner" />
     <TextView
         android:text="Data:"
         android:layout_width="match_parent"

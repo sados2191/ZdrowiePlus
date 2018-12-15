@@ -232,7 +232,8 @@ namespace ZdrowiePlus.Fragments
                             {
                                 var newEvent = new Event();
                                 newEvent.Date = date;
-                                newEvent.Title = spinnerMeasurementType.GetItemAtPosition(spinnerMeasurementType.SelectedItemPosition).ToString();
+                                //newEvent.Title = spinnerMeasurementType.GetItemAtPosition(spinnerMeasurementType.SelectedItemPosition).ToString();
+                                newEvent.Title = spinnerMeasurementType.SelectedItem.ToString();
                                 newEvent.EventType = EventType.Measurement;
                                 db.Insert(newEvent);
 
