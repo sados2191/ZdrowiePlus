@@ -86,7 +86,7 @@ namespace ZdrowiePlus.Fragments
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             measurementSpinner.Adapter = adapter;
-            //spinner.SetSelection(1, true);
+            //measurementSpinner.SetSelection(4, true);
 
             if (eventToEdit.EventType == EventType.Measurement)
             {
@@ -226,6 +226,7 @@ namespace ZdrowiePlus.Fragments
                     else if (eventToEdit.EventType == EventType.Measurement)
                     {
                         notificationIntent.PutExtra("title", "Pomiar");
+                        notificationIntent.PutExtra("type", measurementSpinner.SelectedItemPosition);
                     }
                     notificationIntent.PutExtra("id", eventToEdit.Id);
 
@@ -297,6 +298,11 @@ namespace ZdrowiePlus.Fragments
 
             eventTitle.Text = eventToEdit.Title;
             eventDescription.Text = eventToEdit.Description;
+
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            measurementSpinner.Adapter = adapter;
+            measurementSpinner.SetSelection(adapter.GetPosition(eventToEdit.Title), true);
         }
     }
 }

@@ -110,5 +110,21 @@ namespace ZdrowiePlus.Fragments
 
             }
         }
+
+        public override void OnViewStateRestored(Bundle savedInstanceState)
+        {
+            base.OnViewStateRestored(savedInstanceState);
+
+            //if opened by AddMeasurementFragment
+            if (Arguments != null)
+            {
+                //spinner.DispatchSetSelected(false);
+                int spinnerPosition = Arguments.GetInt("type", 0);
+                spinner.SetSelection(spinnerPosition, true);
+                Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
+                //Arguments.Clear();
+                Arguments = null;
+            }
+        }
     }
 }

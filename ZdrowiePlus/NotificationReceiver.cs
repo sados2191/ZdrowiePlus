@@ -37,16 +37,17 @@ namespace ZdrowiePlus
             if (title == "Wizyta")
             {
                 notifyIntent.PutExtra("notification", "visit");
-                notifyIntent.PutExtra("id", id);
+                //notifyIntent.PutExtra("id", id);
             }
             if (title == "Leki")
             {
                 notifyIntent.PutExtra("notification", "medicine");
-                notifyIntent.PutExtra("id", id);
+                //notifyIntent.PutExtra("id", id);
             }
+            notifyIntent.PutExtra("id", id);
             // Set the activity to start in a new, empty task
             notifyIntent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-            PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, notifyIntent, PendingIntentFlags.UpdateCurrent);
+            PendingIntent contentIntent = PendingIntent.GetActivity(context, id, notifyIntent, PendingIntentFlags.UpdateCurrent);
             // Create the TaskStackBuilder and add the intent, which inflates the back stack
             //Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(context);
             //stackBuilder.AddNextIntentWithParentStack(notifyIntent);

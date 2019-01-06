@@ -22,6 +22,8 @@ namespace ZdrowiePlus.Fragments
 {
     public class AddMeasurementFragment : Android.App.Fragment
     {
+        ListMeasurementsFragment measurementListFragment = new ListMeasurementsFragment();
+
         TextView dateDisplay;
         TextView timeDisplay;
         TextView valueUnit;
@@ -58,16 +60,18 @@ namespace ZdrowiePlus.Fragments
             spinner.Adapter = adapter;
             //spinner.SetSelection(1, true);
 
-            //if opened by notification get measurement type position that was passed
-            if (Arguments != null)
-            {
-                //jak nie działa - if contain???
-                int spinnerPosition = Arguments.GetInt("type", 0);
-                spinner.SetSelection(spinnerPosition, true);
-                Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
-                //Arguments.Clear();
-                Arguments = null;
-            }
+            ////if opened by notification get measurement type position that was passed
+            //moved to OnViewStateRestored
+            //if (Arguments != null)
+            //{
+            //    //jak nie działa - if contain???
+            //    //spinner.DispatchSetSelected(false);
+            //    int spinnerPosition = Arguments.GetInt("type", 0);
+            //    spinner.SetSelection(spinnerPosition, true);
+            //    Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
+            //    //Arguments.Clear();
+            //    Arguments = null;
+            //}
 
             //additionals for blood presure
             linearLayout2 = view.FindViewById<LinearLayout>(Resource.Id.measurementLayout2);
@@ -248,6 +252,13 @@ namespace ZdrowiePlus.Fragments
                     Toast.MakeText(this.Activity, $"Dodano\n{measurementTime.ToString("dd.MM.yyyy HH:mm")}\n{newMeasurement.Id}", ToastLength.Short).Show();
 
                     //go to list after save
+                    var trans = FragmentManager.BeginTransaction();
+                    Bundle bundle = new Bundle();
+                    bundle.PutInt("type", measurementType);
+                    measurementListFragment.Arguments = bundle;
+                    trans.Replace(Resource.Id.fragmentContainer, measurementListFragment);
+                    trans.AddToBackStack(null);
+                    trans.Commit();
                 }
                 else
                 {
@@ -305,6 +316,31 @@ namespace ZdrowiePlus.Fragments
             timeDisplay.Text = currentTime.ToShortTimeString();
             measurementValue.Text = String.Empty;
             measurementValue2.Text = String.Empty;
+
+            //if (Arguments != null)
+            //{
+            //    int spinnerPosition = Arguments.GetInt("type", 0);
+            //    spinner.SetSelection(spinnerPosition, true);
+            //    //Arguments.Clear();
+            //    Arguments = null;
+            //}
+        }
+
+        public override void OnViewStateRestored(Bundle savedInstanceState)
+        {
+            base.OnViewStateRestored(savedInstanceState);
+
+            //if opened by notification get measurement type position that was passed
+            if (Arguments != null)
+            {
+                //jak nie działa - if contain???
+                //spinner.DispatchSetSelected(false);
+                int spinnerPosition = Arguments.GetInt("type", 0);
+                spinner.SetSelection(spinnerPosition, true);
+                Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
+                //Arguments.Clear();
+                Arguments = null;
+            }
         }
     }
 }
