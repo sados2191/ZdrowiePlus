@@ -18,15 +18,15 @@ using System.Linq;
 
 namespace ZdrowiePlus
 {
-    [Activity(Label = "Zdrowie Plus", MainLauncher = true, Theme ="@style/MyTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej
         //sprawdzić czy OnNewIntent jest potrzebne
         //usunąć toolbar menu z prawego rogu
         //edytowanie pomiaru, zamiast edycji tytułu spiner - zrobione
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar
         //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić
-        //czy wszystkie fragmenty powinny miec AddToBackstack?
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające (set repeating)
         //zmiana czcionki w zależności od dpi
@@ -63,6 +63,8 @@ namespace ZdrowiePlus
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            SetTheme(Resource.Style.MyTheme);
+
             base.OnCreate(savedInstanceState);
 
             // Set our view from the "main" layout resource

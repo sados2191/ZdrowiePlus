@@ -2240,26 +2240,26 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f02006c
-			public const int avd_hide_password_1 = 2130837612;
-			
-			// aapt resource value: 0x7f02006d
-			public const int avd_hide_password_2 = 2130837613;
-			
 			// aapt resource value: 0x7f02006e
-			public const int avd_hide_password_3 = 2130837614;
+			public const int avd_hide_password_1 = 2130837614;
+			
+			// aapt resource value: 0x7f02006f
+			public const int avd_hide_password_2 = 2130837615;
+			
+			// aapt resource value: 0x7f020070
+			public const int avd_hide_password_3 = 2130837616;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f02006f
-			public const int avd_show_password_1 = 2130837615;
-			
-			// aapt resource value: 0x7f020070
-			public const int avd_show_password_2 = 2130837616;
-			
 			// aapt resource value: 0x7f020071
-			public const int avd_show_password_3 = 2130837617;
+			public const int avd_show_password_1 = 2130837617;
+			
+			// aapt resource value: 0x7f020072
+			public const int avd_show_password_2 = 2130837618;
+			
+			// aapt resource value: 0x7f020073
+			public const int avd_show_password_3 = 2130837619;
 			
 			// aapt resource value: 0x7f020055
 			public const int design_bottom_navigation_item_background = 2130837589;
@@ -2283,52 +2283,58 @@ namespace ZdrowiePlus
 			public const int icon = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int navigation_empty_icon = 2130837596;
+			public const int nav_header = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int notification_action_background = 2130837597;
+			public const int navigation_empty_icon = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int notification_bg = 2130837598;
+			public const int notification_action_background = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int notification_bg_low = 2130837599;
+			public const int notification_bg = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int notification_bg_low_normal = 2130837600;
+			public const int notification_bg_low = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int notification_bg_low_pressed = 2130837601;
+			public const int notification_bg_low_normal = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int notification_bg_normal = 2130837602;
+			public const int notification_bg_low_pressed = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int notification_bg_normal_pressed = 2130837603;
+			public const int notification_bg_normal = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int notification_icon_background = 2130837604;
-			
-			// aapt resource value: 0x7f02006a
-			public const int notification_template_icon_bg = 2130837610;
-			
-			// aapt resource value: 0x7f02006b
-			public const int notification_template_icon_low_bg = 2130837611;
+			public const int notification_bg_normal_pressed = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int notification_tile_bg = 2130837605;
+			public const int notification_icon_background = 2130837605;
+			
+			// aapt resource value: 0x7f02006c
+			public const int notification_template_icon_bg = 2130837612;
+			
+			// aapt resource value: 0x7f02006d
+			public const int notification_template_icon_low_bg = 2130837613;
 			
 			// aapt resource value: 0x7f020066
-			public const int notify_panel_notification_icon_bg = 2130837606;
+			public const int notification_tile_bg = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int outline_info_white_24 = 2130837607;
+			public const int notify_panel_notification_icon_bg = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int tooltip_frame_dark = 2130837608;
+			public const int outline_info_white_24 = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int tooltip_frame_light = 2130837609;
+			public const int splash = 2130837609;
+			
+			// aapt resource value: 0x7f02006a
+			public const int tooltip_frame_dark = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public const int tooltip_frame_light = 2130837611;
 			
 			static Drawable()
 			{
@@ -4187,14 +4193,14 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090161
 			public const int Base_Widget_Design_TabLayout = 2131296609;
 			
-			// aapt resource value: 0x7f090184
-			public const int ListFont = 2131296644;
-			
-			// aapt resource value: 0x7f090181
-			public const int MyDrawerArrowStyle = 2131296641;
+			// aapt resource value: 0x7f090183
+			public const int ListFont = 2131296643;
 			
 			// aapt resource value: 0x7f090180
 			public const int MyTheme = 2131296640;
+			
+			// aapt resource value: 0x7f090184
+			public const int MyTheme_Splash = 2131296644;
 			
 			// aapt resource value: 0x7f09001e
 			public const int Platform_AppCompat = 2131296286;
@@ -4280,11 +4286,11 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090038
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131296312;
 			
-			// aapt resource value: 0x7f090183
-			public const int SpinnerDatePicker = 2131296643;
-			
 			// aapt resource value: 0x7f090182
-			public const int SpinnerTimePicker = 2131296642;
+			public const int SpinnerDatePicker = 2131296642;
+			
+			// aapt resource value: 0x7f090181
+			public const int SpinnerTimePicker = 2131296641;
 			
 			// aapt resource value: 0x7f0900c7
 			public const int TextAppearance_AppCompat = 2131296455;
