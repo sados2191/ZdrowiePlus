@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.DrawerLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <!-- The Main Content View -->
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<include
+			android:id="@+id/toolbar"
+			layout="@layout/toolbar" />
+
+		<!-- The Main Content View -->
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+	</LinearLayout>
+
     <!-- The Left Navigation Drawer -->
-        <ListView
-            android:id="@+id/left_drawer"
-            android:layout_height="match_parent"
-            android:layout_width="240dp"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:divider="#38bcfc"
-            android:dividerHeight="1dp"
-			android:textColor="#000000"
-            android:background="#F2F2F2" />
-    </android.support.v4.widget.DrawerLayout>
-</LinearLayout>
+	<android.support.design.widget.NavigationView
+		android:id="@+id/nav_view"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		app:headerLayout="@layout/nav_header"
+		app:menu="@menu/menu_nav" />    
+</android.support.v4.widget.DrawerLayout>

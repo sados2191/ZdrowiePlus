@@ -132,6 +132,7 @@
     <Compile Include="Fragments\ListHistoryFragment.cs" />
     <Compile Include="Fragments\AddMedicineTherapyFragment.cs" />
     <Compile Include="Fragments\ListRemindersFragment.cs" />
+    <Compile Include="MainActivity_old.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Measurement.cs" />
     <Compile Include="ListViewTimeAdapter.cs" />
@@ -155,7 +156,7 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml">
+    <AndroidResource Include="Resources\layout\Main_old.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -283,6 +284,22 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\EventFormNotification.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Main.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\nav_header.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\menu_nav.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+    <item
+      android:id="@+id/nav_addReminder"
+      android:icon="@android:drawable/ic_menu_add"
+      android:title="Dodaj przypomnienie" />
+    <item
+      android:id="@+id/nav_reminders"
+      android:icon="@android:drawable/ic_menu_agenda"
+      android:title="Przypomnienia"
+      android:checked="true" />
+    <item
+      android:id="@+id/nav_addMeasurement"
+      android:icon="@android:drawable/ic_menu_add"
+      android:title="Dodaj pomiar" />
+    <item
+      android:id="@+id/nav_measurements"
+      android:icon="@android:drawable/ic_menu_agenda"
+      android:title="Lista pomiarów" />
+    <item
+      android:id="@+id/nav_history"
+      android:icon="@android:drawable/ic_menu_my_calendar"
+      android:title="Historia" />
+    <item
+      android:id="@+id/nav_calendar"
+      android:icon="@android:drawable/ic_menu_today"
+      android:title="Kalendarz" />
+  </group>
+
+  <item android:title="Informacje">
+    <menu>
+      <item
+        android:id="@+id/nav_about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="O aplikacji" />
+      <item
+        android:id="@+id/nav_close"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Zamknij aplikację" />
+    </menu>
+  </item>
+</menu>

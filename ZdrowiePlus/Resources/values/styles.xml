@@ -2,6 +2,7 @@
 <resources>
   <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="colorPrimary">#039BE5</item>
+    <item name="colorPrimaryDark">#026899</item>
     <item name="android:itemBackground">#0376b0</item>
     <item name="drawerArrowStyle">@style/MyDrawerArrowStyle</item>
     <item name="colorAccent">#02547E</item>

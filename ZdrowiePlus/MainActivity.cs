@@ -8,6 +8,7 @@ using Android.Content;
 using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.V7.App;
 using Android.Support.V4.Widget;
+using Android.Support.Design.Widget;
 using ZdrowiePlus.Fragments;
 using Android.Content.PM;
 using Android.Runtime;
@@ -18,7 +19,7 @@ using System.Linq;
 namespace ZdrowiePlus
 {
     [Activity(Label = "Zdrowie Plus", MainLauncher = true, Theme ="@style/MyTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         //sprawdzić czy OnNewIntent jest potrzebne
         //usunąć toolbar menu z prawego rogu
@@ -38,12 +39,14 @@ namespace ZdrowiePlus
         //list filter
         public static int listFilter = 0;//zmienic tak jak w liscie pomiarów
 
-        //left menu
-        private MyActionBarDrawerToggle drawerToggle;
+        ////left menu
+        //private MyActionBarDrawerToggle drawerToggle;
+        private ActionBarDrawerToggle drawerToggle;
         private DrawerLayout drawerLayout;
-        private ListView leftDrawer;
-        private ArrayAdapter leftAdapter;
-        private List<string> leftDataSet;
+        NavigationView navigationView;
+        //private ListView leftDrawer;
+        //private ArrayAdapter leftAdapter;
+        //private List<string> leftDataSet;
 
         //fragments
         //private Fragment currentFragment; show fragment method
@@ -69,26 +72,35 @@ namespace ZdrowiePlus
             var toolbar = FindViewById<SupportToolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
+            ////left menu
+            //drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            //leftDrawer = FindViewById<ListView>(Resource.Id.left_drawer);
+            //drawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, Resource.String.openDrawer, Resource.String.closeDrawer);
+            //drawerLayout.AddDrawerListener(drawerToggle);
+            //SupportActionBar.SetHomeButtonEnabled(true);
+            //SupportActionBar.SetDisplayShowTitleEnabled(true);
+            //SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            //drawerToggle.SyncState();
+            //leftDataSet = new List<string>();
+            //leftDataSet.Add("Dodaj przypomnienie");
+            //leftDataSet.Add("Przypomnienia");
+            //leftDataSet.Add("Dodaj pomiar");
+            //leftDataSet.Add("Lista pomiarów");
+            //leftDataSet.Add("Historia");
+            //leftDataSet.Add("Kalendarz");
+            //leftDataSet.Add("Zamknij aplikację");
+            //leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
+            //leftDrawer.Adapter = leftAdapter;
+            //leftDrawer.ItemClick += leftDrawer_ItemClick;
+
             //left menu
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            leftDrawer = FindViewById<ListView>(Resource.Id.left_drawer);
-            drawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, Resource.String.openDrawer, Resource.String.closeDrawer);
+            drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, Resource.String.openDrawer, Resource.String.closeDrawer);
             drawerLayout.AddDrawerListener(drawerToggle);
-            SupportActionBar.SetHomeButtonEnabled(true);
-            SupportActionBar.SetDisplayShowTitleEnabled(true);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             drawerToggle.SyncState();
-            leftDataSet = new List<string>();
-            leftDataSet.Add("Dodaj przypomnienie");
-            leftDataSet.Add("Przypomnienia");
-            leftDataSet.Add("Dodaj pomiar");
-            leftDataSet.Add("Lista pomiarów");
-            leftDataSet.Add("Historia");
-            leftDataSet.Add("Kalendarz");
-            leftDataSet.Add("Zamknij aplikację");
-            leftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftDataSet);
-            leftDrawer.Adapter = leftAdapter;
-            leftDrawer.ItemClick += leftDrawer_ItemClick;
+            navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            //navigationView.NavigationItemSelected += leftNavigation_ItemClick;
+            navigationView.SetNavigationItemSelectedListener(this);
 
             //fragments
             //stackFragment = new Stack<Fragment>(); show fragment method
@@ -125,7 +137,7 @@ namespace ZdrowiePlus
             }
             else
             {
-                trans.Add(Resource.Id.fragmentContainer, reminderListFragment, "RemaindersList");
+                trans.Add(Resource.Id.fragmentContainer, reminderListFragment);
             }
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
@@ -217,7 +229,7 @@ namespace ZdrowiePlus
             ////test
 
             trans.Replace(Resource.Id.fragmentContainer, fragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null); sprawdzic czy działa, nie chcemy wracac po fragmentach
             trans.Commit();
         }
 
@@ -233,47 +245,104 @@ namespace ZdrowiePlus
             //    base.OnBackPressed();
             //}
 
-            base.OnBackPressed();
+            if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
+            {
+                drawerLayout.CloseDrawer((int)GravityFlags.Start);
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
         }
 
-        //left menu item click
-        private void leftDrawer_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        ////left menu item click
+        //private void leftDrawer_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        //{
+        //    switch (e.Position)
+        //    {
+        //        case 0:
+        //            this.Title = leftDataSet[e.Position];
+        //            ReplaceFragment(addReminderFragment);
+        //            break;
+        //        case 1:
+        //            this.Title = leftDataSet[e.Position];
+        //            //ShowFragment(visitListFragment);
+        //            ReplaceFragment(reminderListFragment);
+        //            break;
+        //        case 2:
+        //            this.Title = leftDataSet[e.Position];
+        //            ReplaceFragment(addMeasurementFragment);
+        //            break;
+        //        case 3:
+        //            this.Title = leftDataSet[e.Position];
+        //            ReplaceFragment(measurementsListFragment);
+        //            break;
+        //        case 4:
+        //            this.Title = leftDataSet[e.Position];
+        //            ReplaceFragment(historyListFragment);
+        //            break;
+        //        case 5:
+        //            this.Title = leftDataSet[e.Position];
+        //            ReplaceFragment(calendarFragment);
+        //            break;
+        //        case 6:
+        //            this.Finish();
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    //Toast.MakeText(this, leftDataSet[e.Position], ToastLength.Short).Show();
+        //    drawerLayout.CloseDrawer((int)GravityFlags.Left);
+        //}
+
+        //private void leftNavigation_ItemClick(object sender, NavigationView.NavigationItemSelectedEventArgs e)
+        //{
+        //    drawerLayout.CloseDrawer((int)GravityFlags.Start);
+        //}
+
+        public bool OnNavigationItemSelected(IMenuItem item)
         {
-            switch (e.Position)
+            switch (item.ItemId)
             {
-                case 0:
-                    this.Title = leftDataSet[e.Position];
+                case Resource.Id.nav_addReminder:
+                    this.Title = item.TitleFormatted.ToString();
                     ReplaceFragment(addReminderFragment);
                     break;
-                case 1:
-                    this.Title = leftDataSet[e.Position];
-                    //ShowFragment(visitListFragment);
+                case Resource.Id.nav_reminders:
+                    this.Title = item.TitleFormatted.ToString();
                     ReplaceFragment(reminderListFragment);
                     break;
-                case 2:
-                    this.Title = leftDataSet[e.Position];
+                case Resource.Id.nav_addMeasurement:
+                    this.Title = item.TitleFormatted.ToString();
                     ReplaceFragment(addMeasurementFragment);
                     break;
-                case 3:
-                    this.Title = leftDataSet[e.Position];
+                case Resource.Id.nav_measurements:
+                    this.Title = item.TitleFormatted.ToString();
                     ReplaceFragment(measurementsListFragment);
                     break;
-                case 4:
-                    this.Title = leftDataSet[e.Position];
+                case Resource.Id.nav_history:
+                    this.Title = item.TitleFormatted.ToString();
                     ReplaceFragment(historyListFragment);
                     break;
-                case 5:
-                    this.Title = leftDataSet[e.Position];
+                case Resource.Id.nav_calendar:
+                    this.Title = item.TitleFormatted.ToString();
                     ReplaceFragment(calendarFragment);
                     break;
-                case 6:
+                case Resource.Id.nav_close:
                     this.Finish();
                     break;
+                case Resource.Id.nav_about:
+                    Toast.MakeText(this, Resource.String.app_name, ToastLength.Short).Show();
+                    break;
                 default:
+                    this.Title = item.TitleFormatted.ToString();
+                    ReplaceFragment(reminderListFragment);
                     break;
             }
-            //Toast.MakeText(this, leftDataSet[e.Position], ToastLength.Short).Show();
-            drawerLayout.CloseDrawer((int)GravityFlags.Left);
+
+            drawerLayout.CloseDrawer((int)GravityFlags.Start);
+
+            return true;
         }
 
         //toolbar menu initialization
