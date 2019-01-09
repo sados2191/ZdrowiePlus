@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
+using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -20,12 +21,12 @@ namespace ZdrowiePlus.Fragments
 {
     public class ListRemindersFragment : Android.App.Fragment
     {
-        public static ListViewReminderAdapter visitAdapter;
-        private static EditReminderFragment editVisitFragment = new EditReminderFragment();
+        private static EditReminderFragment editReminderFragment = new EditReminderFragment();
         private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
-        ListView visitListView;
+        ListReminderAdapter reminderAdapter;
+        RecyclerView reminderRecyclerView;
         Button buttonAddMedicine;
         Button buttonAddVisit;
         Spinner spinner;
@@ -43,12 +44,15 @@ namespace ZdrowiePlus.Fragments
         {
             View view = inflater.Inflate(Resource.Layout.ListReminders, container, false);
 
-            visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
+            reminderRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerViewReminders);
+            reminderRecyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
+            reminderRecyclerView.HasFixedSize = true;
+
             buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
             buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
 
             //event type spinner
-            spinner = view.FindViewById<Spinner>(Resource.Id.visitSpinner);
+            spinner = view.FindViewById<Spinner>(Resource.Id.reminderSpinner);
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
@@ -57,7 +61,7 @@ namespace ZdrowiePlus.Fragments
             //MainActivity.visitList.Clear();
             loadData();
 
-            visitListView.ItemClick += visitListView_ItemClick;
+            //reminderAdapter.ItemClick += reminderCard_ItemClick;
             buttonAddMedicine.Click += AddMedicine;
             buttonAddVisit.Click += AddVisit;
 
@@ -89,19 +93,19 @@ namespace ZdrowiePlus.Fragments
             trans.Commit();
         }
 
-        private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        private void reminderCard_ItemClick(object sender, int position)
         {
             //MainActivity.eventToEdit = events[e.Position];
 
-            int id = events[e.Position].Id; //przesłać id w bundlu
+            int id = events[position].Id; //przesłać id w bundlu
 
             Bundle bundle = new Bundle();
             bundle.PutInt("id", id);
-            editVisitFragment.Arguments = bundle;
+            editReminderFragment.Arguments = bundle;
 
             var trans = FragmentManager.BeginTransaction();
 
-            trans.Replace(Resource.Id.fragmentContainer, editVisitFragment);
+            trans.Replace(Resource.Id.fragmentContainer, editReminderFragment);
             trans.AddToBackStack(null);
             trans.Commit();
         }
@@ -141,9 +145,9 @@ namespace ZdrowiePlus.Fragments
                 //    MainActivity.visitList.Add(visit);
                 //}
 
-                visitAdapter = new ListViewReminderAdapter(this.Activity, /* MainActivity.visitList */ events);
-                visitListView.Adapter = visitAdapter;
-                visitListView.FastScrollEnabled = true;
+                reminderAdapter = new ListReminderAdapter(events);
+                reminderAdapter.ItemClick += reminderCard_ItemClick;
+                reminderRecyclerView.SetAdapter(reminderAdapter);
 
                 // Event list is empty
                 if (events.Count == 0)

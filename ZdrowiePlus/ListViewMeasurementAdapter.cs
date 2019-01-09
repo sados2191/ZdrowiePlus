@@ -69,8 +69,8 @@ namespace ZdrowiePlus
                     txtValue.Text = $"{mItems[position].Value} mmHG";
 
                     string[] values = mItems[position].Value.Split('/');
-                    int value1 = int.Parse(values[0]);
-                    int value2 = int.Parse(values[1]);
+                    double value1 = double.Parse(values[0], CultureInfo.InvariantCulture);
+                    double value2 = double.Parse(values[1], CultureInfo.InvariantCulture);
 
                     if (value1 > 180 || value2 > 110)
                     {
@@ -138,12 +138,12 @@ namespace ZdrowiePlus
                     txtValue.Text = $"{mItems[position].Value} kg";
 
                     txtType.Text = "Waga";
-                    double valueW = double.Parse(mItems[position].Value);
+                    double valueW = double.Parse(mItems[position].Value, CultureInfo.InvariantCulture);
                     break;
                 case MeasurementType.GlucoseLevel:
                     txtValue.Text = $"{mItems[position].Value} mg/dL";
 
-                    int valueG = int.Parse(mItems[position].Value);
+                    double valueG = double.Parse(mItems[position].Value, CultureInfo.InvariantCulture);
                     // na czczo
                     if (valueG < 70)
                     {
@@ -168,7 +168,7 @@ namespace ZdrowiePlus
                     break;
                 case MeasurementType.HeartRate:
                     txtValue.Text = $"{mItems[position].Value} ud/min";
-                    int valueH = int.Parse(mItems[position].Value);
+                    double valueH = double.Parse(mItems[position].Value, CultureInfo.InvariantCulture);
                     //spoczynkowe
                     if (valueH < 60)
                     {

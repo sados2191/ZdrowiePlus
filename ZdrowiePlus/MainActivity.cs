@@ -25,7 +25,7 @@ namespace ZdrowiePlus
         //sprawdzić czy OnNewIntent jest potrzebne
         //usunąć toolbar menu z prawego rogu
         //edytowanie pomiaru, zamiast edycji tytułu spiner - zrobione
-        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar
+        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar, jako nowe aktywności???
         //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające (set repeating)

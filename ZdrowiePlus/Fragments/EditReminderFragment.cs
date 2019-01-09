@@ -22,7 +22,7 @@ namespace ZdrowiePlus.Fragments
 {
     public class EditReminderFragment : Android.App.Fragment
     {
-        private static ListRemindersFragment visitListFragment = new ListRemindersFragment();
+        private static ListRemindersFragment reminderListFragment = new ListRemindersFragment();
 
         TextView eventDate;
         TextView eventTime;
@@ -156,7 +156,7 @@ namespace ZdrowiePlus.Fragments
 
             //go to list after delete
             var trans = FragmentManager.BeginTransaction();
-            trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+            trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
             trans.AddToBackStack(null);
             trans.Commit();
         }
@@ -181,7 +181,7 @@ namespace ZdrowiePlus.Fragments
 
             //go to list after delete
             var trans = FragmentManager.BeginTransaction();
-            trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+            trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
             trans.AddToBackStack(null);
             trans.Commit();
         }
@@ -240,7 +240,7 @@ namespace ZdrowiePlus.Fragments
 
                     //go to list after save
                     var trans = FragmentManager.BeginTransaction();
-                    trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                    trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
                     trans.AddToBackStack(null);
                     trans.Commit();
                 }
