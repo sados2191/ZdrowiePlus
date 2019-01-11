@@ -61,6 +61,7 @@
 			android:layout_height="wrap_content"
 			android:hint="Wynik pomiaru"
 			android:inputType="numberDecimal"
+			android:imeOptions="actionDone"
 			android:id="@+id/measurementValue" />
 		<TextView
 			android:text="jednostka"
@@ -83,6 +84,7 @@
 			android:layout_height="wrap_content"
 			android:hint="Wynik pomiaru"
 			android:inputType="numberDecimal"
+			android:imeOptions="actionDone"
 			android:id="@+id/measurementValue2" />
 		<TextView
 			android:text="jednostka"

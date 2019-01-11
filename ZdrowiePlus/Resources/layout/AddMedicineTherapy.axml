@@ -11,6 +11,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:hint="Nazwa leku"
+		android:inputType="text"
+		android:imeOptions="actionDone"
 		android:id="@+id/medicineName" />
 	<LinearLayout
         android:layout_width="match_parent"

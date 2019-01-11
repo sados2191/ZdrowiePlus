@@ -7,7 +7,9 @@
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:hint="Typ wizyty"
+		android:hint="Specjalność lekarza"
+		android:inputType="text"
+		android:imeOptions="actionDone"
 		android:id="@+id/visitTitle" />
 	<TextView
 		android:text="Wybierz datę:"
@@ -64,6 +66,7 @@
 			android:id="@+id/labelAddVisitReminder" />
 		<EditText
 			android:inputType="number"
+			android:imeOptions="actionDone"
 			android:maxLength="3"
 			android:selectAllOnFocus="true"
 			android:layout_width="0dp"
@@ -82,6 +85,8 @@
 	</LinearLayout>
 	<EditText
 		android:inputType="textMultiLine"
+		android:maxLines="4"
+		android:scrollbars="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:hint="Opis wizyty"

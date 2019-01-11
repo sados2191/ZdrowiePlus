@@ -4280,14 +4280,11 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f080003
 			public const int CardView_Light = 2131230723;
 			
-			// aapt resource value: 0x7f080187
-			public const int ListFont = 2131231111;
-			
 			// aapt resource value: 0x7f080184
 			public const int MyTheme = 2131231108;
 			
-			// aapt resource value: 0x7f080188
-			public const int MyTheme_Splash = 2131231112;
+			// aapt resource value: 0x7f080187
+			public const int MyTheme_Splash = 2131231111;
 			
 			// aapt resource value: 0x7f080022
 			public const int Platform_AppCompat = 2131230754;

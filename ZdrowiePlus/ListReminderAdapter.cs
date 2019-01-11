@@ -42,7 +42,7 @@ namespace ZdrowiePlus
         {
             MyViewHolder reminder = holder as MyViewHolder;
 
-            reminder.reminderDate.Text = mItems[position].Date.ToString("dd.MM.yyyy HH:mm");
+            reminder.reminderDate.Text = mItems[position].Date.ToString("dd/MM/yyyy HH:mm");
             reminder.reminderTitle.Text = mItems[position].Title;
 
             switch (mItems[position].EventType)

@@ -4,26 +4,47 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-	<Spinner
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+
+	<LinearLayout
 		android:layout_marginTop="7dp"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:id="@+id/reminderSpinner" />
+		android:layout_marginLeft="5dp"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:text="Wyświetl:"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			android:layout_marginRight="6dp"
+			android:textColor="#404040" />
+
+		<Spinner
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:dropDownSelector="#ffe1d2"
+			android:popupBackground="#ffffff"
+			android:spinnerMode="dropdown"
+			android:id="@+id/reminderSpinner" />
+
+	</LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 		android:padding="4dp"
 		android:scrollbars="vertical"
-		android:background="#d5f1fe"
         android:id="@+id/recyclerViewReminders" />
+
 	<Button
 		android:text="Dodaj wizytę"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:visibility="invisible"
 		android:id="@+id/btnAddVisit_list" />
+
 	<Button
 		android:text="Dodaj terapię lekami"
 		android:layout_width="match_parent"
