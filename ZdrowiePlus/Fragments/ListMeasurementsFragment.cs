@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
+using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -20,9 +21,8 @@ namespace ZdrowiePlus.Fragments
 {
     public class ListMeasurementsFragment : Android.App.Fragment
     {
-        public static ListViewMeasurementAdapter measurementAdapter;
-
-        ListView measurementListView;
+        ListMeasurementAdapter measurementAdapter;
+        RecyclerView measurementRecyclerView;
         Spinner spinner;
 
         List<Measurement> measurements;
@@ -41,7 +41,9 @@ namespace ZdrowiePlus.Fragments
         {
             View view = inflater.Inflate(Resource.Layout.ListMeasurements, container, false);
 
-            measurementListView = view.FindViewById<ListView>(Resource.Id.listViewMeasurements);
+            measurementRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerViewMeasurements);
+            measurementRecyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
+            measurementRecyclerView.HasFixedSize = true;
 
             //measurement type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.measurementsListSpinner);
@@ -81,9 +83,8 @@ namespace ZdrowiePlus.Fragments
 
                 measurements = db.Table<Measurement>().Where(e => e.MeasurementType == measurementType).OrderByDescending(e => e.Date).ToList();
 
-                measurementAdapter = new ListViewMeasurementAdapter(this.Activity, measurements);
-                measurementListView.Adapter = measurementAdapter;
-                measurementListView.FastScrollEnabled = true;
+                measurementAdapter = new ListMeasurementAdapter(measurements);
+                measurementRecyclerView.SetAdapter(measurementAdapter);
 
                 // Measurements list is empty
                 if (measurements.Count == 0)

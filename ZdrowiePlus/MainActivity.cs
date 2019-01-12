@@ -21,6 +21,8 @@ namespace ZdrowiePlus
     [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        //usunąć id z xml, gdzie niepotrzebne
+        //dodać podawanie wzrostu w wadze
         //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej
         //sprawdzić czy OnNewIntent jest potrzebne
         //usunąć toolbar menu z prawego rogu
@@ -34,7 +36,7 @@ namespace ZdrowiePlus
         //okrągły przycisk do dodawania
         //kolory pomiarów w zależności od norm - czesciowo zrobione
         //cukier na czczo czy po posiłku
-        //tętno w spoczynku
+        //tętno w spoczynku czy w czasie aktywności
 
         //list filter
         public static int listFilter = 0;//zmienic tak jak w liscie pomiarów

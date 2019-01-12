@@ -28,7 +28,6 @@
 			android:popupBackground="#ffffff"
 			android:spinnerMode="dropdown"
 			android:id="@+id/reminderSpinner" />
-
 	</LinearLayout>
 
     <android.support.v7.widget.RecyclerView

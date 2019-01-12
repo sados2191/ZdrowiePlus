@@ -19,31 +19,27 @@
 			android:padding="2dp"
 			android:id="@+id/imageView" />
 
-		<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Tytuł"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			android:layout_marginLeft="10dp"
+			android:layout_marginBottom="4dp"
+			android:layout_gravity="bottom"
+			android:textColor="@android:color/black"
+			android:id="@+id/textTitle" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Data czas"
-				android:layout_gravity="right"
-				android:textSize="14sp"
-				android:textColor="#0388e5"
-				android:id="@+id/textDate" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Tytuł"
-				android:textSize="18sp"
-				android:textStyle="bold"
-				android:layout_marginLeft="10dp"
-				android:textColor="@android:color/black"
-				android:id="@+id/textTitle" />
-
-		</LinearLayout>
+		<TextView
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:text="Data czas"
+			android:gravity="right"
+			android:textSize="14sp"
+			android:textColor="#0388e5"
+			android:id="@+id/textDate" />
 
 	</LinearLayout>
 	
