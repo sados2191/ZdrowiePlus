@@ -143,9 +143,18 @@ namespace ZdrowiePlus.Fragments
             Sunday.Selected = true;
             Sunday.Click += ChangeDayStatus;
 
-            //next screen button
-            Button buttonAdd = view.FindViewById<Button>(Resource.Id.btnAddMedicineTherapy);
+            //add button
+            Button buttonAdd = view.FindViewById<Button>(Resource.Id.buttonAdd);
             buttonAdd.Click += AddMedicineTherapy;
+
+            Button buttonCancel = view.FindViewById<Button>(Resource.Id.buttonCancel);
+            buttonCancel.Click += (s, e) =>
+            {
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                trans.AddToBackStack(null);
+                trans.Commit();
+            };
 
             return view;
         }
@@ -162,7 +171,7 @@ namespace ZdrowiePlus.Fragments
             }
             if (textView.Selected == false)
             {
-                textView.SetTextColor(Android.Graphics.Color.ParseColor("#2C75FF"));
+                textView.SetTextColor(new Android.Graphics.Color(ContextCompat.GetColor(this.Activity, Resource.Color.active_text)));
                 textView.Selected = true;
                 return;
             }
