@@ -18,7 +18,7 @@
 			android:textSize="18sp"
 			android:textStyle="bold"
 			android:layout_marginRight="6dp"
-			android:textColor="#404040" />
+			android:textColor="@color/static_text" />
 
 		<Spinner
 			android:layout_width="wrap_content"

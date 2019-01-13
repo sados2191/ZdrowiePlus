@@ -1,11 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
+  <!--<color name="light_gray">#DFDFDF</color> -->
+  <color name="static_text">#404040</color>
+  <color name="active_text">#FF5600</color>
+  <color name="card_button_background">#FF742E</color>
+  <color name="card_button_text">#FFFFFF</color>
+  
   <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="colorPrimary">#039BE5</item>
     <item name="colorPrimaryDark">#026899</item>
-    <item name="colorAccent">#02547E</item>
-    <item name="android:textColor">#e64d00</item>
-    <item name="android:itemBackground">#0376b0</item>
+    <item name="colorAccent">#e14b00</item>
+    <item name="android:textColor">#FF5600</item>
+    <!--<item name="android:windowBackground">@color/light_gray</item> -->
+    <!--<item name="android:itemBackground">#0376B0</item> -->
     <item name="android:timePickerStyle">@style/SpinnerTimePicker</item>
     <item name="android:datePickerStyle">@style/SpinnerDatePicker</item>
   </style>

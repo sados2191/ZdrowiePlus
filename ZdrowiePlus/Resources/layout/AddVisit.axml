@@ -1,99 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	<EditText
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="Specjalność lekarza"
-		android:inputType="text"
-		android:imeOptions="actionDone"
-		android:id="@+id/visitTitle" />
-	<TextView
-		android:text="Wybierz datę:"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:layout_marginLeft="5dp"
-		android:textSize="18sp"
-		android:textColor="#404040"
-		android:id="@+id/labelDate" />
-	<TextView
-		android:text="Data"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:textSize="18sp"
-		android:gravity="center"
-		android:id="@+id/textDate" />
-	<TextView
-		android:text="Wybierz godzinę:"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:layout_marginLeft="5dp"
-		android:textSize="18sp"
-		android:textColor="#404040"
-		android:id="@+id/labelTime" />
-	<TextView
-		android:text="Godzina"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:textSize="18sp"
-		android:gravity="center"
-		android:id="@+id/textTime" />
+
 	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="5dp"
+		android:layout_marginTop="7dp"
+		android:orientation="horizontal">
+
+		<ImageView
+			android:layout_width="30dp"
+			android:layout_height="30dp"
+			android:padding="2dp"
+			android:tint="@android:color/black"
+			android:src="@drawable/doctor_icon" />
+
 		<TextView
-			android:text="Przypomienie:"
-			android:layout_width="0dp"
-			android:layout_weight="35"
+			android:text="Przypomnienie o wizycie"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="7dp"
-			android:layout_marginBottom="7dp"
+			android:layout_marginTop="0dp"
 			android:layout_marginLeft="5dp"
-			android:textSize="18sp"
-			android:textColor="#404040"
-			android:id="@+id/labelAddVisitReminder" />
-		<EditText
-			android:inputType="number"
-			android:imeOptions="actionDone"
-			android:maxLength="3"
-			android:selectAllOnFocus="true"
-			android:layout_width="0dp"
-			android:layout_weight="15"
-			android:layout_height="wrap_content"
-			android:id="@+id/textAddVisitReminder" />
-		<Spinner
-				android:layout_width="0dp"
-				android:layout_weight="50"
+			android:layout_gravity="center_vertical"
+			android:textSize="15sp"
+			android:textStyle="bold"
+			android:textColor="@color/static_text" />
+		</LinearLayout>
+
+	<android.support.v7.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="5dp"
+		app:cardCornerRadius="4dp">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<EditText
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="7dp"
-				android:minWidth="25px"
-				android:minHeight="25px"
+				android:hint="Specjalność lekarza"
+				android:inputType="text"
+				android:imeOptions="actionDone"
+				android:textColor="@color/active_text"
 				android:textSize="18sp"
-				android:id="@+id/addVisitReminderSpinner" />
-	</LinearLayout>
-	<EditText
-		android:inputType="textMultiLine"
-		android:maxLines="4"
-		android:scrollbars="vertical"
+				android:textStyle="bold"
+				android:id="@+id/visitTitle" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Data:"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp"
+					android:layout_marginBottom="7dp"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="Data"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp"
+					android:layout_marginBottom="7dp"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:id="@+id/textDate" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Godzina:"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp"
+					android:layout_marginBottom="7dp"
+					android:layout_marginLeft="7dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="Godzina"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp"
+					android:layout_marginBottom="7dp"
+					android:layout_marginLeft="7dp"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:id="@+id/textTime" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Przypomienie:"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<EditText
+					android:inputType="number"
+					android:imeOptions="actionDone"
+					android:maxLength="3"
+					android:selectAllOnFocus="true"
+					android:layout_marginLeft="10dp"
+					android:layout_marginRight="7dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:id="@+id/textAddVisitReminder" />
+
+				<Spinner
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:dropDownSelector="#ffe1d2"
+					android:popupBackground="#ffffff"
+					android:spinnerMode="dropdown"
+					android:id="@+id/addVisitReminderSpinner" />
+			</LinearLayout>
+
+			<EditText
+				android:inputType="textMultiLine"
+				android:maxLines="4"
+				android:scrollbars="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Opis wizyty"
+				android:textColor="@color/active_text"
+				android:id="@+id/visitDescription" />
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+	<android.support.v7.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:hint="Opis wizyty"
-		android:id="@+id/visitDescription" />
-	<Button
-		android:text="Dodaj termin"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/btnAddVisit" />
+		android:layout_margin="5dp"
+		app:cardCornerRadius="4dp">
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<Button
+					android:text="Anuluj"
+					android:layout_width="0dp"
+					android:layout_weight="50"
+					android:layout_height="wrap_content"
+					android:background="@color/card_button_background"
+					android:textColor="@color/card_button_text"
+					android:textStyle="bold"
+					android:id="@+id/buttonCancel" />
+
+				<View
+					android:layout_width="2dp"
+					android:layout_height="match_parent"
+					android:background="#FFFFFF"/>
+
+				<Button
+					android:text="Dodaj"
+					android:layout_width="0dp"
+					android:layout_weight="50"
+					android:layout_height="wrap_content"
+					android:background="@color/card_button_background"
+					android:textColor="@color/card_button_text"
+					android:textStyle="bold"
+					android:id="@+id/buttonAdd" />
+			</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

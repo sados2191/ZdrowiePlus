@@ -19,7 +19,7 @@
 			android:layout_marginBottom="7dp"
 			android:layout_marginLeft="5dp"
 			android:textSize="18sp"
-			android:textColor="#404040"
+			android:textColor="@color/static_text"
 			android:id="@+id/labelMeasurementReminderType" />
 		<Spinner
 			android:layout_width="0dp"
@@ -45,7 +45,7 @@
 			android:layout_marginBottom="7dp"
 			android:layout_marginLeft="5dp"
 			android:textSize="18sp"
-			android:textColor="#404040"
+			android:textColor="@color/static_text"
 			android:id="@+id/labelMeasurementReminderStartDate" />
 		<TextView
 			android:text="Data początku"
@@ -71,7 +71,7 @@
 			android:layout_marginBottom="7dp"
 			android:layout_marginLeft="5dp"
 			android:textSize="18sp"
-			android:textColor="#404040"
+			android:textColor="@color/static_text"
 			android:id="@+id/labelMeasurementReminderEndDate" />
 		<TextView
 			android:text="Data końca"
@@ -92,7 +92,7 @@
 			android:layout_marginBottom="7dp"
 			android:layout_marginLeft="5dp"
 			android:textSize="18sp"
-			android:textColor="#404040"
+			android:textColor="@color/static_text"
 			android:id="@+id/labelMeasurementReminderRepeat" />
 	<LinearLayout
         android:layout_width="match_parent"
@@ -202,7 +202,7 @@
         android:layout_marginBottom="7dp"
         android:layout_marginLeft="5dp"
         android:textSize="18sp"
-        android:textColor="#404040"
+        android:textColor="@color/static_text"
         android:id="@+id/labelMeasurementReminderFrequency" />
 	<SeekBar
 		android:layout_width="match_parent"
@@ -232,7 +232,7 @@
 					android:layout_marginTop="7dp"
 					android:layout_marginBottom="7dp"
 					android:layout_marginLeft="5dp"
-					android:textColor="#404040"
+					android:textColor="@color/static_text"
 					android:textSize="18sp"
 					android:id="@+id/measurementReminderEndDate" />
 				<ListView

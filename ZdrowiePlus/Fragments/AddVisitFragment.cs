@@ -106,8 +106,17 @@ namespace ZdrowiePlus.Fragments
             };
 
             //Add visit button
-            Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit);
+            Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.buttonAdd);
             buttonAddVisit.Click += AddVisit;
+
+            Button buttonCancel = view.FindViewById<Button>(Resource.Id.buttonCancel);
+            buttonCancel.Click += (s, e) =>
+            {
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                trans.AddToBackStack(null);
+                trans.Commit();
+            };
 
             return view;
         }

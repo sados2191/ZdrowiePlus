@@ -1245,44 +1245,44 @@ namespace ZdrowiePlus
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f09004b
-			public const int abc_background_cache_hint_selector_material_dark = 2131296331;
-			
-			// aapt resource value: 0x7f09004c
-			public const int abc_background_cache_hint_selector_material_light = 2131296332;
-			
-			// aapt resource value: 0x7f09004d
-			public const int abc_btn_colored_borderless_text_material = 2131296333;
-			
-			// aapt resource value: 0x7f09004e
-			public const int abc_btn_colored_text_material = 2131296334;
-			
 			// aapt resource value: 0x7f09004f
-			public const int abc_color_highlight_material = 2131296335;
+			public const int abc_background_cache_hint_selector_material_dark = 2131296335;
 			
 			// aapt resource value: 0x7f090050
-			public const int abc_hint_foreground_material_dark = 2131296336;
+			public const int abc_background_cache_hint_selector_material_light = 2131296336;
 			
 			// aapt resource value: 0x7f090051
-			public const int abc_hint_foreground_material_light = 2131296337;
+			public const int abc_btn_colored_borderless_text_material = 2131296337;
+			
+			// aapt resource value: 0x7f090052
+			public const int abc_btn_colored_text_material = 2131296338;
+			
+			// aapt resource value: 0x7f090053
+			public const int abc_color_highlight_material = 2131296339;
+			
+			// aapt resource value: 0x7f090054
+			public const int abc_hint_foreground_material_dark = 2131296340;
+			
+			// aapt resource value: 0x7f090055
+			public const int abc_hint_foreground_material_light = 2131296341;
 			
 			// aapt resource value: 0x7f090004
 			public const int abc_input_method_navigation_guard = 2131296260;
 			
-			// aapt resource value: 0x7f090052
-			public const int abc_primary_text_disable_only_material_dark = 2131296338;
-			
-			// aapt resource value: 0x7f090053
-			public const int abc_primary_text_disable_only_material_light = 2131296339;
-			
-			// aapt resource value: 0x7f090054
-			public const int abc_primary_text_material_dark = 2131296340;
-			
-			// aapt resource value: 0x7f090055
-			public const int abc_primary_text_material_light = 2131296341;
-			
 			// aapt resource value: 0x7f090056
-			public const int abc_search_url_text = 2131296342;
+			public const int abc_primary_text_disable_only_material_dark = 2131296342;
+			
+			// aapt resource value: 0x7f090057
+			public const int abc_primary_text_disable_only_material_light = 2131296343;
+			
+			// aapt resource value: 0x7f090058
+			public const int abc_primary_text_material_dark = 2131296344;
+			
+			// aapt resource value: 0x7f090059
+			public const int abc_primary_text_material_light = 2131296345;
+			
+			// aapt resource value: 0x7f09005a
+			public const int abc_search_url_text = 2131296346;
 			
 			// aapt resource value: 0x7f090005
 			public const int abc_search_url_text_normal = 2131296261;
@@ -1293,35 +1293,38 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090007
 			public const int abc_search_url_text_selected = 2131296263;
 			
-			// aapt resource value: 0x7f090057
-			public const int abc_secondary_text_material_dark = 2131296343;
-			
-			// aapt resource value: 0x7f090058
-			public const int abc_secondary_text_material_light = 2131296344;
-			
-			// aapt resource value: 0x7f090059
-			public const int abc_tint_btn_checkable = 2131296345;
-			
-			// aapt resource value: 0x7f09005a
-			public const int abc_tint_default = 2131296346;
-			
 			// aapt resource value: 0x7f09005b
-			public const int abc_tint_edittext = 2131296347;
+			public const int abc_secondary_text_material_dark = 2131296347;
 			
 			// aapt resource value: 0x7f09005c
-			public const int abc_tint_seek_thumb = 2131296348;
+			public const int abc_secondary_text_material_light = 2131296348;
 			
 			// aapt resource value: 0x7f09005d
-			public const int abc_tint_spinner = 2131296349;
+			public const int abc_tint_btn_checkable = 2131296349;
 			
 			// aapt resource value: 0x7f09005e
-			public const int abc_tint_switch_track = 2131296350;
+			public const int abc_tint_default = 2131296350;
+			
+			// aapt resource value: 0x7f09005f
+			public const int abc_tint_edittext = 2131296351;
+			
+			// aapt resource value: 0x7f090060
+			public const int abc_tint_seek_thumb = 2131296352;
+			
+			// aapt resource value: 0x7f090061
+			public const int abc_tint_spinner = 2131296353;
+			
+			// aapt resource value: 0x7f090062
+			public const int abc_tint_switch_track = 2131296354;
 			
 			// aapt resource value: 0x7f090008
 			public const int accent_material_dark = 2131296264;
 			
 			// aapt resource value: 0x7f090009
 			public const int accent_material_light = 2131296265;
+			
+			// aapt resource value: 0x7f09004c
+			public const int active_text = 2131296332;
 			
 			// aapt resource value: 0x7f09000a
 			public const int background_floating_material_dark = 2131296266;
@@ -1359,6 +1362,12 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090015
 			public const int button_material_light = 2131296277;
 			
+			// aapt resource value: 0x7f09004d
+			public const int card_button_background = 2131296333;
+			
+			// aapt resource value: 0x7f09004e
+			public const int card_button_text = 2131296334;
+			
 			// aapt resource value: 0x7f090000
 			public const int cardview_dark_background = 2131296256;
 			
@@ -1374,8 +1383,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090040
 			public const int design_bottom_navigation_shadow_color = 2131296320;
 			
-			// aapt resource value: 0x7f09005f
-			public const int design_error = 2131296351;
+			// aapt resource value: 0x7f090063
+			public const int design_error = 2131296355;
 			
 			// aapt resource value: 0x7f090041
 			public const int design_fab_shadow_end_color = 2131296321;
@@ -1401,8 +1410,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090048
 			public const int design_snackbar_background_color = 2131296328;
 			
-			// aapt resource value: 0x7f090060
-			public const int design_tint_password_toggle = 2131296352;
+			// aapt resource value: 0x7f090064
+			public const int design_tint_password_toggle = 2131296356;
 			
 			// aapt resource value: 0x7f090016
 			public const int dim_foreground_disabled_material_dark = 2131296278;
@@ -1518,17 +1527,20 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f090038
 			public const int secondary_text_disabled_material_light = 2131296312;
 			
+			// aapt resource value: 0x7f09004b
+			public const int static_text = 2131296331;
+			
 			// aapt resource value: 0x7f090039
 			public const int switch_thumb_disabled_material_dark = 2131296313;
 			
 			// aapt resource value: 0x7f09003a
 			public const int switch_thumb_disabled_material_light = 2131296314;
 			
-			// aapt resource value: 0x7f090061
-			public const int switch_thumb_material_dark = 2131296353;
+			// aapt resource value: 0x7f090065
+			public const int switch_thumb_material_dark = 2131296357;
 			
-			// aapt resource value: 0x7f090062
-			public const int switch_thumb_material_light = 2131296354;
+			// aapt resource value: 0x7f090066
+			public const int switch_thumb_material_light = 2131296358;
 			
 			// aapt resource value: 0x7f09003b
 			public const int switch_thumb_normal_material_dark = 2131296315;
@@ -2463,8 +2475,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070037
 			public const int SYM = 2131165239;
 			
-			// aapt resource value: 0x7f0700f8
-			public const int action0 = 2131165432;
+			// aapt resource value: 0x7f0700f6
+			public const int action0 = 2131165430;
 			
 			// aapt resource value: 0x7f07007c
 			public const int action_bar = 2131165308;
@@ -2487,17 +2499,17 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07005a
 			public const int action_bar_title = 2131165274;
 			
-			// aapt resource value: 0x7f0700f5
-			public const int action_container = 2131165429;
+			// aapt resource value: 0x7f0700f3
+			public const int action_container = 2131165427;
 			
 			// aapt resource value: 0x7f07007d
 			public const int action_context_bar = 2131165309;
 			
-			// aapt resource value: 0x7f0700fc
-			public const int action_divider = 2131165436;
+			// aapt resource value: 0x7f0700fa
+			public const int action_divider = 2131165434;
 			
-			// aapt resource value: 0x7f0700f6
-			public const int action_image = 2131165430;
+			// aapt resource value: 0x7f0700f4
+			public const int action_image = 2131165428;
 			
 			// aapt resource value: 0x7f070003
 			public const int action_menu_divider = 2131165187;
@@ -2514,11 +2526,11 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07005c
 			public const int action_mode_close_button = 2131165276;
 			
-			// aapt resource value: 0x7f0700f7
-			public const int action_text = 2131165431;
+			// aapt resource value: 0x7f0700f5
+			public const int action_text = 2131165429;
 			
-			// aapt resource value: 0x7f070105
-			public const int actions = 2131165445;
+			// aapt resource value: 0x7f070103
+			public const int actions = 2131165443;
 			
 			// aapt resource value: 0x7f07005d
 			public const int activity_chooser_view_content = 2131165277;
@@ -2526,8 +2538,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070027
 			public const int add = 2131165223;
 			
-			// aapt resource value: 0x7f0700c4
-			public const int addVisitReminderSpinner = 2131165380;
+			// aapt resource value: 0x7f0700c1
+			public const int addVisitReminderSpinner = 2131165377;
 			
 			// aapt resource value: 0x7f070070
 			public const int alertTitle = 2131165296;
@@ -2562,32 +2574,35 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f0700b9
 			public const int btnAddMedicineTherapy = 2131165369;
 			
-			// aapt resource value: 0x7f0700ee
-			public const int btnAddMedicine_list = 2131165422;
+			// aapt resource value: 0x7f0700ec
+			public const int btnAddMedicine_list = 2131165420;
 			
-			// aapt resource value: 0x7f0700c6
-			public const int btnAddVisit = 2131165382;
-			
-			// aapt resource value: 0x7f0700ed
-			public const int btnAddVisit_list = 2131165421;
-			
-			// aapt resource value: 0x7f0700e1
-			public const int btnDeleteSeries = 2131165409;
-			
-			// aapt resource value: 0x7f0700e0
-			public const int btnDeleteVisit = 2131165408;
+			// aapt resource value: 0x7f0700eb
+			public const int btnAddVisit_list = 2131165419;
 			
 			// aapt resource value: 0x7f0700df
-			public const int btnSaveVisit = 2131165407;
+			public const int btnDeleteSeries = 2131165407;
+			
+			// aapt resource value: 0x7f0700de
+			public const int btnDeleteVisit = 2131165406;
+			
+			// aapt resource value: 0x7f0700dd
+			public const int btnSaveVisit = 2131165405;
+			
+			// aapt resource value: 0x7f0700c4
+			public const int buttonAdd = 2131165380;
+			
+			// aapt resource value: 0x7f0700c3
+			public const int buttonCancel = 2131165379;
 			
 			// aapt resource value: 0x7f070063
 			public const int buttonPanel = 2131165283;
 			
-			// aapt resource value: 0x7f0700c7
-			public const int calendarView1 = 2131165383;
+			// aapt resource value: 0x7f0700c5
+			public const int calendarView1 = 2131165381;
 			
-			// aapt resource value: 0x7f0700f9
-			public const int cancel_action = 2131165433;
+			// aapt resource value: 0x7f0700f7
+			public const int cancel_action = 2131165431;
 			
 			// aapt resource value: 0x7f070045
 			public const int center = 2131165253;
@@ -2601,8 +2616,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070073
 			public const int checkbox = 2131165299;
 			
-			// aapt resource value: 0x7f070101
-			public const int chronometer = 2131165441;
+			// aapt resource value: 0x7f0700ff
+			public const int chronometer = 2131165439;
 			
 			// aapt resource value: 0x7f07004e
 			public const int clip_horizontal = 2131165262;
@@ -2613,14 +2628,14 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070039
 			public const int collapseActionView = 2131165241;
 			
-			// aapt resource value: 0x7f0700cb
-			public const int container = 2131165387;
+			// aapt resource value: 0x7f0700c9
+			public const int container = 2131165385;
 			
 			// aapt resource value: 0x7f070066
 			public const int contentPanel = 2131165286;
 			
-			// aapt resource value: 0x7f0700cc
-			public const int coordinator = 2131165388;
+			// aapt resource value: 0x7f0700ca
+			public const int coordinator = 2131165386;
 			
 			// aapt resource value: 0x7f07006d
 			public const int custom = 2131165293;
@@ -2634,29 +2649,29 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070060
 			public const int default_activity_button = 2131165280;
 			
-			// aapt resource value: 0x7f0700ce
-			public const int design_bottom_sheet = 2131165390;
-			
-			// aapt resource value: 0x7f0700d5
-			public const int design_menu_item_action_area = 2131165397;
-			
-			// aapt resource value: 0x7f0700d4
-			public const int design_menu_item_action_area_stub = 2131165396;
+			// aapt resource value: 0x7f0700cc
+			public const int design_bottom_sheet = 2131165388;
 			
 			// aapt resource value: 0x7f0700d3
-			public const int design_menu_item_text = 2131165395;
+			public const int design_menu_item_action_area = 2131165395;
 			
 			// aapt resource value: 0x7f0700d2
-			public const int design_navigation_view = 2131165394;
+			public const int design_menu_item_action_area_stub = 2131165394;
+			
+			// aapt resource value: 0x7f0700d1
+			public const int design_menu_item_text = 2131165393;
+			
+			// aapt resource value: 0x7f0700d0
+			public const int design_navigation_view = 2131165392;
 			
 			// aapt resource value: 0x7f070020
 			public const int disableHome = 2131165216;
 			
-			// aapt resource value: 0x7f0700ef
-			public const int drawer_layout = 2131165423;
+			// aapt resource value: 0x7f0700ed
+			public const int drawer_layout = 2131165421;
 			
-			// aapt resource value: 0x7f0700d9
-			public const int editSpinner = 2131165401;
+			// aapt resource value: 0x7f0700d7
+			public const int editSpinner = 2131165399;
 			
 			// aapt resource value: 0x7f07007e
 			public const int edit_query = 2131165310;
@@ -2664,8 +2679,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070030
 			public const int end = 2131165232;
 			
-			// aapt resource value: 0x7f070107
-			public const int end_padder = 2131165447;
+			// aapt resource value: 0x7f070105
+			public const int end_padder = 2131165445;
 			
 			// aapt resource value: 0x7f07003f
 			public const int enterAlways = 2131165247;
@@ -2673,17 +2688,17 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070040
 			public const int enterAlwaysCollapsed = 2131165248;
 			
-			// aapt resource value: 0x7f0700e4
-			public const int eventDate = 2131165412;
-			
-			// aapt resource value: 0x7f0700e8
-			public const int eventDescription = 2131165416;
+			// aapt resource value: 0x7f0700e2
+			public const int eventDate = 2131165410;
 			
 			// aapt resource value: 0x7f0700e6
-			public const int eventTime = 2131165414;
+			public const int eventDescription = 2131165414;
 			
-			// aapt resource value: 0x7f0700e2
-			public const int eventTitle = 2131165410;
+			// aapt resource value: 0x7f0700e4
+			public const int eventTime = 2131165412;
+			
+			// aapt resource value: 0x7f0700e0
+			public const int eventTitle = 2131165408;
 			
 			// aapt resource value: 0x7f070041
 			public const int exitUntilCollapsed = 2131165249;
@@ -2709,8 +2724,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070058
 			public const int forever = 2131165272;
 			
-			// aapt resource value: 0x7f0700f1
-			public const int fragmentContainer = 2131165425;
+			// aapt resource value: 0x7f0700ef
+			public const int fragmentContainer = 2131165423;
 			
 			// aapt resource value: 0x7f07000a
 			public const int ghost_view = 2131165194;
@@ -2724,8 +2739,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070062
 			public const int icon = 2131165282;
 			
-			// aapt resource value: 0x7f070106
-			public const int icon_group = 2131165446;
+			// aapt resource value: 0x7f070104
+			public const int icon_group = 2131165444;
 			
 			// aapt resource value: 0x7f07003a
 			public const int ifRoom = 2131165242;
@@ -2733,11 +2748,11 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07005f
 			public const int image = 2131165279;
 			
-			// aapt resource value: 0x7f070108
-			public const int imageView = 2131165448;
+			// aapt resource value: 0x7f070106
+			public const int imageView = 2131165446;
 			
-			// aapt resource value: 0x7f070102
-			public const int info = 2131165442;
+			// aapt resource value: 0x7f070100
+			public const int info = 2131165440;
 			
 			// aapt resource value: 0x7f070059
 			public const int italic = 2131165273;
@@ -2745,26 +2760,20 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070000
 			public const int item_touch_helper_previous_elevation = 2131165184;
 			
-			// aapt resource value: 0x7f0700c2
-			public const int labelAddVisitReminder = 2131165378;
-			
-			// aapt resource value: 0x7f0700be
-			public const int labelDate = 2131165374;
+			// aapt resource value: 0x7f0700d8
+			public const int labelEditDate = 2131165400;
 			
 			// aapt resource value: 0x7f0700da
-			public const int labelEditDate = 2131165402;
+			public const int labelEditTime = 2131165402;
 			
-			// aapt resource value: 0x7f0700dc
-			public const int labelEditTime = 2131165404;
-			
-			// aapt resource value: 0x7f0700e3
-			public const int labelEventDate = 2131165411;
-			
-			// aapt resource value: 0x7f0700e7
-			public const int labelEventDescription = 2131165415;
+			// aapt resource value: 0x7f0700e1
+			public const int labelEventDate = 2131165409;
 			
 			// aapt resource value: 0x7f0700e5
-			public const int labelEventTime = 2131165413;
+			public const int labelEventDescription = 2131165413;
+			
+			// aapt resource value: 0x7f0700e3
+			public const int labelEventTime = 2131165411;
 			
 			// aapt resource value: 0x7f0700b5
 			public const int labelFrequency = 2131165365;
@@ -2844,11 +2853,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f0700b0
 			public const int labelMedicineWednesday = 2131165360;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int labelTime = 2131165376;
-			
-			// aapt resource value: 0x7f0700ca
-			public const int largeLabel = 2131165386;
+			// aapt resource value: 0x7f0700c8
+			public const int largeLabel = 2131165384;
 			
 			// aapt resource value: 0x7f070049
 			public const int left = 2131165257;
@@ -2862,8 +2868,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07001d
 			public const int listMode = 2131165213;
 			
-			// aapt resource value: 0x7f0700c8
-			public const int listViewCalendar = 2131165384;
+			// aapt resource value: 0x7f0700c6
+			public const int listViewCalendar = 2131165382;
 			
 			// aapt resource value: 0x7f0700a6
 			public const int listViewMeasurementReminder = 2131165350;
@@ -2874,8 +2880,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070061
 			public const int list_item = 2131165281;
 			
-			// aapt resource value: 0x7f07010f
-			public const int masked = 2131165455;
+			// aapt resource value: 0x7f07010d
+			public const int masked = 2131165453;
 			
 			// aapt resource value: 0x7f070092
 			public const int measurementLayout2 = 2131165330;
@@ -2907,11 +2913,11 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070094
 			public const int measurementValueUnit2 = 2131165332;
 			
-			// aapt resource value: 0x7f0700e9
-			public const int measurementsListSpinner = 2131165417;
+			// aapt resource value: 0x7f0700e7
+			public const int measurementsListSpinner = 2131165415;
 			
-			// aapt resource value: 0x7f0700fb
-			public const int media_actions = 2131165435;
+			// aapt resource value: 0x7f0700f9
+			public const int media_actions = 2131165433;
 			
 			// aapt resource value: 0x7f0700ac
 			public const int medicineEndDate = 2131165356;
@@ -2925,23 +2931,23 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f0700aa
 			public const int medicineStartDate = 2131165354;
 			
-			// aapt resource value: 0x7f070119
-			public const int menu_all = 2131165465;
-			
-			// aapt resource value: 0x7f07011c
-			public const int menu_delete_events = 2131165468;
-			
-			// aapt resource value: 0x7f070118
-			public const int menu_info = 2131165464;
-			
-			// aapt resource value: 0x7f07011b
-			public const int menu_medicine = 2131165467;
+			// aapt resource value: 0x7f070117
+			public const int menu_all = 2131165463;
 			
 			// aapt resource value: 0x7f07011a
-			public const int menu_visit = 2131165466;
+			public const int menu_delete_events = 2131165466;
 			
-			// aapt resource value: 0x7f07010d
-			public const int message = 2131165453;
+			// aapt resource value: 0x7f070116
+			public const int menu_info = 2131165462;
+			
+			// aapt resource value: 0x7f070119
+			public const int menu_medicine = 2131165465;
+			
+			// aapt resource value: 0x7f070118
+			public const int menu_visit = 2131165464;
+			
+			// aapt resource value: 0x7f07010b
+			public const int message = 2131165451;
 			
 			// aapt resource value: 0x7f070031
 			public const int middle = 2131165233;
@@ -2952,35 +2958,35 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070028
 			public const int multiply = 2131165224;
 			
-			// aapt resource value: 0x7f070116
-			public const int nav_about = 2131165462;
-			
-			// aapt resource value: 0x7f070112
-			public const int nav_addMeasurement = 2131165458;
+			// aapt resource value: 0x7f070114
+			public const int nav_about = 2131165460;
 			
 			// aapt resource value: 0x7f070110
-			public const int nav_addReminder = 2131165456;
+			public const int nav_addMeasurement = 2131165456;
 			
-			// aapt resource value: 0x7f070115
-			public const int nav_calendar = 2131165461;
-			
-			// aapt resource value: 0x7f070117
-			public const int nav_close = 2131165463;
-			
-			// aapt resource value: 0x7f070114
-			public const int nav_history = 2131165460;
+			// aapt resource value: 0x7f07010e
+			public const int nav_addReminder = 2131165454;
 			
 			// aapt resource value: 0x7f070113
-			public const int nav_measurements = 2131165459;
+			public const int nav_calendar = 2131165459;
+			
+			// aapt resource value: 0x7f070115
+			public const int nav_close = 2131165461;
+			
+			// aapt resource value: 0x7f070112
+			public const int nav_history = 2131165458;
 			
 			// aapt resource value: 0x7f070111
-			public const int nav_reminders = 2131165457;
+			public const int nav_measurements = 2131165457;
 			
-			// aapt resource value: 0x7f0700f2
-			public const int nav_view = 2131165426;
+			// aapt resource value: 0x7f07010f
+			public const int nav_reminders = 2131165455;
 			
-			// aapt resource value: 0x7f0700d1
-			public const int navigation_header_container = 2131165393;
+			// aapt resource value: 0x7f0700f0
+			public const int nav_view = 2131165424;
+			
+			// aapt resource value: 0x7f0700cf
+			public const int navigation_header_container = 2131165391;
 			
 			// aapt resource value: 0x7f07003b
 			public const int never = 2131165243;
@@ -2991,14 +2997,14 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07001e
 			public const int normal = 2131165214;
 			
-			// aapt resource value: 0x7f070104
-			public const int notification_background = 2131165444;
+			// aapt resource value: 0x7f070102
+			public const int notification_background = 2131165442;
 			
-			// aapt resource value: 0x7f0700fe
-			public const int notification_main_column = 2131165438;
+			// aapt resource value: 0x7f0700fc
+			public const int notification_main_column = 2131165436;
 			
-			// aapt resource value: 0x7f0700fd
-			public const int notification_main_column_container = 2131165437;
+			// aapt resource value: 0x7f0700fb
+			public const int notification_main_column_container = 2131165435;
 			
 			// aapt resource value: 0x7f07004c
 			public const int parallax = 2131165260;
@@ -3021,23 +3027,23 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070075
 			public const int radio = 2131165301;
 			
+			// aapt resource value: 0x7f0700e8
+			public const int recyclerViewMeasurements = 2131165416;
+			
 			// aapt resource value: 0x7f0700ea
-			public const int recyclerViewMeasurements = 2131165418;
+			public const int recyclerViewReminders = 2131165418;
 			
-			// aapt resource value: 0x7f0700ec
-			public const int recyclerViewReminders = 2131165420;
-			
-			// aapt resource value: 0x7f0700eb
-			public const int reminderSpinner = 2131165419;
+			// aapt resource value: 0x7f0700e9
+			public const int reminderSpinner = 2131165417;
 			
 			// aapt resource value: 0x7f07004a
 			public const int right = 2131165258;
 			
-			// aapt resource value: 0x7f070103
-			public const int right_icon = 2131165443;
+			// aapt resource value: 0x7f070101
+			public const int right_icon = 2131165441;
 			
-			// aapt resource value: 0x7f0700ff
-			public const int right_side = 2131165439;
+			// aapt resource value: 0x7f0700fd
+			public const int right_side = 2131165437;
 			
 			// aapt resource value: 0x7f07000c
 			public const int save_image_matrix = 2131165196;
@@ -3111,14 +3117,14 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070025
 			public const int showTitle = 2131165221;
 			
-			// aapt resource value: 0x7f0700c9
-			public const int smallLabel = 2131165385;
+			// aapt resource value: 0x7f0700c7
+			public const int smallLabel = 2131165383;
 			
-			// aapt resource value: 0x7f0700d0
-			public const int snackbar_action = 2131165392;
+			// aapt resource value: 0x7f0700ce
+			public const int snackbar_action = 2131165390;
 			
-			// aapt resource value: 0x7f0700cf
-			public const int snackbar_text = 2131165391;
+			// aapt resource value: 0x7f0700cd
+			public const int snackbar_text = 2131165389;
 			
 			// aapt resource value: 0x7f070043
 			public const int snap = 2131165251;
@@ -3141,8 +3147,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07004b
 			public const int start = 2131165259;
 			
-			// aapt resource value: 0x7f0700fa
-			public const int status_bar_latest_event_content = 2131165434;
+			// aapt resource value: 0x7f0700f8
+			public const int status_bar_latest_event_content = 2131165432;
 			
 			// aapt resource value: 0x7f070076
 			public const int submenuarrow = 2131165302;
@@ -3162,23 +3168,23 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07001b
 			public const int text2 = 2131165211;
 			
-			// aapt resource value: 0x7f0700c3
-			public const int textAddVisitReminder = 2131165379;
+			// aapt resource value: 0x7f0700c0
+			public const int textAddVisitReminder = 2131165376;
 			
-			// aapt resource value: 0x7f0700f3
-			public const int textAnalysis = 2131165427;
+			// aapt resource value: 0x7f0700f1
+			public const int textAnalysis = 2131165425;
 			
-			// aapt resource value: 0x7f0700bf
-			public const int textDate = 2131165375;
+			// aapt resource value: 0x7f0700be
+			public const int textDate = 2131165374;
+			
+			// aapt resource value: 0x7f0700d9
+			public const int textEditDate = 2131165401;
 			
 			// aapt resource value: 0x7f0700db
-			public const int textEditDate = 2131165403;
+			public const int textEditTime = 2131165403;
 			
-			// aapt resource value: 0x7f0700dd
-			public const int textEditTime = 2131165405;
-			
-			// aapt resource value: 0x7f0700d7
-			public const int textEditType = 2131165399;
+			// aapt resource value: 0x7f0700d5
+			public const int textEditType = 2131165397;
 			
 			// aapt resource value: 0x7f07008d
 			public const int textMeasurementDate = 2131165325;
@@ -3192,17 +3198,17 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070069
 			public const int textSpacerNoTitle = 2131165289;
 			
-			// aapt resource value: 0x7f0700c1
-			public const int textTime = 2131165377;
+			// aapt resource value: 0x7f0700bf
+			public const int textTime = 2131165375;
 			
-			// aapt resource value: 0x7f070109
-			public const int textTitle = 2131165449;
+			// aapt resource value: 0x7f070107
+			public const int textTitle = 2131165447;
 			
-			// aapt resource value: 0x7f0700f4
-			public const int textValue = 2131165428;
+			// aapt resource value: 0x7f0700f2
+			public const int textValue = 2131165426;
 			
-			// aapt resource value: 0x7f0700d6
-			public const int text_input_password_toggle = 2131165398;
+			// aapt resource value: 0x7f0700d4
+			public const int text_input_password_toggle = 2131165396;
 			
 			// aapt resource value: 0x7f070014
 			public const int textinput_counter = 2131165204;
@@ -3210,8 +3216,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070015
 			public const int textinput_error = 2131165205;
 			
-			// aapt resource value: 0x7f070100
-			public const int time = 2131165440;
+			// aapt resource value: 0x7f0700fe
+			public const int time = 2131165438;
 			
 			// aapt resource value: 0x7f07001c
 			public const int title = 2131165212;
@@ -3222,8 +3228,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07006f
 			public const int title_template = 2131165295;
 			
-			// aapt resource value: 0x7f0700f0
-			public const int toolbar = 2131165424;
+			// aapt resource value: 0x7f0700ee
+			public const int toolbar = 2131165422;
 			
 			// aapt resource value: 0x7f07003e
 			public const int top = 2131165246;
@@ -3231,8 +3237,8 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f07006e
 			public const int topPanel = 2131165294;
 			
-			// aapt resource value: 0x7f0700cd
-			public const int touch_outside = 2131165389;
+			// aapt resource value: 0x7f0700cb
+			public const int touch_outside = 2131165387;
 			
 			// aapt resource value: 0x7f07000f
 			public const int transition_current_scene = 2131165199;
@@ -3249,14 +3255,14 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070013
 			public const int transition_transform = 2131165203;
 			
+			// aapt resource value: 0x7f070108
+			public const int txtTimeCalendar = 2131165448;
+			
+			// aapt resource value: 0x7f070109
+			public const int txtTitleCalendar = 2131165449;
+			
 			// aapt resource value: 0x7f07010a
-			public const int txtTimeCalendar = 2131165450;
-			
-			// aapt resource value: 0x7f07010b
-			public const int txtTitleCalendar = 2131165451;
-			
-			// aapt resource value: 0x7f07010c
-			public const int txtTypeCalendar = 2131165452;
+			public const int txtTypeCalendar = 2131165450;
 			
 			// aapt resource value: 0x7f07002d
 			public const int uniform = 2131165229;
@@ -3270,17 +3276,17 @@ namespace ZdrowiePlus
 			// aapt resource value: 0x7f070016
 			public const int view_offset_helper = 2131165206;
 			
-			// aapt resource value: 0x7f07010e
-			public const int visible = 2131165454;
+			// aapt resource value: 0x7f07010c
+			public const int visible = 2131165452;
 			
-			// aapt resource value: 0x7f0700c5
-			public const int visitDescription = 2131165381;
+			// aapt resource value: 0x7f0700c2
+			public const int visitDescription = 2131165378;
 			
-			// aapt resource value: 0x7f0700de
-			public const int visitEditDescription = 2131165406;
+			// aapt resource value: 0x7f0700dc
+			public const int visitEditDescription = 2131165404;
 			
-			// aapt resource value: 0x7f0700d8
-			public const int visitEditTitle = 2131165400;
+			// aapt resource value: 0x7f0700d6
+			public const int visitEditTitle = 2131165398;
 			
 			// aapt resource value: 0x7f0700bd
 			public const int visitTitle = 2131165373;

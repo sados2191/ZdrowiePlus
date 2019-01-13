@@ -21,20 +21,21 @@ namespace ZdrowiePlus
     [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        //usunąć debugowe Toasty
+        //poprawne ustawianie textu labelki
+        //godzina i data OnResume
         //usunąć id z xml, gdzie niepotrzebne
-        //dodać podawanie wzrostu w wadze
+        //dodać podawanie wzrostu w wadze, SharedPreferences?
         //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej
         //sprawdzić czy OnNewIntent jest potrzebne
         //usunąć toolbar menu z prawego rogu
-        //edytowanie pomiaru, zamiast edycji tytułu spiner - zrobione
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar, jako nowe aktywności???
-        //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić
+        //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić, ta sama instancja, bug z back stackiem
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające (set repeating)
         //zmiana czcionki w zależności od dpi
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
         //okrągły przycisk do dodawania
-        //kolory pomiarów w zależności od norm - czesciowo zrobione
         //cukier na czczo czy po posiłku
         //tętno w spoczynku czy w czasie aktywności
 

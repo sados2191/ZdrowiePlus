@@ -27,7 +27,7 @@
 			android:layout_marginBottom="7dp"
 			android:layout_marginLeft="5dp"
 			android:textSize="18sp"
-			android:textColor="#404040"
+			android:textColor="@color/static_text"
 			android:id="@+id/labelMedicineStartDate" />
 		<TextView
 			android:text="Data początku"
@@ -53,7 +53,7 @@
 			android:layout_marginBottom="7dp"
 			android:layout_marginLeft="5dp"
 			android:textSize="18sp"
-			android:textColor="#404040"
+			android:textColor="@color/static_text"
 			android:id="@+id/labelMedicineEndDate" />
 		<TextView
 			android:text="Data końca"
@@ -74,7 +74,7 @@
 		android:layout_marginBottom="7dp"
 		android:layout_marginLeft="5dp"
 		android:textSize="18sp"
-		android:textColor="#404040"
+		android:textColor="@color/static_text"
 		android:id="@+id/labelMedicineRepeat" />
 	<LinearLayout
         android:layout_width="match_parent"
@@ -174,7 +174,7 @@
         android:layout_marginBottom="7dp"
         android:layout_marginLeft="5dp"
         android:textSize="18sp"
-        android:textColor="#404040"
+        android:textColor="@color/static_text"
         android:id="@+id/labelFrequency" />
 	<SeekBar
 		android:layout_width="match_parent"
@@ -204,7 +204,7 @@
 					android:layout_marginTop="7dp"
 					android:layout_marginBottom="7dp"
 					android:layout_marginLeft="5dp"
-					android:textColor="#404040"
+					android:textColor="@color/static_text"
 					android:textSize="18sp"
 					android:id="@+id/labelMedicineTimes" />
 				<ListView
