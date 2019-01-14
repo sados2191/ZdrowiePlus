@@ -22,13 +22,13 @@ namespace ZdrowiePlus.Fragments
     public class ListRemindersFragment : Android.App.Fragment
     {
         private static EditReminderFragment editReminderFragment = new EditReminderFragment();
-        private static AddVisitFragment addVisitFragment = new AddVisitFragment();
-        private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
+        //private static AddVisitFragment addVisitFragment = new AddVisitFragment();
+        //private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
         ListReminderAdapter reminderAdapter;
         RecyclerView reminderRecyclerView;
-        Button buttonAddMedicine;
-        Button buttonAddVisit;
+        //Button buttonAddMedicine;
+        //Button buttonAddVisit;
         Spinner spinner;
 
         List<Event> events;
@@ -48,8 +48,8 @@ namespace ZdrowiePlus.Fragments
             reminderRecyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
             reminderRecyclerView.HasFixedSize = true;
 
-            buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
-            buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
+            //buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
+            //buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
 
             //event type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.reminderSpinner);
@@ -62,8 +62,9 @@ namespace ZdrowiePlus.Fragments
             loadData();
 
             //reminderAdapter.ItemClick += reminderCard_ItemClick;
-            buttonAddMedicine.Click += AddMedicine;
-            buttonAddVisit.Click += AddVisit;
+
+            //buttonAddMedicine.Click += AddMedicine;
+            //buttonAddVisit.Click += AddVisit;
 
             return view;
         }
@@ -75,28 +76,26 @@ namespace ZdrowiePlus.Fragments
             loadData();
         }
 
-        private void AddMedicine(object sender, EventArgs e)
-        {
-            var trans = FragmentManager.BeginTransaction();
+        //private void AddMedicine(object sender, EventArgs e)
+        //{
+        //    var trans = FragmentManager.BeginTransaction();
 
-            trans.Replace(Resource.Id.fragmentContainer, medicineTherapyFragment);
-            trans.AddToBackStack(null);
-            trans.Commit();
-        }
+        //    trans.Replace(Resource.Id.fragmentContainer, medicineTherapyFragment);
+        //    trans.AddToBackStack(null);
+        //    trans.Commit();
+        //}
 
-        private void AddVisit(object sender, EventArgs e)
-        {
-            var trans = FragmentManager.BeginTransaction();
+        //private void AddVisit(object sender, EventArgs e)
+        //{
+        //    var trans = FragmentManager.BeginTransaction();
 
-            trans.Replace(Resource.Id.fragmentContainer, addVisitFragment);
-            trans.AddToBackStack(null);
-            trans.Commit();
-        }
+        //    trans.Replace(Resource.Id.fragmentContainer, addVisitFragment);
+        //    trans.AddToBackStack(null);
+        //    trans.Commit();
+        //}
 
         private void reminderCard_ItemClick(object sender, int position)
         {
-            //MainActivity.eventToEdit = events[e.Position];
-
             int id = events[position].Id; //przesłać id w bundlu
 
             Bundle bundle = new Bundle();
@@ -140,11 +139,6 @@ namespace ZdrowiePlus.Fragments
                         break;
                 }
 
-                //foreach (var visit in events)
-                //{
-                //    MainActivity.visitList.Add(visit);
-                //}
-
                 reminderAdapter = new ListReminderAdapter(events);
                 reminderAdapter.ItemClick += reminderCard_ItemClick;
                 reminderRecyclerView.SetAdapter(reminderAdapter);
@@ -152,8 +146,8 @@ namespace ZdrowiePlus.Fragments
                 // Event list is empty
                 if (events.Count == 0)
                 {
-                    buttonAddVisit.Visibility = ViewStates.Visible;
-                    buttonAddMedicine.Visibility = ViewStates.Visible;
+                    //buttonAddVisit.Visibility = ViewStates.Visible;
+                    //buttonAddMedicine.Visibility = ViewStates.Visible;
                 }
 
             }

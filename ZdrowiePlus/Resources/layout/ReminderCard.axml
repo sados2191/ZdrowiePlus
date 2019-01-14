@@ -38,7 +38,7 @@
 			android:text="Data czas"
 			android:gravity="right"
 			android:textSize="14sp"
-			android:textColor="#0388e5"
+			android:textColor="@color/static_text"
 			android:id="@+id/textDate" />
 
 	</LinearLayout>

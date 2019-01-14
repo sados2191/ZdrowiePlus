@@ -4,7 +4,6 @@
   <string name="openDrawer">Otwórz szufladę nawigacyjną</string>
   <string name="closeDrawer">Zamknij szufladę nawigacyjną</string>
 
-  <string name="measurements_prompt">Wybierz pomiar</string>
   <string-array name="measurements_array">
     <item>Ciśnienie</item>
     <item>Poziom glukozy</item>

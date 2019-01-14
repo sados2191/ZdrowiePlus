@@ -73,7 +73,7 @@ namespace ZdrowiePlus.Fragments
             //    Arguments = null;
             //}
 
-            //additionals for blood presure
+            //additional for blood presure
             linearLayout2 = view.FindViewById<LinearLayout>(Resource.Id.measurementLayout2);
 
             measurementValue = view.FindViewById<EditText>(Resource.Id.measurementValue);
@@ -137,8 +137,17 @@ namespace ZdrowiePlus.Fragments
             timeDisplay.Click += TimeSelectOnClick;
 
             //Add measurement button
-            Button buttonAddMeasurement = view.FindViewById<Button>(Resource.Id.btnAddMeasurement);
+            Button buttonAddMeasurement = view.FindViewById<Button>(Resource.Id.buttonAdd);
             buttonAddMeasurement.Click += AddMeasurement;
+
+            Button buttonCancel = view.FindViewById<Button>(Resource.Id.buttonCancel);
+            buttonCancel.Click += (s, e) =>
+            {
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, measurementListFragment);
+                trans.AddToBackStack(null);
+                trans.Commit();
+            };
 
             return view;
         }
@@ -336,6 +345,7 @@ namespace ZdrowiePlus.Fragments
                 //jak nie działa - if contain???
                 //spinner.DispatchSetSelected(false);
                 int spinnerPosition = Arguments.GetInt("type", 0);
+                //spinner.SetSelection(0, false);
                 spinner.SetSelection(spinnerPosition, true);
                 Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
                 //Arguments.Clear();

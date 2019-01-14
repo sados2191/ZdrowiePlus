@@ -5,6 +5,7 @@
   <color name="active_text">#032ae5</color>
   <color name="card_button_background">#039be5</color>
   <color name="card_button_text">#FFFFFF</color>
+  <color name="spinner_selector">#B3BFF7</color>
   
   <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="colorPrimary">#039BE5</item>

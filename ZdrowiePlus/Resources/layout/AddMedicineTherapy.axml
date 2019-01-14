@@ -67,7 +67,8 @@
 
 				<TextView
 					android:text="Początek:"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="35"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -76,9 +77,10 @@
 
 				<TextView
 					android:text="Data początku"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="65"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="5dp"
+					android:gravity="left"
 					android:textSize="18sp"
 					android:textColor="@color/active_text"
 					android:id="@+id/medicineStartDate" />
@@ -93,7 +95,8 @@
 
 				<TextView
 					android:text="Koniec:"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="35"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -102,9 +105,10 @@
 
 				<TextView
 					android:text="Data końca"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="65"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="5dp"
+					android:gravity="left"
 					android:textSize="18sp"
 					android:textColor="@color/active_text"
 					android:id="@+id/medicineEndDate" />
@@ -119,8 +123,7 @@
 				android:layout_marginLeft="5dp"
 				android:textSize="18sp"
 				android:textStyle="bold"
-				android:textColor="@color/static_text"
-				android:id="@+id/labelMedicineRepeat" />
+				android:textColor="@color/static_text" />
 
 			<LinearLayout
 				android:layout_width="match_parent"
@@ -244,8 +247,7 @@
 					android:layout_marginRight="5dp"
 					android:textColor="@color/static_text"
 					android:textSize="18sp"
-					android:textStyle="bold"
-					android:id="@+id/labelMedicineTimes" />
+					android:textStyle="bold" />
 
 				<ListView
 					android:divider="#818181"

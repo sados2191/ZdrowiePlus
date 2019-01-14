@@ -24,7 +24,7 @@
 		<Spinner
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:dropDownSelector="#ffe1d2"
+			android:dropDownSelector="@color/spinner_selector"
 			android:popupBackground="#ffffff"
 			android:spinnerMode="dropdown"
 			android:id="@+id/reminderSpinner" />
@@ -37,6 +37,7 @@
 		android:scrollbars="vertical"
         android:id="@+id/recyclerViewReminders" />
 
+	<!--
 	<Button
 		android:text="Dodaj wizytę"
 		android:layout_width="match_parent"
@@ -50,4 +51,5 @@
 		android:layout_height="wrap_content"
 		android:visibility="invisible"
 		android:id="@+id/btnAddMedicine_list" />
+	-->
 </LinearLayout>

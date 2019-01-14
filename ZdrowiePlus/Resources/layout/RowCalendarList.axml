@@ -8,30 +8,31 @@
 	android:paddingRight="0dp"
 	android:paddingTop="2dp"
 	android:paddingBottom="2dp" >
+
+	<ImageView
+		android:layout_width="25dp"
+		android:layout_height="25dp"
+		android:layout_marginLeft="10dp"
+		android:id="@+id/iconType" />
+
 	<TextView
-		android:text="Time"
-		android:textSize="18sp"
-		android:layout_width="0dp"
-		android:layout_weight="15"
-		android:layout_height="wrap_content"
-		android:gravity="right"
-		android:id="@+id/txtTimeCalendar" />
-	<TextView
-		android:text="Descryption"
-		android:textSize="18sp"
 		android:layout_width="0dp"
 		android:layout_weight="60"
 		android:layout_height="wrap_content"
-		android:gravity="left"
-		android:layout_marginLeft="7dp"
-		android:id="@+id/txtTitleCalendar" />
-	<TextView 
-		android:text="Type"
+		android:text="Title"
 		android:textSize="18sp"
+		android:gravity="left"
+		android:layout_marginLeft="10dp"
+		android:id="@+id/txtTitleCalendar" />
+
+	<TextView
 		android:layout_width="0dp"
-		android:layout_weight="20"
+		android:layout_weight="15"
 		android:layout_height="wrap_content"
+		android:text="Time"
+		android:textSize="18sp"
+		android:textColor="@color/static_text"
 		android:gravity="right"
-		android:layout_marginRight="7dp"
-		android:id="@+id/txtTypeCalendar" />
+		android:layout_marginRight="10dp"
+		android:id="@+id/txtTimeCalendar" />
 </LinearLayout>

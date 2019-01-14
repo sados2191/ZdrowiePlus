@@ -56,19 +56,19 @@ namespace ZdrowiePlus
             TextView txtDesc = row.FindViewById<TextView>(Resource.Id.txtTitleCalendar);
             txtDesc.Text = mItems[position].Title;
 
-            TextView txtType = row.FindViewById<TextView>(Resource.Id.txtTypeCalendar);
+            ImageView iconType = row.FindViewById<ImageView>(Resource.Id.iconType);
             switch (mItems[position].EventType)
             {
                 case EventType.Visit:
-                    txtType.Text = "Wizyta";
-                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#cc6600"));
+                    iconType.SetImageResource(Resource.Drawable.doctor_icon);
+                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#e54d03"));
                     break;
                 case EventType.Medicine:
-                    txtType.Text = "Leki";
+                    iconType.SetImageResource(Resource.Drawable.medical_pill);
                     txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     break;
                 case EventType.Measurement:
-                    txtType.Text = "Pomiar";
+                    iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
                     txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#3700b3"));
                     break;
                 default:

@@ -50,7 +50,7 @@ namespace ZdrowiePlus
                 case EventType.Visit:
                     //txtType.Text = "Wizyta";
                     //txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#cc6600"));
-                    reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#e10096"));
+                    reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#e54d03"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.doctor_icon);
                     break;
                 case EventType.Medicine:

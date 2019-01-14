@@ -45,7 +45,7 @@
 			android:layout_width="100dp"
 			android:layout_height="wrap_content"
 			android:gravity="right"
-			android:textColor="#0388e5"
+			android:textColor="@color/static_text"
 			android:id="@+id/textDate" />		
 
 	</LinearLayout>

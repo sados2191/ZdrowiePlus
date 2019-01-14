@@ -114,7 +114,9 @@ namespace ZdrowiePlus
                 case MeasurementType.BodyWeight:
                     measurement.measurementValue.Text = $"{mItems[position].Value} kg";
 
-                    measurement.measurementAnalysis.Text = "Waga";
+                    measurement.measurementAnalysis.Text = "Prawidłowa. BMI: 25";
+                    measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#00a300"));
+
                     double valueW = double.Parse(mItems[position].Value, CultureInfo.InvariantCulture);
                     break;
                 case MeasurementType.GlucoseLevel:

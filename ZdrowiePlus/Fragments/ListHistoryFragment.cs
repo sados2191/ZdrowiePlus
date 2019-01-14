@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
+using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -20,10 +21,11 @@ namespace ZdrowiePlus.Fragments
 {
     public class ListHistoryFragment : Android.App.Fragment
     {
-        //public static ListViewReminderAdapter visitAdapter;
-        private static EditReminderFragment editVisitFragment = new EditReminderFragment();
-        private static AddVisitFragment addVisitFragment = new AddVisitFragment();
-        private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
+        private static EditReminderFragment editReminderFragment = new EditReminderFragment();
+
+        ListReminderAdapter reminderAdapter;
+        RecyclerView reminderRecyclerView;
+        Spinner spinner;
 
         List<Event> events;
 
@@ -38,8 +40,46 @@ namespace ZdrowiePlus.Fragments
         {
             View view = inflater.Inflate(Resource.Layout.ListReminders, container, false);
 
-            //MainActivity.visitList.Clear();
+            reminderRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerViewReminders);
+            reminderRecyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
+            reminderRecyclerView.HasFixedSize = true;
 
+            //event type spinner
+            spinner = view.FindViewById<Spinner>(Resource.Id.reminderSpinner);
+            spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
+
+            loadData();
+
+            return view;
+        }
+
+        private void reminderCard_ItemClick(object sender, int position)
+        {
+            int id = events[position].Id; //przesłać id w bundlu
+
+            Bundle bundle = new Bundle();
+            bundle.PutInt("id", id);
+            editReminderFragment.Arguments = bundle;
+
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, editReminderFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
+            MainActivity.listFilter = e.Position;
+            loadData();
+        }
+
+        public void loadData() //zmienić na przekazywanie enuma
+        {
             if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
             {
                 // We have permission
@@ -60,33 +100,22 @@ namespace ZdrowiePlus.Fragments
                     case 2:
                         events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
+                    case 3:
+                        events = db.Table<Event>().Where(e => e.EventType == EventType.Measurement && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                        break;
                     default:
                         events = db.Table<Event>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                 }
 
-                //foreach (var visit in events)
-                //{
-                //    MainActivity.visitList.Add(visit);
-                //}
-
-                //visitAdapter = new ListViewReminderAdapter(this.Activity, /* MainActivity.visitList */ events);
-                //ListView visitListView = view.FindViewById<ListView>(Resource.Id.listViewVisits);
-                //visitListView.Adapter = visitAdapter;
-                //visitListView.FastScrollEnabled = true;
-
-                //visitListView.ItemClick += visitListView_ItemClick;
+                reminderAdapter = new ListReminderAdapter(events);
+                reminderAdapter.ItemClick += reminderCard_ItemClick;
+                reminderRecyclerView.SetAdapter(reminderAdapter);
 
                 // Event list is empty
                 if (events.Count == 0)
                 {
-                    Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
-                    buttonAddVisit.Click += AddVisit;
-                    buttonAddVisit.Visibility = ViewStates.Visible;
 
-                    Button buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
-                    buttonAddMedicine.Click += AddMedicine;
-                    buttonAddMedicine.Visibility = ViewStates.Visible;
                 }
 
             }
@@ -107,37 +136,6 @@ namespace ZdrowiePlus.Fragments
                 ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
 
             }
-
-            return view;
-        }
-
-        private void AddMedicine(object sender, EventArgs e)
-        {
-            var trans = FragmentManager.BeginTransaction();
-
-            trans.Replace(Resource.Id.fragmentContainer, medicineTherapyFragment);
-            trans.AddToBackStack(null);
-            trans.Commit();
-        }
-
-        private void AddVisit(object sender, EventArgs e)
-        {
-            var trans = FragmentManager.BeginTransaction();
-
-            trans.Replace(Resource.Id.fragmentContainer, addVisitFragment);
-            trans.AddToBackStack(null);
-            trans.Commit();
-        }
-
-        private void visitListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            //MainActivity.eventToEdit = events[e.Position];
-
-            var trans = FragmentManager.BeginTransaction();
-
-            trans.Replace(Resource.Id.fragmentContainer, editVisitFragment);
-            trans.AddToBackStack(null);
-            trans.Commit();
         }
 
         public override void OnResume()

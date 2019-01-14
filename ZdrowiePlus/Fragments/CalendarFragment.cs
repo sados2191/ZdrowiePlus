@@ -20,9 +20,11 @@ namespace ZdrowiePlus.Fragments
 {
     public class CalendarFragment : Android.App.Fragment
     {
-        public static ListViewCalendarAdapter visitAdapter;
+        private static EditReminderFragment editReminderFragment = new EditReminderFragment();
+
+        public static ListViewCalendarAdapter listAdapter;
         public CalendarView calendarView;
-        ListView visitListView;
+        ListView remindersListView;
 
         List<Event> events = new List<Event>();
 
@@ -62,10 +64,12 @@ namespace ZdrowiePlus.Fragments
                 //    MainActivity.visitList.Add(visit);
                 //}
 
-                visitAdapter = new ListViewCalendarAdapter(this.Activity, /* MainActivity.visitList */ events);
-                visitListView = view.FindViewById<ListView>(Resource.Id.listViewCalendar);
-                visitListView.Adapter = visitAdapter;
-                visitListView.FastScrollEnabled = true;
+                listAdapter = new ListViewCalendarAdapter(this.Activity, /* MainActivity.visitList */ events);
+                remindersListView = view.FindViewById<ListView>(Resource.Id.listViewCalendar);
+                remindersListView.Adapter = listAdapter;
+                remindersListView.FastScrollEnabled = true;
+
+                remindersListView.ItemClick += reminder_ItemClick;
             }
             else
             {
@@ -88,6 +92,21 @@ namespace ZdrowiePlus.Fragments
             return view; 
         }
 
+        private void reminder_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            int id = events[e.Position].Id; //przesłać id w bundlu
+
+            Bundle bundle = new Bundle();
+            bundle.PutInt("id", id);
+            editReminderFragment.Arguments = bundle;
+
+            var trans = FragmentManager.BeginTransaction();
+
+            trans.Replace(Resource.Id.fragmentContainer, editReminderFragment);
+            trans.AddToBackStack(null);
+            trans.Commit();
+        }
+
         private void DateSelect(object sender, CalendarView.DateChangeEventArgs e)
         {
             // Month is a value beetwen 0 and 11
@@ -104,8 +123,8 @@ namespace ZdrowiePlus.Fragments
             events.Clear();
             events = db.Table<Event>().Where(x => x.Date >= selectedDate && x.Date < nextDay).OrderBy(x => x.Date).ToList();
 
-            visitAdapter = new ListViewCalendarAdapter(this.Activity, events);
-            visitListView.Adapter = visitAdapter;
+            listAdapter = new ListViewCalendarAdapter(this.Activity, events);
+            remindersListView.Adapter = listAdapter;
             //visitAdapter.NotifyDataSetChanged();
         }
     }

@@ -21,9 +21,14 @@ namespace ZdrowiePlus
     [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        //sprawdzać datę przed dodawaniem
         //usunąć debugowe Toasty
         //poprawne ustawianie textu labelki
         //godzina i data OnResume
+        //potwierdzenie usuwania
+        //usuwanie serii w aktywnych czy w historii
+        //kliki w historii
+        //wygląd powiadomienia
         //usunąć id z xml, gdzie niepotrzebne
         //dodać podawanie wzrostu w wadze, SharedPreferences?
         //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej

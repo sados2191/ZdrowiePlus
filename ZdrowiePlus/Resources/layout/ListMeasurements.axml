@@ -23,7 +23,7 @@
 		<Spinner
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:dropDownSelector="#ffe1d2"
+			android:dropDownSelector="@color/spinner_selector"
 			android:popupBackground="#ffffff"
 			android:spinnerMode="dropdown"
 			android:id="@+id/measurementsListSpinner" />

@@ -30,6 +30,7 @@ namespace ZdrowiePlus.Fragments
         EditText eventDescription;
         Event eventToEdit;
         TextView eventType;
+        ImageView iconType;
         Spinner measurementSpinner;
         int year, month, day, hour, minute;
 
@@ -62,22 +63,26 @@ namespace ZdrowiePlus.Fragments
             
             //type
             eventType = view.FindViewById<TextView>(Resource.Id.textEditType);
+            iconType = view.FindViewById<ImageView>(Resource.Id.imageEditType);
             //eventType.Text = eventToEdit.EventType.ToString();
             if (eventToEdit.EventType == EventType.Measurement)
             {
-                eventType.Text = "Pomiar";
+                eventType.Text = "Przypomienie o pomiarze";
+                iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
             }
             else if (eventToEdit.EventType == EventType.Visit)
             {
-                eventType.Text = "Wizyta";
+                eventType.Text = "Przypomienie o wizycie";
+                iconType.SetImageResource(Resource.Drawable.doctor_icon);
             }
             else if (eventToEdit.EventType == EventType.Medicine)
             {
-                eventType.Text = "Leki";
+                eventType.Text = "Przypomienie o lekach";
+                iconType.SetImageResource(Resource.Drawable.medical_pill);
             }
 
             //title
-            eventTitle = view.FindViewById<EditText>(Resource.Id.visitEditTitle);
+            eventTitle = view.FindViewById<EditText>(Resource.Id.eventEditTitle);
             eventTitle.Text = eventToEdit.Title;
 
             //measurement type spinner
@@ -88,17 +93,19 @@ namespace ZdrowiePlus.Fragments
             measurementSpinner.Adapter = adapter;
             //measurementSpinner.SetSelection(4, true);
 
+            LinearLayout measurementLayout = view.FindViewById<LinearLayout>(Resource.Id.layoutMeasurement);
+
             if (eventToEdit.EventType == EventType.Measurement)
             {
                 eventTitle.Visibility = ViewStates.Gone;
-                measurementSpinner.Visibility = ViewStates.Visible;
+                measurementLayout.Visibility = ViewStates.Visible;
 
                 measurementSpinner.SetSelection(adapter.GetPosition(eventToEdit.Title), true);
             }
             else
             {
                 eventTitle.Visibility = ViewStates.Visible;
-                measurementSpinner.Visibility = ViewStates.Gone;
+                measurementLayout.Visibility = ViewStates.Gone;
             }
 
             //date choosing
@@ -112,24 +119,38 @@ namespace ZdrowiePlus.Fragments
             eventTime.Click += TimeSelectOnClick;
 
             //description
-            eventDescription = view.FindViewById<EditText>(Resource.Id.visitEditDescription);
+            eventDescription = view.FindViewById<EditText>(Resource.Id.eventEditDescription);
             eventDescription.Text = eventToEdit.Description;
 
             //Save visit button
-            Button buttonSaveVisit = view.FindViewById<Button>(Resource.Id.btnSaveVisit);
+            Button buttonSaveVisit = view.FindViewById<Button>(Resource.Id.buttonSave);
             buttonSaveVisit.Click += SaveVisit;
 
             //Delete visit button
-            Button buttonDeleteVisit = view.FindViewById<Button>(Resource.Id.btnDeleteVisit);
+            Button buttonDeleteVisit = view.FindViewById<Button>(Resource.Id.buttonDelete);
             buttonDeleteVisit.Click += DeleteVisit;
 
             //Delete series button
-            Button buttonDeleteSeries = view.FindViewById<Button>(Resource.Id.btnDeleteSeries);
+            Button buttonDeleteSeries = view.FindViewById<Button>(Resource.Id.buttonDeleteSeries);
             buttonDeleteSeries.Click += DeleteSeries;
             if (eventToEdit.EventType == EventType.Medicine || eventToEdit.EventType == EventType.Measurement)
             {
                 buttonDeleteSeries.Visibility = ViewStates.Visible;
             }
+            else
+            {
+                buttonDeleteSeries.Visibility = ViewStates.Gone;
+            }
+
+            //Cancel button
+            Button buttonCancel = view.FindViewById<Button>(Resource.Id.buttonCancel);
+            buttonCancel.Click += (s, e) =>
+            {
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
+                trans.AddToBackStack(null);
+                trans.Commit();
+            };
 
             return view;
         }

@@ -1,103 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	<Spinner
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:textSize="18sp"
-		android:prompt="@string/measurements_prompt"
-		android:id="@+id/measurementSpinner" />
-	<TextView
-		android:text="Data pomiaru:"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:layout_marginLeft="5dp"
-		android:textSize="18sp"
-		android:textColor="@color/static_text"
-		android:id="@+id/labelMeasurementDate" />
-	<TextView
-		android:text="Data"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:textSize="18sp"
-		android:gravity="center"
-		android:id="@+id/textMeasurementDate" />
-	<TextView
-		android:text="Godzina pomiaru:"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="7dp"
-		android:layout_marginBottom="7dp"
-		android:layout_marginLeft="5dp"
-		android:textSize="18sp"
-		android:textColor="@color/static_text"
-		android:id="@+id/labelMeasurementTime" />
-    <TextView
-        android:text="Godzina"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:id="@+id/textMeasurementTime" />
+
 	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<EditText
-			android:layout_width="0dp"
-			android:layout_weight="70"
-			android:layout_height="wrap_content"
-			android:hint="Wynik pomiaru"
-			android:inputType="numberDecimal"
-			android:imeOptions="actionDone"
-			android:id="@+id/measurementValue" />
-		<TextView
-			android:text="jednostka"
-			android:textSize="18sp"
-			android:textColor="@color/static_text"
-			android:layout_width="0dp"
-			android:layout_weight="30"
-			android:layout_height="wrap_content"
-			android:id="@+id/measurementValueUnit" />
-	</LinearLayout>
-	<LinearLayout
-		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:visibility="gone"
-		android:id="@+id/measurementLayout2" >
-		<EditText
-			android:layout_width="0dp"
-			android:layout_weight="70"
-			android:layout_height="wrap_content"
-			android:hint="Wynik pomiaru"
-			android:inputType="numberDecimal"
-			android:imeOptions="actionDone"
-			android:id="@+id/measurementValue2" />
+		android:layout_marginLeft="5dp"
+		android:layout_marginTop="7dp"
+		android:orientation="horizontal">
+
+		<ImageView
+			android:layout_width="30dp"
+			android:layout_height="30dp"
+			android:padding="2dp"
+			android:tint="@android:color/black"
+			android:src="@drawable/pulsometer_icon" />
+
 		<TextView
-			android:text="jednostka"
-			android:textSize="18sp"
-			android:textColor="@color/static_text"
-			android:layout_width="0dp"
-			android:layout_weight="30"
+			android:text="Dodaj pomiar"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/measurementValueUnit2" />
-	</LinearLayout>
-	<Button
-		android:text="Dodaj"
+			android:layout_marginTop="0dp"
+			android:layout_marginLeft="5dp"
+			android:layout_gravity="center_vertical"
+			android:textSize="15sp"
+			android:textStyle="bold"
+			android:textColor="@color/static_text" />
+		</LinearLayout>
+
+	<android.support.v7.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/btnAddMeasurement" />
+		android:layout_margin="5dp"
+		app:cardCornerRadius="4dp">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Typ pomiaru:"
+					android:layout_width="0dp"
+					android:layout_weight="35"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<Spinner
+					android:layout_width="0dp"
+					android:layout_weight="65"
+					android:layout_height="wrap_content"
+					android:dropDownSelector="@color/spinner_selector"
+					android:popupBackground="#ffffff"
+					android:spinnerMode="dropdown"
+					android:id="@+id/measurementSpinner" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Data:"
+					android:layout_width="0dp"
+					android:layout_weight="35"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="Data"
+					android:layout_width="0dp"
+					android:layout_weight="65"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:gravity="left"
+					android:id="@+id/textMeasurementDate" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Godzina:"
+					android:layout_width="0dp"
+					android:layout_weight="35"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="Godzina"
+					android:layout_width="0dp"
+					android:layout_weight="65"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:gravity="left"
+					android:textColor="@color/active_text"
+					android:id="@+id/textMeasurementTime" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<EditText
+					android:layout_width="0dp"
+					android:layout_weight="70"
+					android:layout_height="wrap_content"
+					android:hint="Wynik pomiaru"
+					android:inputType="numberDecimal"
+					android:imeOptions="actionDone"
+					android:textColor="@color/active_text"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:id="@+id/measurementValue" />
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_weight="30"
+					android:layout_height="wrap_content"
+					android:text="jednostka"
+					android:textSize="18sp"
+					android:textColor="@color/static_text"
+					android:id="@+id/measurementValueUnit" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone"
+				android:id="@+id/measurementLayout2" >
+
+				<EditText
+					android:layout_width="0dp"
+					android:layout_weight="70"
+					android:layout_height="wrap_content"
+					android:hint="Wynik pomiaru"
+					android:inputType="numberDecimal"
+					android:imeOptions="actionDone"
+					android:textColor="@color/active_text"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:id="@+id/measurementValue2" />
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_weight="30"
+					android:layout_height="wrap_content"
+					android:text="jednostka"
+					android:textSize="18sp"
+					android:textColor="@color/static_text"
+					android:id="@+id/measurementValueUnit2" />
+			</LinearLayout>
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+	<android.support.v7.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_margin="5dp"
+		app:cardCornerRadius="4dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<Button
+				android:text="Anuluj"
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonCancel" />
+
+			<View
+				android:layout_width="2dp"
+				android:layout_height="match_parent"
+				android:background="#FFFFFF"/>
+
+			<Button
+				android:text="Dodaj"
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonAdd" />
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

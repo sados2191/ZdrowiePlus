@@ -63,7 +63,8 @@
 
 				<TextView
 					android:text="Data:"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="35"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -72,11 +73,12 @@
 
 				<TextView
 					android:text="Data"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="65"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
 					android:textColor="@color/active_text"
+					android:gravity="left"
 					android:id="@+id/textDate" />
 			</LinearLayout>
 
@@ -89,7 +91,8 @@
 
 				<TextView
 					android:text="Godzina:"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="35"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -98,10 +101,11 @@
 
 				<TextView
 					android:text="Godzina"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="65"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
+					android:gravity="left"
 					android:textColor="@color/active_text"
 					android:id="@+id/textTime" />
 			</LinearLayout>
@@ -113,7 +117,8 @@
 
 				<TextView
 					android:text="Przypomienie:"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="35"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -121,22 +126,22 @@
 					android:textColor="@color/static_text" />
 
 				<EditText
+					android:layout_width="0dp"
+					android:layout_weight="20"
+					android:layout_height="wrap_content"
 					android:inputType="number"
 					android:imeOptions="actionDone"
 					android:maxLength="3"
 					android:selectAllOnFocus="true"
-					android:layout_marginLeft="10dp"
-					android:layout_marginRight="7dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					android:textSize="18sp"
 					android:textColor="@color/active_text"
 					android:id="@+id/textAddVisitReminder" />
 
 				<Spinner
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="45"
 					android:layout_height="wrap_content"
-					android:dropDownSelector="#ffe1d2"
+					android:dropDownSelector="@color/spinner_selector"
 					android:popupBackground="#ffffff"
 					android:spinnerMode="dropdown"
 					android:id="@+id/addVisitReminderSpinner" />
@@ -161,34 +166,34 @@
 		app:cardCornerRadius="4dp">
 
 		<LinearLayout
-				android:layout_width="match_parent"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<Button
+				android:text="Anuluj"
+				android:layout_width="0dp"
+				android:layout_weight="50"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal">
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonCancel" />
 
-				<Button
-					android:text="Anuluj"
-					android:layout_width="0dp"
-					android:layout_weight="50"
-					android:layout_height="wrap_content"
-					android:background="@color/card_button_background"
-					android:textColor="@color/card_button_text"
-					android:textStyle="bold"
-					android:id="@+id/buttonCancel" />
+			<View
+				android:layout_width="2dp"
+				android:layout_height="match_parent"
+				android:background="#FFFFFF"/>
 
-				<View
-					android:layout_width="2dp"
-					android:layout_height="match_parent"
-					android:background="#FFFFFF"/>
-
-				<Button
-					android:text="Dodaj"
-					android:layout_width="0dp"
-					android:layout_weight="50"
-					android:layout_height="wrap_content"
-					android:background="@color/card_button_background"
-					android:textColor="@color/card_button_text"
-					android:textStyle="bold"
-					android:id="@+id/buttonAdd" />
+			<Button
+				android:text="Dodaj"
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonAdd" />
 			</LinearLayout>
 	</android.support.v7.widget.CardView>
 </LinearLayout>
