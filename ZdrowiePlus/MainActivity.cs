@@ -30,7 +30,6 @@ namespace ZdrowiePlus
         //kliki w historii
         //wygląd powiadomienia
         //usunąć id z xml, gdzie niepotrzebne
-        //dodać podawanie wzrostu w wadze, SharedPreferences?
         //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej
         //sprawdzić czy OnNewIntent jest potrzebne
         //usunąć toolbar menu z prawego rogu
@@ -397,6 +396,7 @@ namespace ZdrowiePlus
                         alarmManager.Cancel(pendingIntent);
                     }
                     db.DeleteAll<Event>();
+                    db.DeleteAll<Measurement>();
                     ReplaceFragment(reminderListFragment);
                     break;
             }

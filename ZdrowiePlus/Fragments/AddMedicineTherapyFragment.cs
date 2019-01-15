@@ -202,7 +202,7 @@ namespace ZdrowiePlus.Fragments
             }
 
             string medicineNameString = medicineName.Text.Trim();
-            if (medicineNameString == String.Empty)
+            if (medicineNameString == string.Empty)
             {
                 Toast.MakeText(this.Activity, $"Nazwa leku nie może być pusta", ToastLength.Short).Show();
                 return;
@@ -320,7 +320,7 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
-            medicineName.Text = String.Empty;
+            medicineName.Text = string.Empty;
             startDate.Text = dateTime.ToLongDateString();
             startDate.Text = dateTime.ToLongDateString();
         }

@@ -112,12 +112,35 @@ namespace ZdrowiePlus
                     }
                     break;
                 case MeasurementType.BodyWeight:
-                    measurement.measurementValue.Text = $"{mItems[position].Value} kg";
+                    string[] values_weight = mItems[position].Value.Split('/');
 
-                    measurement.measurementAnalysis.Text = "Prawidłowa. BMI: 25";
-                    measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#00a300"));
+                    double value_height = double.Parse(values_weight[0], CultureInfo.InvariantCulture)/100;
+                    double value_weight = double.Parse(values_weight[1], CultureInfo.InvariantCulture);
 
-                    double valueW = double.Parse(mItems[position].Value, CultureInfo.InvariantCulture);
+                    measurement.measurementValue.Text = $"{value_weight} kg";
+
+                    double bmi = value_weight / (value_height * value_height);
+
+                    if (bmi < 18.5)
+                    {
+                        measurement.measurementAnalysis.Text = $"Niedowaga. BMI: {bmi.ToString("0.00")}";
+                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#4da6ff"));
+                    }
+                    else if (bmi < 25)
+                    {
+                        measurement.measurementAnalysis.Text = $"Prawidłowa. BMI: {bmi.ToString("0.00")}";
+                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#00a300"));
+                    }
+                    else if (bmi < 30)
+                    {
+                        measurement.measurementAnalysis.Text = $"Nadwaga. BMI: {bmi.ToString("0.00")}";
+                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#FBBC05"));
+                    }
+                    else
+                    {
+                        measurement.measurementAnalysis.Text = $"Otyłość. BMI: {bmi.ToString("0.00")}";
+                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#ee1111"));
+                    }
                     break;
                 case MeasurementType.GlucoseLevel:
                     measurement.measurementValue.Text = $"{mItems[position].Value} mg/dL";

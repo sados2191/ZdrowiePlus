@@ -22,6 +22,9 @@ namespace ZdrowiePlus.Fragments
 {
     public class AddMeasurementFragment : Android.App.Fragment
     {
+        const string SHARED_PREFS = "shared preferences";
+        const string HEIGHT = "height";
+
         ListMeasurementsFragment measurementListFragment = new ListMeasurementsFragment();
 
         TextView dateDisplay;
@@ -76,55 +79,16 @@ namespace ZdrowiePlus.Fragments
             //additional for blood presure
             linearLayout2 = view.FindViewById<LinearLayout>(Resource.Id.measurementLayout2);
 
+            //Edit text boxes for values
             measurementValue = view.FindViewById<EditText>(Resource.Id.measurementValue);
             measurementValue2 = view.FindViewById<EditText>(Resource.Id.measurementValue2);
 
             //value unit
             valueUnit = view.FindViewById<TextView>(Resource.Id.measurementValueUnit);
             valueUnit2 = view.FindViewById<TextView>(Resource.Id.measurementValueUnit2);
-            switch (spinner.SelectedItemPosition)
-            {
-                case 0://ciśnienie
-                    valueUnit.Text = "mmHG";
-                    valueUnit2.Text = "mmHG";
-                    //measurementValue.InputType = Android.Text.InputTypes.ClassText | Android.Text.InputTypes.TextVariationFilter;
-                    measurementValue.Text = String.Empty;
-                    measurementValue2.Text = String.Empty;
-                    measurementValue.Hint = "Ciśnienie skurczowe";
-                    measurementValue2.Hint = "Ciśnienie rozkurczowe";
-                    linearLayout2.Visibility = ViewStates.Visible;
-                    break;
-                case 1://poziom glukozy
-                    valueUnit.Text = "mg/dL";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
-                    measurementValue.Hint = "poziom glukozy";
-                    linearLayout2.Visibility = ViewStates.Gone;
-                    break;
-                case 2://temperatura
-                    valueUnit.Text = "°C";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
-                    measurementValue.Hint = "temperatura";
-                    linearLayout2.Visibility = ViewStates.Gone;
-                    break;
-                case 3://tętno
-                    valueUnit.Text = "ud/min";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
-                    measurementValue.Hint = "tętno";
-                    linearLayout2.Visibility = ViewStates.Gone;
-                    break;
-                case 4://waga
-                    valueUnit.Text = "kg";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
-                    measurementValue.Hint = "waga";
-                    linearLayout2.Visibility = ViewStates.Gone;
-                    break;
-                default:
-                    break;
-            }
+
+            //set measurement type based on spinner position
+            SetMeasurementType(spinner.SelectedItemPosition);
 
             //date choosing
             dateDisplay = view.FindViewById<TextView>(Resource.Id.textMeasurementDate);
@@ -154,56 +118,65 @@ namespace ZdrowiePlus.Fragments
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            switch (e.Position)
+            //set measurement type based on spinner position
+            SetMeasurementType(e.Position);
+        }
+
+        private void SetMeasurementType(int switch_case)
+        {
+            switch (switch_case)
             {
                 case 0://ciśnienie
                     valueUnit.Text = "mmHG";
                     valueUnit2.Text = "mmHG";
-                    //measurementValue.InputType = Android.Text.InputTypes.ClassText | Android.Text.InputTypes.TextVariationFilter;
-                    measurementValue.Text = String.Empty;
-                    measurementValue2.Text = String.Empty;
+                    measurementValue.Text = string.Empty;
+                    measurementValue2.Text = string.Empty;
                     measurementValue.Hint = "Ciśnienie skurczowe";
                     measurementValue2.Hint = "Ciśnienie rozkurczowe";
                     linearLayout2.Visibility = ViewStates.Visible;
                     break;
                 case 1://poziom glukozy
                     valueUnit.Text = "mg/dL";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
-                    measurementValue.Hint = "poziom glukozy";
+                    measurementValue.Text = string.Empty;
+                    measurementValue.Hint = "Poziom glukozy";
                     linearLayout2.Visibility = ViewStates.Gone;
                     break;
                 case 2://temperatura
                     valueUnit.Text = "°C";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
+                    measurementValue.Text = string.Empty;
                     measurementValue.Hint = "temperatura";
                     linearLayout2.Visibility = ViewStates.Gone;
                     break;
                 case 3://tętno
                     valueUnit.Text = "ud/min";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
+                    measurementValue.Text = string.Empty;
                     measurementValue.Hint = "tętno";
                     linearLayout2.Visibility = ViewStates.Gone;
                     break;
                 case 4://waga
-                    valueUnit.Text = "kg";
-                    //measurementValue.InputType = Android.Text.InputTypes.NumberFlagDecimal | Android.Text.InputTypes.ClassNumber;
-                    measurementValue.Text = String.Empty;
-                    measurementValue.Hint = "waga";
-                    linearLayout2.Visibility = ViewStates.Gone;
+                    ISharedPreferences sharedPreferences = Application.Context.GetSharedPreferences(SHARED_PREFS, FileCreationMode.Private);
+                    ISharedPreferencesEditor editor = sharedPreferences.Edit();
+
+                    valueUnit.Text = "cm";
+                    measurementValue.Text = sharedPreferences.GetString(HEIGHT, string.Empty);
+                    measurementValue.Hint = "Wzrost";
+
+                    valueUnit2.Text = "kg";
+                    measurementValue2.Text = string.Empty;
+                    measurementValue2.Hint = "Waga";
+                    linearLayout2.Visibility = ViewStates.Visible;
                     break;
                 default:
                     break;
             }
         }
 
+
         void AddMeasurement(object sender, EventArgs e)
         {
             int measurementType = spinner.SelectedItemPosition;
             DateTime measurementTime = new DateTime(year, month, day, hour, minute, 0);
-            string value = String.Empty;
+            string value = string.Empty;
             //string description = this.Activity.FindViewById<EditText>(Resource.Id.).Text;
 
             var newMeasurement = new Measurement();
@@ -228,14 +201,20 @@ namespace ZdrowiePlus.Fragments
                     break;
                 case 4:
                     newMeasurement.MeasurementType = MeasurementType.BodyWeight;
+
+                    ISharedPreferences sharedPreferences = Application.Context.GetSharedPreferences(SHARED_PREFS, FileCreationMode.Private);
+                    ISharedPreferencesEditor editor = sharedPreferences.Edit();
+                    editor.PutString(HEIGHT, measurementValue.Text.Trim());
+                    editor.Apply();
+
                     Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 default:
                     break;
             }
-            if (newMeasurement.MeasurementType == MeasurementType.BloodPressure)
+            if (newMeasurement.MeasurementType == MeasurementType.BloodPressure || newMeasurement.MeasurementType == MeasurementType.BodyWeight)
             {
-                if (measurementValue.Text.Trim() != String.Empty && measurementValue2.Text.Trim() != String.Empty)
+                if (measurementValue.Text.Trim() != string.Empty && measurementValue2.Text.Trim() != string.Empty)
                 {
                     value = $"{measurementValue.Text.Trim()}/{measurementValue2.Text.Trim()}";
                 }
@@ -256,8 +235,8 @@ namespace ZdrowiePlus.Fragments
                     db.CreateTable<Measurement>();
                     db.Insert(newMeasurement); //change to GUID
 
-                    measurementValue.Text = String.Empty;
-                    measurementValue2.Text = String.Empty;
+                    measurementValue.Text = string.Empty;
+                    measurementValue2.Text = string.Empty;
                     Toast.MakeText(this.Activity, $"Dodano\n{measurementTime.ToString("dd.MM.yyyy HH:mm")}\n{newMeasurement.Id}", ToastLength.Short).Show();
 
                     //go to list after save
@@ -283,7 +262,7 @@ namespace ZdrowiePlus.Fragments
                     //    return;
                     //}
 
-                    ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
+                    ActivityCompat.RequestPermissions(this.Activity, new string[] { Manifest.Permission.WriteExternalStorage }, 1);
 
                 }
             }
@@ -323,8 +302,8 @@ namespace ZdrowiePlus.Fragments
 
             dateDisplay.Text = currentTime.ToLongDateString();
             timeDisplay.Text = currentTime.ToShortTimeString();
-            measurementValue.Text = String.Empty;
-            measurementValue2.Text = String.Empty;
+            measurementValue.Text = string.Empty;
+            measurementValue2.Text = string.Empty;
 
             //if (Arguments != null)
             //{

@@ -90,15 +90,15 @@ namespace ZdrowiePlus.Fragments
                 Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
             };
 
-            //value reminder time before visit
+            //reminder time before visit
             reminderBeforeValue = view.FindViewById<EditText>(Resource.Id.textAddVisitReminder);
             reminderBeforeValue.SetSelectAllOnFocus(true);
             reminderBeforeValue.Text = "0";
             reminderBeforeValue.TextChanged += (s, e) => {
-                EditText value = (EditText)s;
+                EditText value = (EditText) s;
                 //if (e.Text.Count() != 0)
                 //{
-                //if (value.Text == String.Empty) value.Text = "0";
+                //if (value.Text == string.Empty) value.Text = "0";
                 if (!int.TryParse(value.Text, out int x)) x = 0;
                 reminderMinutesBefore = x * reminderBeforeMultiplier;
                     Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
@@ -144,8 +144,8 @@ namespace ZdrowiePlus.Fragments
                     newEvent.EventType = EventType.Visit;
                     db.Insert(newEvent); //change to GUID
 
-                    this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = String.Empty;
-                    this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = String.Empty;
+                    this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = string.Empty;
+                    this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = string.Empty;
                     Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{newEvent.Id}", ToastLength.Short).Show();
 
                     //Notification
