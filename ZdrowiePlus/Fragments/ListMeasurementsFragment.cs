@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Support.V7.Widget;
@@ -21,6 +22,8 @@ namespace ZdrowiePlus.Fragments
 {
     public class ListMeasurementsFragment : Android.App.Fragment
     {
+        AddMeasurementFragment addMeasurementFragment = new AddMeasurementFragment();
+
         ListMeasurementAdapter measurementAdapter;
         RecyclerView measurementRecyclerView;
         Spinner spinner;
@@ -57,6 +60,18 @@ namespace ZdrowiePlus.Fragments
             loadData(measurementType);
 
             //measurementListView.ItemClick += measurementListView_ItemClick;
+
+            var fabAdd = view.FindViewById<FloatingActionButton>(Resource.Id.fab_add);
+            fabAdd.Click += (s, e) =>
+            {
+                var trans = FragmentManager.BeginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.PutInt("type", selected);
+                addMeasurementFragment.Arguments = bundle;
+                trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
+                trans.AddToBackStack(null);
+                trans.Commit();
+            };
 
             return view;
         }

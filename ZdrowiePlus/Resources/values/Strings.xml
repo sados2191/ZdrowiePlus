@@ -12,11 +12,17 @@
     <item>Waga</item>
   </string-array>
 
-  <string-array name="visits_array">
+  <string-array name="reminders_array">
     <item>Wszystko</item>
     <item>Wizyty</item>
     <item>Leki</item>
     <item>Pomiary</item>
+  </string-array>
+
+  <string-array name="add_reminder_array">
+    <item>wizycie</item>
+    <item>leku</item>
+    <item>pomiarze</item>
   </string-array>
 
   <string-array name="week_days_array">

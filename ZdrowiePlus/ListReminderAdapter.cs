@@ -72,7 +72,7 @@ namespace ZdrowiePlus
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ReminderCard, parent, false);
+            View view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.RowReminder, parent, false);
             MyViewHolder holder = new MyViewHolder(view, OnClick);
             return holder;
         }

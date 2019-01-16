@@ -4,19 +4,41 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-	<Button
-		android:text="Wizyta"
+
+	<LinearLayout
+		android:layout_marginTop="7dp"
+		android:layout_marginLeft="5dp"
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/AddVisit_reminder" />
-	<Button
-		android:text="Terapia lekami"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/AddMedicineTherapy_reminder" />
-	<Button
-		android:text="Pomiar"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/AddMeasurement_reminder" />
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:layout_width="30dp"
+			android:layout_height="30dp"
+			android:padding="2dp"
+			android:id="@+id/reminder_icon" />
+
+		<TextView
+			android:text="Dodaj przypomnienie o:"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="15sp"
+			android:textStyle="bold"
+			android:layout_marginRight="6dp"
+			android:textColor="@color/static_text" />
+
+		<Spinner
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:dropDownSelector="@color/spinner_selector"
+			android:popupBackground="#ffffff"
+			android:spinnerMode="dropdown"
+			android:id="@+id/remindersListSpinner" />
+	</LinearLayout>
+	
+	<FrameLayout
+            android:id="@+id/addReminderContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 </LinearLayout>

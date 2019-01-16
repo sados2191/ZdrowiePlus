@@ -19,9 +19,8 @@ namespace ZdrowiePlus.Fragments
         public AddMedicineTherapyFragment addMedicineTherapyFragment;
         public AddMeasurementReminderFragment addMeasurementReminderFragment;
 
-        Button btnAddVisit;
-        Button btnAddMedicineTherapy;
-        Button btnAddMeasurementReminder;
+        ImageView reminderIcon;
+        Spinner spinner;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,15 +37,53 @@ namespace ZdrowiePlus.Fragments
             addMedicineTherapyFragment = new AddMedicineTherapyFragment();
             addMeasurementReminderFragment = new AddMeasurementReminderFragment();
 
-            btnAddVisit = view.FindViewById<Button>(Resource.Id.AddVisit_reminder);
-            btnAddMedicineTherapy = view.FindViewById<Button>(Resource.Id.AddMedicineTherapy_reminder);
-            btnAddMeasurementReminder = view.FindViewById<Button>(Resource.Id.AddMeasurement_reminder);
+            reminderIcon = view.FindViewById<ImageView>(Resource.Id.reminder_icon);
 
-            btnAddVisit.Click += AddVisit;
-            btnAddMedicineTherapy.Click += AddMedicine;
-            btnAddMeasurementReminder.Click += AddMeasurementReminder;
+            //reminder type spinner
+            spinner = view.FindViewById<Spinner>(Resource.Id.remindersListSpinner);
+            spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.add_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
+
+            //load reminder type fragment based on spinner position
+            LoadReminderType(spinner.SelectedItemPosition);
 
             return view;
+        }
+
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            LoadReminderType(e.Position);
+        }
+
+        private void LoadReminderType(int switch_case)
+        {
+            var trans = FragmentManager.BeginTransaction();
+
+            switch (switch_case)
+            {
+                case 0:
+                    reminderIcon.SetImageResource(Resource.Drawable.doctor_icon);
+                    trans.Replace(Resource.Id.addReminderContainer, addVisitFragment);
+                    trans.Commit();
+                    break;
+                case 1:
+                    reminderIcon.SetImageResource(Resource.Drawable.medical_pill);
+                    trans.Replace(Resource.Id.addReminderContainer, addMedicineTherapyFragment);
+                    trans.Commit();
+                    break;
+                case 2:
+                    reminderIcon.SetImageResource(Resource.Drawable.pulsometer_icon);
+                    trans.Replace(Resource.Id.addReminderContainer, addMeasurementReminderFragment);
+                    trans.Commit();
+                    break;
+                default:
+                    reminderIcon.SetImageResource(Resource.Drawable.doctor_icon);
+                    trans.Replace(Resource.Id.addReminderContainer, addVisitFragment);
+                    trans.Commit();
+                    break;
+            }
         }
 
         private void AddMeasurementReminder(object sender, EventArgs e)

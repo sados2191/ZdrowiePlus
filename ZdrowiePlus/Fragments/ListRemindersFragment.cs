@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Support.V7.Widget;
@@ -22,6 +23,7 @@ namespace ZdrowiePlus.Fragments
     public class ListRemindersFragment : Android.App.Fragment
     {
         private static EditReminderFragment editReminderFragment = new EditReminderFragment();
+        AddReminderFragment addReminderFragment = new AddReminderFragment();
         //private static AddVisitFragment addVisitFragment = new AddVisitFragment();
         //private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
@@ -54,7 +56,7 @@ namespace ZdrowiePlus.Fragments
             //event type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.reminderSpinner);
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
-            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_array, Android.Resource.Layout.SimpleSpinnerItem);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.reminders_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
 
@@ -65,6 +67,15 @@ namespace ZdrowiePlus.Fragments
 
             //buttonAddMedicine.Click += AddMedicine;
             //buttonAddVisit.Click += AddVisit;
+
+            var fabAdd = view.FindViewById<FloatingActionButton>(Resource.Id.fab_add);
+            fabAdd.Click += (s, e) =>
+            {
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, addReminderFragment);
+                trans.AddToBackStack(null);
+                trans.Commit();
+            };
 
             return view;
         }

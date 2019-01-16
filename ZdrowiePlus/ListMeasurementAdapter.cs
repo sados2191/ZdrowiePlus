@@ -114,32 +114,40 @@ namespace ZdrowiePlus
                 case MeasurementType.BodyWeight:
                     string[] values_weight = mItems[position].Value.Split('/');
 
-                    double value_height = double.Parse(values_weight[0], CultureInfo.InvariantCulture)/100;
-                    double value_weight = double.Parse(values_weight[1], CultureInfo.InvariantCulture);
+                    double value_weight = double.Parse(values_weight[0], CultureInfo.InvariantCulture);
+                    double value_height = double.Parse(values_weight[1], CultureInfo.InvariantCulture);
 
                     measurement.measurementValue.Text = $"{value_weight} kg";
 
-                    double bmi = value_weight / (value_height * value_height);
+                    if (value_height != 0)
+                    {
+                        value_height = value_height / 100;
+                        double bmi = value_weight / (value_height * value_height);
 
-                    if (bmi < 18.5)
-                    {
-                        measurement.measurementAnalysis.Text = $"Niedowaga. BMI: {bmi.ToString("0.00")}";
-                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#4da6ff"));
-                    }
-                    else if (bmi < 25)
-                    {
-                        measurement.measurementAnalysis.Text = $"Prawidłowa. BMI: {bmi.ToString("0.00")}";
-                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#00a300"));
-                    }
-                    else if (bmi < 30)
-                    {
-                        measurement.measurementAnalysis.Text = $"Nadwaga. BMI: {bmi.ToString("0.00")}";
-                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#FBBC05"));
+                        if (bmi < 18.5)
+                        {
+                            measurement.measurementAnalysis.Text = $"Niedowaga. BMI: {bmi.ToString("0.00")}";
+                            measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#4da6ff"));
+                        }
+                        else if (bmi < 25)
+                        {
+                            measurement.measurementAnalysis.Text = $"Prawidłowa. BMI: {bmi.ToString("0.00")}";
+                            measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#00a300"));
+                        }
+                        else if (bmi < 30)
+                        {
+                            measurement.measurementAnalysis.Text = $"Nadwaga. BMI: {bmi.ToString("0.00")}";
+                            measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#FBBC05"));
+                        }
+                        else
+                        {
+                            measurement.measurementAnalysis.Text = $"Otyłość. BMI: {bmi.ToString("0.00")}";
+                            measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#ee1111"));
+                        }
                     }
                     else
                     {
-                        measurement.measurementAnalysis.Text = $"Otyłość. BMI: {bmi.ToString("0.00")}";
-                        measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#ee1111"));
+                        measurement.measurementAnalysis.Text = "Nie podano wzrostu. BMI:";
                     }
                     break;
                 case MeasurementType.GlucoseLevel:
@@ -195,7 +203,7 @@ namespace ZdrowiePlus
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.MeasurementCard, parent, false);
+            View view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.RowMeasurement, parent, false);
             MyViewHolder holder = new MyViewHolder(view, OnClick);
             return holder;
         }

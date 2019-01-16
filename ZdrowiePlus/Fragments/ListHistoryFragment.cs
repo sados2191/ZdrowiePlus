@@ -47,7 +47,7 @@ namespace ZdrowiePlus.Fragments
             //event type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.reminderSpinner);
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
-            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_array, Android.Resource.Layout.SimpleSpinnerItem);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.reminders_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
 

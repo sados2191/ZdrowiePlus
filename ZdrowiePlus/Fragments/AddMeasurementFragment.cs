@@ -25,7 +25,7 @@ namespace ZdrowiePlus.Fragments
         const string SHARED_PREFS = "shared preferences";
         const string HEIGHT = "height";
 
-        ListMeasurementsFragment measurementListFragment = new ListMeasurementsFragment();
+        ListMeasurementsFragment measurementListFragment;
 
         TextView dateDisplay;
         TextView timeDisplay;
@@ -47,6 +47,8 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            measurementListFragment = new ListMeasurementsFragment();
+
             year = currentTime.Year;
             month = currentTime.Month;
             day = currentTime.Day;
@@ -157,13 +159,13 @@ namespace ZdrowiePlus.Fragments
                     ISharedPreferences sharedPreferences = Application.Context.GetSharedPreferences(SHARED_PREFS, FileCreationMode.Private);
                     ISharedPreferencesEditor editor = sharedPreferences.Edit();
 
-                    valueUnit.Text = "cm";
-                    measurementValue.Text = sharedPreferences.GetString(HEIGHT, string.Empty);
-                    measurementValue.Hint = "Wzrost";
+                    valueUnit.Text = "kg";
+                    measurementValue.Text = string.Empty;
+                    measurementValue.Hint = "Waga";
 
-                    valueUnit2.Text = "kg";
-                    measurementValue2.Text = string.Empty;
-                    measurementValue2.Hint = "Waga";
+                    valueUnit2.Text = "cm";
+                    measurementValue2.Text = sharedPreferences.GetString(HEIGHT, string.Empty);
+                    measurementValue2.Hint = "Wzrost";
                     linearLayout2.Visibility = ViewStates.Visible;
                     break;
                 default:
@@ -204,7 +206,7 @@ namespace ZdrowiePlus.Fragments
 
                     ISharedPreferences sharedPreferences = Application.Context.GetSharedPreferences(SHARED_PREFS, FileCreationMode.Private);
                     ISharedPreferencesEditor editor = sharedPreferences.Edit();
-                    editor.PutString(HEIGHT, measurementValue.Text.Trim());
+                    editor.PutString(HEIGHT, measurementValue2.Text.Trim());
                     editor.Apply();
 
                     Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
