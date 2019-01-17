@@ -21,9 +21,13 @@ namespace ZdrowiePlus
     [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        //active text bold?
+        //leki dawka
+        //minutesBefore - powiadomienie, edycja
         //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar, jako nowe aktywności???
         //pytanie o wyjscie po kliknieciu cofnij
         //sprawdzać datę przed dodawaniem
+        //jak jest w OnResume nie musi byc w OnCreate
         //usunąć debugowe Toasty
         //poprawne ustawianie textu labelki w actionBar
         //edycja pomiarów
@@ -45,6 +49,8 @@ namespace ZdrowiePlus
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
         //cukier na czczo czy po posiłku
         //tętno w spoczynku czy w czasie aktywności
+        //ogarnąć nazwy class itd
+        //ogarnąć dostępy (private, public)
 
         //list filter
         public static int listFilter = 0;//zmienic tak jak w liscie pomiarów

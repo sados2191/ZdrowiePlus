@@ -19,7 +19,8 @@ namespace ZdrowiePlus
         public int Id { get; set; } //change to GUID
         public string Title { get; set; }
         public DateTime Date { get; set; }
-        public int ReminderMinutesBefore { get; set; }
+        public int ReminderMinutesBefore { get; set; } //for visit reminder
+        public int Count { get; set; } //foe medicine reminder
         public EventType EventType { get; set; }
         public string Description { get; set; }
         //public MeasurementType MeasurementType { get; set; } // if event = measurement

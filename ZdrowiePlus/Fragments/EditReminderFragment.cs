@@ -31,7 +31,19 @@ namespace ZdrowiePlus.Fragments
         Event eventToEdit;
         TextView eventType;
         ImageView iconType;
+
         Spinner measurementSpinner;
+        LinearLayout measurementLayout;
+
+        LinearLayout medicineLayout;
+        EditText medicineCount;
+
+        LinearLayout remindBeforeLayout;
+        EditText remindBeforeValue;
+        Spinner remindBeforeSpinner;
+        int remindMinutesBefore;
+        int remindBeforeMultiplier;
+
         int year, month, day, hour, minute;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -46,12 +58,17 @@ namespace ZdrowiePlus.Fragments
             if (Arguments != null)
             {
                 int id = Arguments.GetInt("id", 0);
-                Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
+                //Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
                 //Arguments.Clear();
                 Arguments = null;
 
                 SelectEvent(id);
             }
+
+            //remindMinutesBefore = eventToEdit.ReminderMinutesBefore;
+            //remindBeforeMultiplier = 1;
+
+            Toast.MakeText(this.Activity, $"{eventToEdit.ReminderMinutesBefore} min", ToastLength.Short).Show();
 
             year = eventToEdit.Date.Year;
             month = eventToEdit.Date.Month;
@@ -60,52 +77,130 @@ namespace ZdrowiePlus.Fragments
             minute = eventToEdit.Date.Minute;
 
             View view = inflater.Inflate(Resource.Layout.EditReminder, container, false);
-            
+
             //type
             eventType = view.FindViewById<TextView>(Resource.Id.textEditType);
             iconType = view.FindViewById<ImageView>(Resource.Id.imageEditType);
             //eventType.Text = eventToEdit.EventType.ToString();
+
+            //title
+            eventTitle = view.FindViewById<EditText>(Resource.Id.eventEditTitle);
+            //eventTitle.Text = eventToEdit.Title;
+
+            //for Visit reminder edit
+            remindBeforeLayout = view.FindViewById<LinearLayout>(Resource.Id.remindBeforeLayout);
+            remindBeforeSpinner = view.FindViewById<Spinner>(Resource.Id.addVisitReminderSpinner);
+            remindBeforeValue = view.FindViewById<EditText>(Resource.Id.textAddVisitReminder);
+
+            //for Measurement reminder edit
+            measurementLayout = view.FindViewById<LinearLayout>(Resource.Id.layoutMeasurement);
+            measurementSpinner = view.FindViewById<Spinner>(Resource.Id.editSpinner);
+
+            //for Medicine reminder edit
+            medicineLayout = view.FindViewById<LinearLayout>(Resource.Id.layoutMedicine);
+            medicineCount = view.FindViewById<EditText>(Resource.Id.medicineCount);
+
             if (eventToEdit.EventType == EventType.Measurement)
             {
                 eventType.Text = "Przypomienie o pomiarze";
                 iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
+
+                //spinner behavior
+                //var adapterM = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
+                //adapterM.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                //measurementSpinner.Adapter = adapterM;
+
+                eventTitle.Visibility = ViewStates.Gone;
+                measurementLayout.Visibility = ViewStates.Visible;
+                remindBeforeLayout.Visibility = ViewStates.Gone;
+                medicineLayout.Visibility = ViewStates.Gone;
+
+                //measurementSpinner.SetSelection(adapterM.GetPosition(eventToEdit.Title), true);
             }
             else if (eventToEdit.EventType == EventType.Visit)
             {
+                eventTitle.Visibility = ViewStates.Visible;
+                measurementLayout.Visibility = ViewStates.Gone;
+                medicineLayout.Visibility = ViewStates.Gone;
+
                 eventType.Text = "Przypomienie o wizycie";
                 iconType.SetImageResource(Resource.Drawable.doctor_icon);
+
+                remindBeforeLayout.Visibility = ViewStates.Visible;
+
+                //Edit text value behavior
+                remindBeforeValue.SetSelectAllOnFocus(true);
+                //remindBeforeValue.TextChanged += (s, e) => {
+                //    //EditText value = (EditText)s;
+                //    //if (!int.TryParse(value.Text, out int x)) x = 0;
+                //    //remindMinutesBefore = x * remindBeforeMultiplier;
+                //    //Toast.MakeText(this.Activity, $"{remindMinutesBefore} minut przed", ToastLength.Short).Show();
+                //};
+
+                //spinner set remind time before visit
+                //var adapterV = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
+                //adapterV.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                //remindBeforeSpinner.Adapter = adapterV;
+                //remindBeforeSpinner.ItemSelected += (s, e) => {
+                //    //remindMinutesBefore = int.Parse(remindBeforeValue.Text.ToString());
+                //    switch (e.Position)
+                //    {
+                //        case 0:
+                //            remindBeforeMultiplier = 1;
+                //            break;
+                //        case 1:
+                //            remindBeforeMultiplier = 60;
+                //            break;
+                //        case 2:
+                //            remindBeforeMultiplier = 60 * 24;
+                //            break;
+                //        default:
+                //            break;
+                //    }
+
+                //    //remindMinutesBefore *= remindBeforeMultiplier;
+                //    //Toast.MakeText(this.Activity, $"{remindMinutesBefore} minut przed", ToastLength.Short).Show();
+                //};
+
+                //set remindBefore views
+                //int z = 0;
+                //if (remindMinutesBefore % 1440 == 0)
+                //{
+                //    remindBeforeMultiplier = 60 * 24;
+
+                //    z = remindMinutesBefore / 1440;
+                //    remindBeforeValue.Text = z.ToString();
+
+                //    remindBeforeSpinner.SetSelection(2, true);
+                //}
+                //else if (remindMinutesBefore % 60 == 0)
+                //{
+                //    remindBeforeMultiplier = 60;
+
+                //    z = remindMinutesBefore / 60;
+                //    remindBeforeValue.Text = z.ToString();
+
+                //    remindBeforeSpinner.SetSelection(1, true);
+                //}
+                //else
+                //{
+                //    remindBeforeMultiplier = 1;
+
+                //    z = remindMinutesBefore;
+                //    remindBeforeValue.Text = z.ToString();
+
+                //    remindBeforeSpinner.SetSelection(0, true);
+                //}
             }
             else if (eventToEdit.EventType == EventType.Medicine)
             {
-                eventType.Text = "Przypomienie o lekach";
-                iconType.SetImageResource(Resource.Drawable.medical_pill);
-            }
-
-            //title
-            eventTitle = view.FindViewById<EditText>(Resource.Id.eventEditTitle);
-            eventTitle.Text = eventToEdit.Title;
-
-            //measurement type spinner
-            measurementSpinner = view.FindViewById<Spinner>(Resource.Id.editSpinner);
-            //measurementSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
-            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            measurementSpinner.Adapter = adapter;
-            //measurementSpinner.SetSelection(4, true);
-
-            LinearLayout measurementLayout = view.FindViewById<LinearLayout>(Resource.Id.layoutMeasurement);
-
-            if (eventToEdit.EventType == EventType.Measurement)
-            {
-                eventTitle.Visibility = ViewStates.Gone;
-                measurementLayout.Visibility = ViewStates.Visible;
-
-                measurementSpinner.SetSelection(adapter.GetPosition(eventToEdit.Title), true);
-            }
-            else
-            {
+                medicineLayout.Visibility = ViewStates.Visible;
                 eventTitle.Visibility = ViewStates.Visible;
                 measurementLayout.Visibility = ViewStates.Gone;
+                remindBeforeLayout.Visibility = ViewStates.Gone;
+
+                eventType.Text = "Przypomienie o lekach";
+                iconType.SetImageResource(Resource.Drawable.medical_pill);
             }
 
             //date choosing
@@ -210,16 +305,57 @@ namespace ZdrowiePlus.Fragments
         private void SaveVisit(object sender, EventArgs e)
         {
             eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
+
             if (eventToEdit.EventType == EventType.Measurement)
             {
                 //eventToEdit.Title = measurementSpinner.GetItemAtPosition(measurementSpinner.SelectedItemPosition).ToString();
                 eventToEdit.Title = measurementSpinner.SelectedItem.ToString();
             }
-            else
+            else if (eventToEdit.EventType == EventType.Visit)
             {
                 eventToEdit.Title = eventTitle.Text;
+
+                if (!int.TryParse(remindBeforeValue.Text, out remindMinutesBefore))
+                {
+                    remindMinutesBefore = 0;
+                }
+                else
+                {
+                    switch (remindBeforeSpinner.SelectedItemPosition)
+                    {
+                        case 0:
+                            remindBeforeMultiplier = 1;
+                            break;
+                        case 1:
+                            remindBeforeMultiplier = 60;
+                            break;
+                        case 2:
+                            remindBeforeMultiplier = 60 * 24;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    remindMinutesBefore = remindMinutesBefore * remindBeforeMultiplier;
+                }
+                
+                eventToEdit.ReminderMinutesBefore = remindMinutesBefore;
             }
+            else if (eventToEdit.EventType == EventType.Medicine)
+            {
+                eventToEdit.Title = eventTitle.Text;
+
+                if (!int.TryParse(medicineCount.Text, out int count)) //jesli sie nie uda (pole puste)
+                {
+                    count = 1;
+                }
+                eventToEdit.Count = count;
+            }
+
             eventToEdit.Description = eventDescription.Text;
+
+            
+
             if (eventToEdit.Title != string.Empty)
             {
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
@@ -235,18 +371,22 @@ namespace ZdrowiePlus.Fragments
 
                     //Notification
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title}");
+                    
                     if (eventToEdit.EventType == EventType.Visit)
                     {
                         notificationIntent.PutExtra("title", "Wizyta");
+                        notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title}");
+                        eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
                     }
                     else if (eventToEdit.EventType == EventType.Medicine)
                     {
                         notificationIntent.PutExtra("title", "Leki");
+                        notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title} dawka: {eventToEdit.Count}");
                     }
                     else if (eventToEdit.EventType == EventType.Measurement)
                     {
                         notificationIntent.PutExtra("title", "Pomiar");
+                        notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title}");
                         notificationIntent.PutExtra("type", measurementSpinner.SelectedItemPosition);
                     }
                     notificationIntent.PutExtra("id", eventToEdit.Id);
@@ -320,10 +460,48 @@ namespace ZdrowiePlus.Fragments
             eventTitle.Text = eventToEdit.Title;
             eventDescription.Text = eventToEdit.Description;
 
-            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            measurementSpinner.Adapter = adapter;
-            measurementSpinner.SetSelection(adapter.GetPosition(eventToEdit.Title), true);
+            //medicine
+            medicineCount.Text = eventToEdit.Count.ToString();
+
+            //measurement
+            var adapterM = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapterM.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            measurementSpinner.Adapter = adapterM;
+            measurementSpinner.SetSelection(adapterM.GetPosition(eventToEdit.Title), true);
+
+            //set remindBefore views fields
+            remindMinutesBefore = eventToEdit.ReminderMinutesBefore;
+            var adapterV = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapterV.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            remindBeforeSpinner.Adapter = adapterV;
+            int z = 0;
+            if (remindMinutesBefore % 1440 == 0)
+            {
+                remindBeforeMultiplier = 60 * 24;
+
+                z = remindMinutesBefore / 1440;
+                remindBeforeValue.Text = z.ToString();
+
+                remindBeforeSpinner.SetSelection(2, true);
+            }
+            else if (remindMinutesBefore % 60 == 0)
+            {
+                remindBeforeMultiplier = 60;
+
+                z = remindMinutesBefore / 60;
+                remindBeforeValue.Text = z.ToString();
+
+                remindBeforeSpinner.SetSelection(1, true);
+            }
+            else
+            {
+                remindBeforeMultiplier = 1;
+
+                z = remindMinutesBefore;
+                remindBeforeValue.Text = z.ToString();
+
+                remindBeforeSpinner.SetSelection(0, true);
+            }
         }
     }
 }

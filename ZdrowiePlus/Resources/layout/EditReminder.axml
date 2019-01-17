@@ -45,17 +45,55 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<EditText
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:hint="Tytuł zdarzenia"
-				android:visibility="visible"
-				android:inputType="text"
-				android:imeOptions="actionDone"
-				android:textColor="@color/active_text"
-				android:textSize="18sp"
-				android:textStyle="bold"
-				android:id="@+id/eventEditTitle" />
+				android:orientation="horizontal">
+
+				<EditText
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:hint="Tytuł zdarzenia"
+					android:inputType="text"
+					android:imeOptions="actionDone"
+					android:textColor="@color/active_text"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:layout_marginLeft="5dp"
+					android:layout_marginRight="5dp"
+					android:id="@+id/eventEditTitle" />
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:visibility="gone"
+					android:id="@+id/layoutMedicine">
+
+					<TextView
+						android:text="Dawka:"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="18sp"
+						android:textStyle="bold"
+						android:textColor="@color/static_text" />
+
+					<EditText
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:inputType="number"
+						android:imeOptions="actionDone"
+						android:maxLength="1"
+						android:selectAllOnFocus="true"
+						android:textColor="@color/active_text"
+						android:textSize="18sp"
+						android:textStyle="bold"
+						android:layout_marginLeft="5dp"
+						android:layout_marginRight="50dp"
+						android:id="@+id/medicineCount" />
+				</LinearLayout>
+			</LinearLayout>
 
 			<LinearLayout
 				android:layout_width="match_parent"
@@ -140,6 +178,45 @@
 					android:gravity="left"
 					android:textColor="@color/active_text"
 					android:id="@+id/textEditTime" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone"
+				android:id="@+id/remindBeforeLayout"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Przypomienie:"
+					android:layout_width="0dp"
+					android:layout_weight="35"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<EditText
+					android:layout_width="0dp"
+					android:layout_weight="20"
+					android:layout_height="wrap_content"
+					android:inputType="number"
+					android:imeOptions="actionDone"
+					android:maxLength="3"
+					android:selectAllOnFocus="true"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:id="@+id/textAddVisitReminder" />
+
+				<Spinner
+					android:layout_width="0dp"
+					android:layout_weight="45"
+					android:layout_height="wrap_content"
+					android:dropDownSelector="@color/spinner_selector"
+					android:popupBackground="#ffffff"
+					android:spinnerMode="dropdown"
+					android:id="@+id/addVisitReminderSpinner" />
 			</LinearLayout>
 			
 			<EditText

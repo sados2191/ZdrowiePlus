@@ -25,6 +25,7 @@ namespace ZdrowiePlus.Fragments
         private static ListRemindersFragment visitListFragment = new ListRemindersFragment();
 
         EditText medicineName;
+        EditText medicineCount;
         SeekBar seekbarFrequency;
         TextView startDate;
         TextView endDate;
@@ -59,6 +60,7 @@ namespace ZdrowiePlus.Fragments
             pillTimes.Clear();
 
             medicineName = view.FindViewById<EditText>(Resource.Id.medicineName);
+            medicineCount = view.FindViewById<EditText>(Resource.Id.medicineCount);
 
             //times list
             //pillTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).ToString("HH:mm"));
@@ -208,6 +210,11 @@ namespace ZdrowiePlus.Fragments
                 return;
             }
 
+            if (!int.TryParse(medicineCount.Text, out int count)) //jesli sie nie uda (pole puste)
+            {
+                count = 1;
+            }
+
             if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
             {
                 // We have permission
@@ -248,11 +255,12 @@ namespace ZdrowiePlus.Fragments
                                 newEvent.Date = date;
                                 newEvent.Title = medicineNameString;
                                 newEvent.EventType = EventType.Medicine;
+                                newEvent.Count = count;
                                 db.Insert(newEvent);
 
                                 //Notification
                                 Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                                notificationIntent.PutExtra("message", $"{newEvent.Date.ToString("dd.MM.yyyy HH:mm")} {newEvent.Title}");
+                                notificationIntent.PutExtra("message", $"{newEvent.Date.ToString("dd.MM.yyyy HH:mm")} {newEvent.Title} dawka: {count}");
                                 notificationIntent.PutExtra("title", "Leki");
                                 notificationIntent.PutExtra("id", newEvent.Id);
 

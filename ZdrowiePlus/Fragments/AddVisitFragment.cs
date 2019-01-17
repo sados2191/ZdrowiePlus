@@ -26,7 +26,7 @@ namespace ZdrowiePlus.Fragments
 
         TextView dateDisplay;
         TextView timeDisplay;
-        Spinner reminderBefore;
+        Spinner remindBeforeSpinner;
         EditText reminderBeforeValue;
         int reminderMinutesBefore;
         int reminderBeforeMultiplier;
@@ -64,46 +64,42 @@ namespace ZdrowiePlus.Fragments
             timeDisplay.Text = currentTime.ToShortTimeString();
             timeDisplay.Click += TimeSelectOnClick;
 
-            //spinner set reminder time before visit
-            reminderBefore = view.FindViewById<Spinner>(Resource.Id.addVisitReminderSpinner);
-            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            reminderBefore.Adapter = adapter;
-            reminderBefore.ItemSelected += (s, e) => {
-                reminderMinutesBefore = int.Parse(reminderBeforeValue.Text.ToString());
-                switch (e.Position)
-                {
-                    case 0:
-                        reminderBeforeMultiplier = 1;
-                        break;
-                    case 1:
-                        reminderBeforeMultiplier = 60;
-                        break;
-                    case 2:
-                        reminderBeforeMultiplier = 60 * 24;
-                        break;
-                    default:
-                        break;
-                }
-
-                reminderMinutesBefore *= reminderBeforeMultiplier;
-                Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
-            };
-
             //reminder time before visit
             reminderBeforeValue = view.FindViewById<EditText>(Resource.Id.textAddVisitReminder);
             reminderBeforeValue.SetSelectAllOnFocus(true);
             reminderBeforeValue.Text = "0";
-            reminderBeforeValue.TextChanged += (s, e) => {
-                EditText value = (EditText) s;
-                //if (e.Text.Count() != 0)
-                //{
-                //if (value.Text == string.Empty) value.Text = "0";
-                if (!int.TryParse(value.Text, out int x)) x = 0;
-                reminderMinutesBefore = x * reminderBeforeMultiplier;
-                    Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
-                //}
-            };
+            //reminderBeforeValue.TextChanged += (s, e) => {
+            //    //EditText value = (EditText)s;
+            //    //if (!int.TryParse(value.Text, out int x)) x = 0;
+            //    //reminderMinutesBefore = x * reminderBeforeMultiplier;
+            //    //Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
+            //};
+
+            //spinner set remind time before visit
+            remindBeforeSpinner = view.FindViewById<Spinner>(Resource.Id.addVisitReminderSpinner);
+            var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            remindBeforeSpinner.Adapter = adapter;
+            //reminderBefore.ItemSelected += (s, e) => {
+            //    //reminderMinutesBefore = int.Parse(reminderBeforeValue.Text.ToString());
+            //    switch (e.Position)
+            //    {
+            //        case 0:
+            //            reminderBeforeMultiplier = 1;
+            //            break;
+            //        case 1:
+            //            reminderBeforeMultiplier = 60;
+            //            break;
+            //        case 2:
+            //            reminderBeforeMultiplier = 60 * 24;
+            //            break;
+            //        default:
+            //            break;
+            //    }
+
+            //    //reminderMinutesBefore *= reminderBeforeMultiplier;
+            //    //Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
+            //};
 
             //Add visit button
             Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.buttonAdd);
@@ -124,9 +120,36 @@ namespace ZdrowiePlus.Fragments
         void AddVisit(object sender, EventArgs e)
         {
             DateTime visitTime = new DateTime(year, month, day, hour, minute, 0);
-            DateTime reminderTime = visitTime.AddMinutes(reminderMinutesBefore * (-1));
             string title = this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text.Trim();
             string description = this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text;
+
+            //if (!int.TryParse(reminderBeforeValue.Text, out int x)) x = 0;
+            //reminderMinutesBefore = x * reminderBeforeMultiplier;
+
+            if (!int.TryParse(reminderBeforeValue.Text, out reminderMinutesBefore))
+            {
+                reminderMinutesBefore = 0;
+            }
+            else
+            {
+                switch (remindBeforeSpinner.SelectedItemPosition)
+                {
+                    case 0:
+                        reminderBeforeMultiplier = 1;
+                        break;
+                    case 1:
+                        reminderBeforeMultiplier = 60;
+                        break;
+                    case 2:
+                        reminderBeforeMultiplier = 60 * 24;
+                        break;
+                    default:
+                        break;
+                }
+
+                reminderMinutesBefore = reminderMinutesBefore * reminderBeforeMultiplier;
+            }
+
             if (title != string.Empty)
             {
                 if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
@@ -153,6 +176,9 @@ namespace ZdrowiePlus.Fragments
                     notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {title}");
                     notificationIntent.PutExtra("title", "Wizyta");
                     notificationIntent.PutExtra("id", newEvent.Id);
+
+                    //notificate time
+                    DateTime reminderTime = visitTime.AddMinutes(reminderMinutesBefore * (-1));
 
                     var timer = (long)reminderTime.ToUniversalTime().Subtract(
                         new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)

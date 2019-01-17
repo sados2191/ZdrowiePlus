@@ -15,7 +15,7 @@
     <!--<item name="android:windowBackground">@color/light_gray</item> -->
     <!--<item name="android:itemBackground">#0376B0</item> -->
     <item name="android:timePickerStyle">@style/SpinnerTimePicker</item>
-    <item name="android:datePickerStyle">@style/SpinnerDatePicker</item>
+    <!--<item name="android:datePickerStyle">@style/SpinnerDatePicker</item>-->
   </style>
 
   <style name="SpinnerTimePicker" parent="android:Widget.Material.Light.TimePicker">
