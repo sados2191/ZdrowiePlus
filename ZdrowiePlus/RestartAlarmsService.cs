@@ -42,17 +42,17 @@ namespace ZdrowiePlus
                 if (item.EventType == EventType.Visit)
                 {
                     notificationIntent.PutExtra("title", "Wizyta");
-                    notificationIntent.PutExtra("message", $"{item.Date.ToString("dd.MM.yyyy HH:mm")} {item.Title}");
+                    notificationIntent.PutExtra("message", $"{item.Title}. {item.Date.ToString("dd.MM.yyyy HH:mm")}");
                 }
                 else if (item.EventType == EventType.Medicine)
                 {
                     notificationIntent.PutExtra("title", "Leki");
-                    notificationIntent.PutExtra("message", $"{item.Date.ToString("dd.MM.yyyy HH:mm")} {item.Title} dawka: {item.Count}");
+                    notificationIntent.PutExtra("message", $"{item.Title} dawka: {item.Count}. {item.Date.ToString("HH:mm")}");
                 }
                 else if (item.EventType == EventType.Measurement)
                 {
                     notificationIntent.PutExtra("title", "Pomiar");
-                    notificationIntent.PutExtra("message", $"{item.Date.ToString("dd.MM.yyyy HH:mm")} {item.Title}");
+                    notificationIntent.PutExtra("message", $"{item.Title}. {item.Date.ToString("HH:mm")}");
 
                     if (item.Title == "Ciśnienie")
                         notificationIntent.PutExtra("type", 0);

@@ -103,7 +103,7 @@ namespace ZdrowiePlus.Fragments
             var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, editReminderFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -126,6 +126,13 @@ namespace ZdrowiePlus.Fragments
             listAdapter = new ListViewCalendarAdapter(this.Activity, events);
             remindersListView.Adapter = listAdapter;
             //visitAdapter.NotifyDataSetChanged();
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            this.Activity.Title = "Kalendarz";
         }
     }
 }

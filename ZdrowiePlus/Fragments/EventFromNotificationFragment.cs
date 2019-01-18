@@ -53,7 +53,7 @@ namespace ZdrowiePlus.Fragments
             if (Arguments != null)
             {
                 int id = Arguments.GetInt("id", 0);
-                Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
+                //Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
                 //Arguments.Clear();
                 Arguments = null;
 
@@ -96,7 +96,7 @@ namespace ZdrowiePlus.Fragments
             //go to list after save
             var trans = FragmentManager.BeginTransaction();
             trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -114,12 +114,12 @@ namespace ZdrowiePlus.Fragments
                 if (selectedEvent.EventType == EventType.Visit)
                 {
                     notificationIntent.PutExtra("title", "Wizyta");
-                    notificationIntent.PutExtra("message", $"{selectedEvent.Date.ToString("dd.MM.yyyy HH:mm")} {selectedEvent.Title}");
+                    notificationIntent.PutExtra("message", $"{selectedEvent.Title}. {selectedEvent.Date.ToString("dd.MM.yyyy HH:mm")}");
                 }
                 else if (selectedEvent.EventType == EventType.Medicine)
                 {
                     notificationIntent.PutExtra("title", "Leki");
-                    notificationIntent.PutExtra("message", $"{selectedEvent.Date.ToString("dd.MM.yyyy HH:mm")} {selectedEvent.Title} dawka: {selectedEvent.Count}");
+                    notificationIntent.PutExtra("message", $"{selectedEvent.Title} dawka: {selectedEvent.Count}. {selectedEvent.Date.ToString("HH:mm")}");
                 }
                 notificationIntent.PutExtra("id", selectedEvent.Id);
 
@@ -134,7 +134,7 @@ namespace ZdrowiePlus.Fragments
                 //go to list after save
                 var trans = FragmentManager.BeginTransaction();
                 trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             }
             else
@@ -154,7 +154,7 @@ namespace ZdrowiePlus.Fragments
             //go to list after save
             var trans = FragmentManager.BeginTransaction();
             trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -169,6 +169,8 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
+            this.Activity.Title = "Przypomnienie";
+
             eventDate.Text = selectedEvent.Date.ToLongDateString();
             eventTime.Text = selectedEvent.Date.ToShortTimeString();
             eventTitle.Text = selectedEvent.Title;
@@ -180,9 +182,10 @@ namespace ZdrowiePlus.Fragments
                 eventType.Text = "Przypomnienie o leku";
                 eventLaterSpan.Text = "minut.";
                 buttonConfirm.Text = "Weź";
+                buttonSkip.Text = "Pomiń";
 
                 laterMultiplier = 1;
-                eventLaterValue.Text = "30";
+                eventLaterValue.Text = "0";
 
                 medicineLayout.Visibility = ViewStates.Visible;
                 medicineCount.Text = selectedEvent.Count.ToString();
@@ -193,9 +196,10 @@ namespace ZdrowiePlus.Fragments
                 eventType.Text = "Przypomnienie o wizycie";
                 eventLaterSpan.Text = "godzin.";
                 buttonConfirm.Text = "Potwierdź";
+                buttonSkip.Text = "Odwołaj";
 
                 laterMultiplier = 60;
-                eventLaterValue.Text = "1";
+                eventLaterValue.Text = "0";
 
                 medicineLayout.Visibility = ViewStates.Gone;
             }

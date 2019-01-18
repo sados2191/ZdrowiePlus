@@ -19,6 +19,8 @@ namespace ZdrowiePlus
 
         public event EventHandler<int> ItemClick;
 
+        private int skipped;
+
         public ListReminderAdapter(List<Event> items)
         {
             mItems = items;
@@ -48,10 +50,16 @@ namespace ZdrowiePlus
             if (mItems[position].Skipped == 1)
             {
                 reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#ffe6eb"));
+                skipped = 1;
             }
-            if (mItems[position].Skipped == 2 && mItems[position].Date < DateTime.Now)
+            else if (mItems[position].Skipped == 2 && mItems[position].Date < DateTime.Now)
             {
                 reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#e6ffee"));
+                skipped = 2;
+            }
+            else
+            {
+                reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#ffffff"));
             }
 
             switch (mItems[position].EventType)
@@ -59,15 +67,50 @@ namespace ZdrowiePlus
                 case EventType.Visit:
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#e54d03"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.doctor_icon);
+                    if (skipped == 1)
+                    {
+                        reminder.medicalCount.Text = $"Odwołana";
+                    }
+                    else if (skipped == 2)
+                    {
+                        reminder.medicalCount.Text = $"Odbyta";
+                    }
+                    else
+                    {
+                        reminder.medicalCount.Text = $"";
+                    }
                     break;
                 case EventType.Medicine:
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.medical_pill);
-                    reminder.medicalCount.Text = $"Dawka: {mItems[position].Count}";
+                    if (skipped == 1)
+                    {
+                        reminder.medicalCount.Text = $"Pominięty. Dawka: {mItems[position].Count}";
+                    }
+                    else if (skipped == 2)
+                    {
+                        reminder.medicalCount.Text = $"Zażyty. Dawka: {mItems[position].Count}";
+                    }
+                    else
+                    {
+                        reminder.medicalCount.Text = $"Dawka: {mItems[position].Count}";
+                    }
                     break;
                 case EventType.Measurement:
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#be03e5"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.pulsometer_icon);
+                    if (skipped == 1)
+                    {
+                        reminder.medicalCount.Text = $"Pominięty";
+                    }
+                    else if (skipped == 2)
+                    {
+                        reminder.medicalCount.Text = $"Zrobiony";
+                    }
+                    else
+                    {
+                        reminder.medicalCount.Text = $"";
+                    }
                     break;
                 default:
                     break;

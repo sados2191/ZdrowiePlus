@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <group android:checkableBehavior="single">
     <item
+      android:id="@+id/nav_calendar"
+      android:icon="@drawable/outline_date_range_24"
+      android:title="Kalendarz" />
+    <item
       android:id="@+id/nav_addReminder"
       android:icon="@drawable/round_schedule_24"
       android:title="Dodaj przypomnienie" />
@@ -22,10 +26,6 @@
       android:id="@+id/nav_history"
       android:icon="@drawable/round_history_24"
       android:title="Historia" />
-    <item
-      android:id="@+id/nav_calendar"
-      android:icon="@drawable/outline_date_range_24"
-      android:title="Kalendarz" />
   </group>
 
   <item android:title="Informacje">

@@ -73,7 +73,7 @@ namespace ZdrowiePlus.Fragments
             {
                 var trans = FragmentManager.BeginTransaction();
                 trans.Replace(Resource.Id.fragmentContainer, addReminderFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             };
 
@@ -116,7 +116,7 @@ namespace ZdrowiePlus.Fragments
             var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, editReminderFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -184,7 +184,9 @@ namespace ZdrowiePlus.Fragments
         public override void OnResume()
         {
             base.OnResume();
-            
+
+            this.Activity.Title = "Przypomnienia";
+
             //visitAdapter.NotifyDataSetChanged();
         }
     }

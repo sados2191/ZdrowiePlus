@@ -22,41 +22,27 @@ namespace ZdrowiePlus
         ScreenOrientation = ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
-        //kliki w historii
-        //wygląd powiadomienia
         //spinner type dialog?
-        //active text bold?
         //usuwanie serii - sprawdzać dateAdded?
         //usuwanie serii w aktywnych czy w historii
         //potwierdzenie usuwania
-        //pytanie o wyjscie po kliknieciu cofnij
-        //sprawdzać datę przed dodawaniem
         //jak jest w OnResume nie musi byc w OnCreate
-        //usunąć debugowe Toasty
-        //poprawne ustawianie textu labelki w actionBar
         //edycja pomiarów
-        //godzina i data OnResume
-        //short date???
         //inicjalizacja fragmentów w OnCreateView
-        //usunąć id z xml, gdzie niepotrzebne
-        //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej
-        //sprawdzić czy OnNewIntent jest potrzebne
-        //usunąć toolbar menu z prawego rogu
-        //po kliknieciu na powiadomienie tworzy sie nowa instancja aplikacji, poprawić, ta sama instancja, bug z back stackiem
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające? (set repeating)
-        //zmiana czcionki w zależności od dpi
         //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
         //cukier na czczo czy po posiłku
         //tętno w spoczynku czy w czasie aktywności
         //ogarnąć nazwy class itd
         //ogarnąć dostępy (private, public)
-
-        //minutesBefore - powiadomienie, edycja - gotowe?
-        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar, jako nowe aktywności???
+        //powiadomienie otweiera dialog?
+        //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej, skomentowano wszystkie
 
         //list filter
         public static int listFilter = 0;//zmienic tak jak w liscie pomiarów
+
+        bool doubleBackExit = false;
 
         ////left menu
         //private MyActionBarDrawerToggle drawerToggle;
@@ -138,28 +124,29 @@ namespace ZdrowiePlus
             var trans = FragmentManager.BeginTransaction();
 
             //check if notification opened the app
-            string notification = Intent.GetStringExtra("notification");
-            if (notification == "measurement")
-            {
-                Bundle bundle = new Bundle();
-                bundle.PutInt("type", Intent.GetIntExtra("type", 0));
-                addMeasurementFragment.Arguments = bundle;
-                //trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
-                ReplaceFragment(addMeasurementFragment);
-            }
-            else if (notification == "visit" || notification == "medicine")
-            {
-                EventFromNotificationFragment eventFragment = new EventFromNotificationFragment();
-                Bundle bundle = new Bundle();
-                bundle.PutInt("id", Intent.GetIntExtra("id", 0));
-                eventFragment.Arguments = bundle;
-                //trans.Replace(Resource.Id.fragmentContainer, eventFragment);
-                ReplaceFragment(eventFragment);
-            }
-            else
-            {
+            //string notification = Intent.GetStringExtra("notification");
+            //if (notification == "measurement")
+            //{
+            //    Bundle bundle = new Bundle();
+            //    bundle.PutInt("id", Intent.GetIntExtra("id", 0));
+            //    bundle.PutInt("type", Intent.GetIntExtra("type", 0));
+            //    addMeasurementFragment.Arguments = bundle;
+            //    //trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
+            //    ReplaceFragment(addMeasurementFragment);
+            //}
+            //else if (notification == "visit" || notification == "medicine")
+            //{
+            //    EventFromNotificationFragment eventFragment = new EventFromNotificationFragment();
+            //    Bundle bundle = new Bundle();
+            //    bundle.PutInt("id", Intent.GetIntExtra("id", 0));
+            //    eventFragment.Arguments = bundle;
+            //    //trans.Replace(Resource.Id.fragmentContainer, eventFragment);
+            //    ReplaceFragment(eventFragment);
+            //}
+            //else
+            //{
                 trans.Add(Resource.Id.fragmentContainer, reminderListFragment);
-            }
+            //}
 
             //trans.Add(Resource.Id.fragmentContainer, addVisitFragment, "AddVisit");
             //trans.Hide(addVisitFragment);
@@ -180,6 +167,7 @@ namespace ZdrowiePlus
             if (notification == "measurement")
             {
                 Bundle bundle = new Bundle();
+                bundle.PutInt("id", intent.GetIntExtra("id", 0));
                 bundle.PutInt("type", intent.GetIntExtra("type", 0));
                 addMeasurementFragment.Arguments = bundle;
                 //trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
@@ -272,7 +260,19 @@ namespace ZdrowiePlus
             }
             else
             {
-                base.OnBackPressed();
+                if (doubleBackExit)
+                {
+                    base.OnBackPressed();
+                    return;
+                }
+
+                doubleBackExit = true;
+                Toast.MakeText(this, "Nasiśnij ponownie aby wyjść", ToastLength.Short).Show();
+
+                new Handler().PostDelayed(() => {
+                    doubleBackExit = false;
+                }, 2000);
+
             }
         }
 
@@ -380,21 +380,6 @@ namespace ZdrowiePlus
 
             switch (item.ItemId)
             {
-                case Resource.Id.menu_info:
-                    Toast.MakeText(this, Resource.String.app_name, ToastLength.Short).Show();
-                    break;
-                case Resource.Id.menu_all:
-                    listFilter = 0;
-                    ReplaceFragment(reminderListFragment);
-                    break;
-                case Resource.Id.menu_visit:
-                    listFilter = 1;
-                    ReplaceFragment(reminderListFragment);
-                    break;
-                case Resource.Id.menu_medicine:
-                    listFilter = 2;
-                    ReplaceFragment(reminderListFragment);
-                    break;
                 case Resource.Id.menu_delete_events:
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
                     db.CreateTable<Event>();

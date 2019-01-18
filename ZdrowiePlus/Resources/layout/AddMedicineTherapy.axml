@@ -57,7 +57,6 @@
 					android:selectAllOnFocus="true"
 					android:textColor="@color/active_text"
 					android:textSize="18sp"
-					android:textStyle="bold"
 					android:layout_marginLeft="5dp"
 					android:layout_marginRight="50dp"
 					android:id="@+id/medicineCount" />

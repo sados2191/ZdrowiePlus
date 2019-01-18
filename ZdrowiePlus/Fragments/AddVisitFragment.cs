@@ -30,7 +30,7 @@ namespace ZdrowiePlus.Fragments
         EditText reminderBeforeValue;
         int reminderMinutesBefore;
         int reminderBeforeMultiplier;
-        static DateTime currentTime;
+        DateTime currentTime;
         int year, month, day, hour, minute;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -42,26 +42,14 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            currentTime = DateTime.Now;
-            year = currentTime.Year;
-            month = currentTime.Month;
-            day = currentTime.Day;
-            hour = currentTime.Hour;
-            minute = currentTime.Minute;
-
-            reminderMinutesBefore = 0;
-            reminderBeforeMultiplier = 1;
-
             View view = inflater.Inflate(Resource.Layout.AddVisit, container, false);
 
             //date choosing
             dateDisplay = view.FindViewById<TextView>(Resource.Id.textDate);
-            dateDisplay.Text = currentTime.ToLongDateString();
             dateDisplay.Click += DateSelect_OnClick;
 
             //time choosing
             timeDisplay = view.FindViewById<TextView>(Resource.Id.textTime);
-            timeDisplay.Text = currentTime.ToShortTimeString();
             timeDisplay.Click += TimeSelectOnClick;
 
             //reminder time before visit
@@ -110,7 +98,7 @@ namespace ZdrowiePlus.Fragments
             {
                 var trans = FragmentManager.BeginTransaction();
                 trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             };
 
@@ -122,6 +110,12 @@ namespace ZdrowiePlus.Fragments
             DateTime visitTime = new DateTime(year, month, day, hour, minute, 0);
             string title = this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text.Trim();
             string description = this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text;
+
+            if (DateTime.Now > visitTime)
+            {
+                Toast.MakeText(this.Activity, $"Nie można zaplanować w przeszłości", ToastLength.Short).Show();
+                return;
+            }
 
             //if (!int.TryParse(reminderBeforeValue.Text, out int x)) x = 0;
             //reminderMinutesBefore = x * reminderBeforeMultiplier;
@@ -169,11 +163,11 @@ namespace ZdrowiePlus.Fragments
 
                     this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = string.Empty;
                     this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = string.Empty;
-                    Toast.MakeText(this.Activity, $"Dodano\n{visitTime.ToString("dd.MM.yyyy HH:mm")}\n{newEvent.Id}", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Dodano", ToastLength.Short).Show();
 
                     //Notification
                     Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{visitTime.ToString("dd.MM.yyyy HH:mm")} {title}");
+                    notificationIntent.PutExtra("message", $"{title}. {visitTime.ToString("dd.MM.yyyy HH:mm")}");
                     notificationIntent.PutExtra("title", "Wizyta");
                     notificationIntent.PutExtra("id", newEvent.Id);
 
@@ -191,7 +185,7 @@ namespace ZdrowiePlus.Fragments
                     //go to list after save
                     var trans = FragmentManager.BeginTransaction();
                     trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                    trans.AddToBackStack(null);
+                    //trans.AddToBackStack(null);
                     trans.Commit();
                 }
                 else
@@ -215,6 +209,7 @@ namespace ZdrowiePlus.Fragments
             else
             {
                 Toast.MakeText(this.Activity, "Tytuł nie może być pusty", ToastLength.Short).Show();
+                return;
             }
         }
 
@@ -246,7 +241,18 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
-            //reminderBeforeValue.SetSelectAllOnFocus(true);
+            this.Activity.Title = "Dodaj przypomnienie";
+
+            reminderMinutesBefore = 0;
+            reminderBeforeMultiplier = 1;
+
+            currentTime = DateTime.Now;
+            year = currentTime.Year;
+            month = currentTime.Month;
+            day = currentTime.Day;
+            hour = currentTime.Hour;
+            minute = currentTime.Minute;
+
             dateDisplay.Text = currentTime.ToLongDateString();
             timeDisplay.Text = currentTime.ToShortTimeString();
         }

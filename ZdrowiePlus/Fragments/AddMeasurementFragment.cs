@@ -35,8 +35,10 @@ namespace ZdrowiePlus.Fragments
         EditText measurementValue;
         EditText measurementValue2;
         LinearLayout linearLayout2;
-        static DateTime currentTime = DateTime.Now;
+        Button buttonCancel;
+        DateTime currentTime;
         int year, month, day, hour, minute;
+        int reminderId = 0;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -48,12 +50,6 @@ namespace ZdrowiePlus.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             measurementListFragment = new ListMeasurementsFragment();
-
-            year = currentTime.Year;
-            month = currentTime.Month;
-            day = currentTime.Day;
-            hour = currentTime.Hour;
-            minute = currentTime.Minute;
 
             View view = inflater.Inflate(Resource.Layout.AddMeasurement, container, false);
             
@@ -94,24 +90,30 @@ namespace ZdrowiePlus.Fragments
 
             //date choosing
             dateDisplay = view.FindViewById<TextView>(Resource.Id.textMeasurementDate);
-            dateDisplay.Text = currentTime.ToLongDateString();
             dateDisplay.Click += DateSelect_OnClick;
 
             //time choosing
             timeDisplay = view.FindViewById<TextView>(Resource.Id.textMeasurementTime);
-            timeDisplay.Text = currentTime.ToShortTimeString();
             timeDisplay.Click += TimeSelectOnClick;
 
             //Add measurement button
             Button buttonAddMeasurement = view.FindViewById<Button>(Resource.Id.buttonAdd);
             buttonAddMeasurement.Click += AddMeasurement;
 
-            Button buttonCancel = view.FindViewById<Button>(Resource.Id.buttonCancel);
+            buttonCancel = view.FindViewById<Button>(Resource.Id.buttonCancel);
             buttonCancel.Click += (s, e) =>
             {
+                if (reminderId > 0)
+                {
+                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+                    Event fromNotification = db.Get<Event>(reminderId);
+                    fromNotification.Skipped = 1;
+                    db.Update(fromNotification);
+                }
+
                 var trans = FragmentManager.BeginTransaction();
                 trans.Replace(Resource.Id.fragmentContainer, measurementListFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             };
 
@@ -187,19 +189,19 @@ namespace ZdrowiePlus.Fragments
             {
                 case 0:
                     newMeasurement.MeasurementType = MeasurementType.BloodPressure;
-                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 1:
                     newMeasurement.MeasurementType = MeasurementType.GlucoseLevel;
-                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 2:
                     newMeasurement.MeasurementType = MeasurementType.Temperature;
-                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 3:
                     newMeasurement.MeasurementType = MeasurementType.HeartRate;
-                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 4:
                     newMeasurement.MeasurementType = MeasurementType.BodyWeight;
@@ -209,7 +211,7 @@ namespace ZdrowiePlus.Fragments
                     editor.PutString(HEIGHT, measurementValue2.Text.Trim());
                     editor.Apply();
 
-                    Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 default:
                     break;
@@ -239,7 +241,15 @@ namespace ZdrowiePlus.Fragments
 
                     measurementValue.Text = string.Empty;
                     measurementValue2.Text = string.Empty;
-                    Toast.MakeText(this.Activity, $"Dodano\n{measurementTime.ToString("dd.MM.yyyy HH:mm")}\n{newMeasurement.Id}", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Dodano", ToastLength.Short).Show();
+
+                    //if opened from notification
+                    if (reminderId > 0)
+                    {
+                        Event fromNotification = db.Get<Event>(reminderId);
+                        fromNotification.Skipped = 2;
+                        db.Update(fromNotification);
+                    }
 
                     //go to list after save
                     var trans = FragmentManager.BeginTransaction();
@@ -247,7 +257,7 @@ namespace ZdrowiePlus.Fragments
                     bundle.PutInt("type", measurementType);
                     measurementListFragment.Arguments = bundle;
                     trans.Replace(Resource.Id.fragmentContainer, measurementListFragment);
-                    trans.AddToBackStack(null);
+                    //trans.AddToBackStack(null);
                     trans.Commit();
                 }
                 else
@@ -302,6 +312,18 @@ namespace ZdrowiePlus.Fragments
         {
             base.OnResume();
 
+            this.Activity.Title = "Dodaj pomiar";
+
+            currentTime = DateTime.Now;
+            year = currentTime.Year;
+            month = currentTime.Month;
+            day = currentTime.Day;
+            hour = currentTime.Hour;
+            minute = currentTime.Minute;
+
+            dateDisplay.Text = currentTime.ToLongDateString();
+            timeDisplay.Text = currentTime.ToShortTimeString();
+
             dateDisplay.Text = currentTime.ToLongDateString();
             timeDisplay.Text = currentTime.ToShortTimeString();
             measurementValue.Text = string.Empty;
@@ -325,12 +347,22 @@ namespace ZdrowiePlus.Fragments
             {
                 //jak nie działa - if contain???
                 //spinner.DispatchSetSelected(false);
+                reminderId = Arguments.GetInt("id", 0);
                 int spinnerPosition = Arguments.GetInt("type", 0);
                 //spinner.SetSelection(0, false);
                 spinner.SetSelection(spinnerPosition, true);
-                Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
+                //Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
                 //Arguments.Clear();
                 Arguments = null;
+
+                if (reminderId > 0)
+                {
+                    buttonCancel.Text = "Pomiń";
+                }
+                else
+                {
+                    buttonCancel.Text = "Anuluj";
+                }
             }
         }
     }

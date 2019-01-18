@@ -91,7 +91,7 @@ namespace ZdrowiePlus.Fragments
             var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, addMeasurementReminderFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -100,7 +100,7 @@ namespace ZdrowiePlus.Fragments
             var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, addMedicineTherapyFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -109,7 +109,7 @@ namespace ZdrowiePlus.Fragments
             var trans = FragmentManager.BeginTransaction();
 
             trans.Replace(Resource.Id.fragmentContainer, addVisitFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
     }

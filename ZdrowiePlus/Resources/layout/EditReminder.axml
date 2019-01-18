@@ -23,7 +23,7 @@
 
 		<TextView
 			android:text="Przypomnienie o ..."
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="0dp"
 			android:layout_marginLeft="5dp"
@@ -32,6 +32,19 @@
 			android:textStyle="bold"
 			android:textColor="@color/static_text"
 			android:id="@+id/textEditType" />
+
+		<TextView
+			android:text="Status"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:layout_marginTop="0dp"
+			android:layout_marginRight="7dp"
+			android:layout_gravity="center_vertical"
+			android:textSize="15sp"
+			android:textStyle="bold"
+			android:textColor="@color/static_text"
+			android:id="@+id/eventStatus" />
 	</LinearLayout>
 
 	<android.support.v7.widget.CardView
@@ -73,7 +86,6 @@
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
-					android:textStyle="bold"
 					android:textColor="@color/static_text" />
 
 				<EditText

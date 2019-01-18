@@ -26,6 +26,7 @@ namespace ZdrowiePlus.Fragments
 
         TextView eventDate;
         TextView eventTime;
+        TextView eventStatus;
         EditText eventTitle;
         EditText eventDescription;
         Event eventToEdit;
@@ -68,7 +69,7 @@ namespace ZdrowiePlus.Fragments
             //remindMinutesBefore = eventToEdit.ReminderMinutesBefore;
             //remindBeforeMultiplier = 1;
 
-            Toast.MakeText(this.Activity, $"{eventToEdit.ReminderMinutesBefore} min", ToastLength.Short).Show();
+            //Toast.MakeText(this.Activity, $"{eventToEdit.ReminderMinutesBefore} min", ToastLength.Short).Show();
 
             year = eventToEdit.Date.Year;
             month = eventToEdit.Date.Month;
@@ -87,10 +88,13 @@ namespace ZdrowiePlus.Fragments
             eventTitle = view.FindViewById<EditText>(Resource.Id.eventEditTitle);
             //eventTitle.Text = eventToEdit.Title;
 
+            eventStatus = view.FindViewById<TextView>(Resource.Id.eventStatus);
+
             //for Visit reminder edit
             remindBeforeLayout = view.FindViewById<LinearLayout>(Resource.Id.remindBeforeLayout);
             remindBeforeSpinner = view.FindViewById<Spinner>(Resource.Id.addVisitReminderSpinner);
             remindBeforeValue = view.FindViewById<EditText>(Resource.Id.textAddVisitReminder);
+            remindBeforeValue.SetSelectAllOnFocus(true);
 
             //for Measurement reminder edit
             measurementLayout = view.FindViewById<LinearLayout>(Resource.Id.layoutMeasurement);
@@ -104,6 +108,21 @@ namespace ZdrowiePlus.Fragments
             {
                 eventType.Text = "Przypomienie o pomiarze";
                 iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
+
+                if (eventToEdit.Skipped == 1)
+                {
+                    eventStatus.Text = "Pominięty";
+                    eventStatus.SetTextColor(Android.Graphics.Color.Red);
+                }
+                else if (eventToEdit.Skipped == 2)
+                {
+                    eventStatus.Text = "Zrobiony";
+                    eventStatus.SetTextColor(Android.Graphics.Color.ParseColor("#00a300"));
+                }
+                else
+                {
+                    eventStatus.Text = string.Empty;
+                }
 
                 //spinner behavior
                 //var adapterM = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
@@ -126,10 +145,25 @@ namespace ZdrowiePlus.Fragments
                 eventType.Text = "Przypomienie o wizycie";
                 iconType.SetImageResource(Resource.Drawable.doctor_icon);
 
+                if (eventToEdit.Skipped == 1)
+                {
+                    eventStatus.Text = "Odwołana";
+                    eventStatus.SetTextColor(Android.Graphics.Color.Red);
+                }
+                else if (eventToEdit.Skipped == 2)
+                {
+                    eventStatus.Text = "Odbyta";
+                    eventStatus.SetTextColor(Android.Graphics.Color.Green);
+                }
+                else
+                {
+                    eventStatus.Text = string.Empty;
+                }
+
                 remindBeforeLayout.Visibility = ViewStates.Visible;
 
                 //Edit text value behavior
-                remindBeforeValue.SetSelectAllOnFocus(true);
+                
                 //remindBeforeValue.TextChanged += (s, e) => {
                 //    //EditText value = (EditText)s;
                 //    //if (!int.TryParse(value.Text, out int x)) x = 0;
@@ -194,6 +228,21 @@ namespace ZdrowiePlus.Fragments
             }
             else if (eventToEdit.EventType == EventType.Medicine)
             {
+                if (eventToEdit.Skipped == 1)
+                {
+                    eventStatus.Text = "Pominięty";
+                    eventStatus.SetTextColor(Android.Graphics.Color.Red);
+                }
+                else if (eventToEdit.Skipped == 2)
+                {
+                    eventStatus.Text = "Zażyty";
+                    eventStatus.SetTextColor(Android.Graphics.Color.Green);
+                }
+                else
+                {
+                    eventStatus.Text = string.Empty;
+                }
+
                 medicineLayout.Visibility = ViewStates.Visible;
                 eventTitle.Visibility = ViewStates.Visible;
                 measurementLayout.Visibility = ViewStates.Gone;
@@ -243,7 +292,7 @@ namespace ZdrowiePlus.Fragments
             {
                 var trans = FragmentManager.BeginTransaction();
                 trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             };
 
@@ -273,7 +322,7 @@ namespace ZdrowiePlus.Fragments
             //go to list after delete
             var trans = FragmentManager.BeginTransaction();
             trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -298,7 +347,7 @@ namespace ZdrowiePlus.Fragments
             //go to list after delete
             var trans = FragmentManager.BeginTransaction();
             trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-            trans.AddToBackStack(null);
+            //trans.AddToBackStack(null);
             trans.Commit();
         }
 
@@ -347,8 +396,16 @@ namespace ZdrowiePlus.Fragments
 
                 if (!int.TryParse(medicineCount.Text, out int count)) //jesli sie nie uda (pole puste)
                 {
-                    count = 1;
+                    Toast.MakeText(this.Activity, $"Dawka leku nie może być pusta", ToastLength.Short).Show();
+                    return;
                 }
+
+                if (count < 1)
+                {
+                    Toast.MakeText(this.Activity, $"Minimalna dawka to 1", ToastLength.Short).Show();
+                    return;
+                }
+
                 eventToEdit.Count = count;
             }
 
@@ -367,42 +424,45 @@ namespace ZdrowiePlus.Fragments
                     db.CreateTable<Event>();
                     db.Update(eventToEdit);
 
-                    Toast.MakeText(this.Activity, $"Zapisano\n{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}\n{eventToEdit.Id}", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Zapisano", ToastLength.Short).Show();
 
-                    //Notification
-                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    
-                    if (eventToEdit.EventType == EventType.Visit)
+                    if (eventToEdit.Date > DateTime.Now)
                     {
-                        notificationIntent.PutExtra("title", "Wizyta");
-                        notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title}");
-                        eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
-                    }
-                    else if (eventToEdit.EventType == EventType.Medicine)
-                    {
-                        notificationIntent.PutExtra("title", "Leki");
-                        notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title} dawka: {eventToEdit.Count}");
-                    }
-                    else if (eventToEdit.EventType == EventType.Measurement)
-                    {
-                        notificationIntent.PutExtra("title", "Pomiar");
-                        notificationIntent.PutExtra("message", $"{eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")} {eventToEdit.Title}");
-                        notificationIntent.PutExtra("type", measurementSpinner.SelectedItemPosition);
-                    }
-                    notificationIntent.PutExtra("id", eventToEdit.Id);
+                        //Notification
+                        Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
 
-                    var timer = (long)eventToEdit.Date.ToUniversalTime().Subtract(
-                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        ).TotalMilliseconds;
+                        if (eventToEdit.EventType == EventType.Visit)
+                        {
+                            notificationIntent.PutExtra("title", "Wizyta");
+                            notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}");
+                            eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
+                        }
+                        else if (eventToEdit.EventType == EventType.Medicine)
+                        {
+                            notificationIntent.PutExtra("title", "Leki");
+                            notificationIntent.PutExtra("message", $"{eventToEdit.Title} dawka: {eventToEdit.Count}. {eventToEdit.Date.ToString("HH:mm")}");
+                        }
+                        else if (eventToEdit.EventType == EventType.Measurement)
+                        {
+                            notificationIntent.PutExtra("title", "Pomiar");
+                            notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("HH:mm")}");
+                            notificationIntent.PutExtra("type", measurementSpinner.SelectedItemPosition);
+                        }
+                        notificationIntent.PutExtra("id", eventToEdit.Id);
 
-                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                        var timer = (long)eventToEdit.Date.ToUniversalTime().Subtract(
+                            new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                            ).TotalMilliseconds;
+
+                        PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                        AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                        alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                    }
 
                     //go to list after save
                     var trans = FragmentManager.BeginTransaction();
                     trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-                    trans.AddToBackStack(null);
+                    //trans.AddToBackStack(null);
                     trans.Commit();
                 }
                 else
@@ -456,6 +516,8 @@ namespace ZdrowiePlus.Fragments
         public override void OnResume()
         {
             base.OnResume();
+
+            this.Activity.Title = "Edycja przypomnienia";
 
             eventTitle.Text = eventToEdit.Title;
             eventDescription.Text = eventToEdit.Description;

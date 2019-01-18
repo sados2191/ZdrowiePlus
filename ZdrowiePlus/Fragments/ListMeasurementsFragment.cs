@@ -69,7 +69,7 @@ namespace ZdrowiePlus.Fragments
                 bundle.PutInt("type", selected);
                 addMeasurementFragment.Arguments = bundle;
                 trans.Replace(Resource.Id.fragmentContainer, addMeasurementFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             };
 
@@ -137,10 +137,17 @@ namespace ZdrowiePlus.Fragments
                 //spinner.DispatchSetSelected(false);
                 int spinnerPosition = Arguments.GetInt("type", 0);
                 spinner.SetSelection(spinnerPosition, true);
-                Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
+                //Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
                 //Arguments.Clear();
                 Arguments = null;
             }
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            this.Activity.Title = "Lista pomiarów";
         }
     }
 }

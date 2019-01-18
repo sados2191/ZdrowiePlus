@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Runtime;
@@ -21,7 +22,9 @@ namespace ZdrowiePlus
         {
             var message = intent.GetStringExtra("message");
             var title = intent.GetStringExtra("title");
-            var id = intent.GetIntExtra("id", 1);
+            var id = intent.GetIntExtra("id", 0);
+
+            Bitmap largeIcon = largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.icon);
 
             string channelId = "zdrowieplus-111";
             string channelName = "ZdrowiePlus";
@@ -33,16 +36,22 @@ namespace ZdrowiePlus
                 notifyIntent.PutExtra("notification", "measurement");
                 int type = intent.GetIntExtra("type", 0);
                 notifyIntent.PutExtra("type", type);
+
+                largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pulsometer_icon);
             }
             if (title == "Wizyta")
             {
                 notifyIntent.PutExtra("notification", "visit");
                 //notifyIntent.PutExtra("id", id);
+
+                largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.doctor_icon);
             }
             if (title == "Leki")
             {
                 notifyIntent.PutExtra("notification", "medicine");
                 //notifyIntent.PutExtra("id", id);
+
+                largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.medical_pill);
             }
             notifyIntent.PutExtra("id", id);
             // Set the activity to start in a new, empty task
@@ -79,7 +88,9 @@ namespace ZdrowiePlus
                 .SetAutoCancel(true)
                 .SetDefaults((int)NotificationDefaults.Sound | (int)NotificationDefaults.Vibrate)
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
-                .SetSmallIcon(Resource.Drawable.outline_info_white_24);
+                .SetSmallIcon(Resource.Drawable.round_schedule_24)
+                .SetLargeIcon(largeIcon)
+                .SetVisibility((int)NotificationVisibility.Private);
 
             // Build the notification:
             Notification notification = builder.Build();

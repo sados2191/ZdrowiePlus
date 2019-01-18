@@ -50,7 +50,6 @@ namespace ZdrowiePlus.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            dateTime = DateTime.Now;
             startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
             endDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
 
@@ -106,13 +105,11 @@ namespace ZdrowiePlus.Fragments
 
             //start date choosing
             startDate = view.FindViewById<TextView>(Resource.Id.medicineStartDate);
-            startDate.Text = dateTime.ToLongDateString();
             startDate.Click += DateSelect_OnClick;
             startDate.TextChanged += (s, e) => { startDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0); };
 
             //end date choosing
             endDate = view.FindViewById<TextView>(Resource.Id.medicineEndDate);
-            endDate.Text = dateTime.ToLongDateString();
             endDate.Click += DateSelect_OnClick;
             endDate.TextChanged += (s, e) => { endDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59); };
 
@@ -154,7 +151,7 @@ namespace ZdrowiePlus.Fragments
             {
                 var trans = FragmentManager.BeginTransaction();
                 trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                trans.AddToBackStack(null);
+                //trans.AddToBackStack(null);
                 trans.Commit();
             };
 
@@ -203,6 +200,12 @@ namespace ZdrowiePlus.Fragments
                 return;
             }
 
+            if (DateTime.Now > endDay)
+            {
+                Toast.MakeText(this.Activity, $"Nie można zaplanować w przeszłości", ToastLength.Short).Show();
+                return;
+            }
+
             string medicineNameString = medicineName.Text.Trim();
             if (medicineNameString == string.Empty)
             {
@@ -212,7 +215,14 @@ namespace ZdrowiePlus.Fragments
 
             if (!int.TryParse(medicineCount.Text, out int count)) //jesli sie nie uda (pole puste)
             {
-                count = 1;
+                Toast.MakeText(this.Activity, $"Dawka leku nie może być pusta", ToastLength.Short).Show();
+                return;
+            }
+
+            if (count < 1)
+            {
+                Toast.MakeText(this.Activity, $"Minimalna dawka to 1", ToastLength.Short).Show();
+                return;
             }
 
             if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
@@ -260,7 +270,7 @@ namespace ZdrowiePlus.Fragments
 
                                 //Notification
                                 Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                                notificationIntent.PutExtra("message", $"{newEvent.Date.ToString("dd.MM.yyyy HH:mm")} {newEvent.Title} dawka: {count}");
+                                notificationIntent.PutExtra("message", $"{newEvent.Title} dawka: {count}. {newEvent.Date.ToString("HH:mm")}");
                                 notificationIntent.PutExtra("title", "Leki");
                                 notificationIntent.PutExtra("id", newEvent.Id);
 
@@ -275,7 +285,7 @@ namespace ZdrowiePlus.Fragments
                                 //go to list after save
                                 var trans = FragmentManager.BeginTransaction();
                                 trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                                trans.AddToBackStack(null);
+                                //trans.AddToBackStack(null);
                                 trans.Commit();
 
                                 i++;
@@ -287,7 +297,8 @@ namespace ZdrowiePlus.Fragments
 
                 if (i == 0)
                 {
-                    Toast.MakeText(this.Activity, $"Niewłaściwe ustawienia", ToastLength.Short).Show();
+                    Toast.MakeText(this.Activity, $"Wybrane dni tygodnia nie zawierają się w przedziale dat.", ToastLength.Short).Show();
+                    return;
                 }
                 else
                 {
@@ -327,6 +338,12 @@ namespace ZdrowiePlus.Fragments
         public override void OnResume()
         {
             base.OnResume();
+
+            this.Activity.Title = "Dodaj przypomnienie";
+
+            dateTime = DateTime.Now;
+            startDate.Text = dateTime.ToLongDateString();
+            endDate.Text = dateTime.ToLongDateString();
 
             medicineName.Text = string.Empty;
             startDate.Text = dateTime.ToLongDateString();
