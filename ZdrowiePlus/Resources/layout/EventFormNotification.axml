@@ -1,73 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-	<TextView
-		android:text="Tytuł"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
 		android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-		android:gravity="center"
-		android:id="@+id/eventTitle" />
-    <TextView
-        android:text="Data:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:id="@+id/labelEventDate" />
-    <TextView
-        android:text="Data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:id="@+id/eventDate" />
-    <TextView
-        android:text="Godzina"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:id="@+id/labelEventTime" />
-    <TextView
-        android:text="Godzina:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:id="@+id/eventTime" />
-	<TextView
-        android:text="Opis:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:id="@+id/labelEventDescription" />
-    <TextView
-		android:text=""
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="5dp"
+		android:layout_marginTop="7dp"
+		android:orientation="horizontal">
+
+		<ImageView
+			android:layout_width="30dp"
+			android:layout_height="30dp"
+			android:padding="2dp"
+			android:tint="@android:color/black"
+			android:id="@+id/iconEventType" />
+
+		<TextView
+			android:text="Przypomnienie o ..."
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="0dp"
+			android:layout_marginLeft="5dp"
+			android:layout_gravity="center_vertical"
+			android:textSize="15sp"
+			android:textStyle="bold"
+			android:textColor="@color/static_text"
+			android:id="@+id/eventType" />
+	</LinearLayout>
+
+	<android.support.v7.widget.CardView
 		android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:id="@+id/eventDescription" />
+		android:layout_height="wrap_content"
+		android:layout_margin="5dp"
+		app:cardCornerRadius="4dp">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Tytuł zdarzenia"
+				android:textColor="@color/active_text"
+				android:textSize="19sp"
+				android:textStyle="bold"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:layout_marginLeft="5dp"
+				android:id="@+id/eventTitle" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:visibility="visible"
+				android:id="@+id/layoutMedicine">
+
+				<TextView
+					android:text="Dawka:"
+					android:layout_width="0dp"
+					android:layout_weight="25"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="1"
+					android:layout_width="0dp"
+					android:layout_weight="75"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:gravity="left"
+					android:id="@+id/medicineCount" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Data:"
+					android:layout_width="0dp"
+					android:layout_weight="25"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="Data"
+					android:layout_width="0dp"
+					android:layout_weight="75"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:gravity="left"
+					android:id="@+id/eventDate" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:layout_marginBottom="7dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Godzina:"
+					android:layout_width="0dp"
+					android:layout_weight="25"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<TextView
+					android:text="Godzina"
+					android:layout_width="0dp"
+					android:layout_weight="75"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:gravity="left"
+					android:textColor="@color/active_text"
+					android:id="@+id/eventTime" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="Ponów przypomnienie za"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginRight="5dp"
+					android:layout_gravity="center_vertical"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
+
+				<EditText
+					android:text="30"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:inputType="number"
+					android:imeOptions="actionDone"
+					android:maxLength="3"
+					android:selectAllOnFocus="true"
+					android:textSize="18sp"
+					android:textColor="@color/active_text"
+					android:id="@+id/eventLaterValue" />
+
+				<TextView
+					android:text="minut."
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:layout_gravity="center_vertical"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text"
+					android:id="@+id/eventLaterSpan" />
+			</LinearLayout>
+
+			<EditText
+				android:inputType="textMultiLine"
+				android:maxLines="5"
+				android:scrollbars="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Opis zdarzenia"
+				android:textSize="18sp"
+				android:textColor="@color/active_text"
+				android:id="@+id/eventDescription" />
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+	<android.support.v7.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="5dp"
+		app:cardCornerRadius="4dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<Button
+				android:text="Pomiń"
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonSkip" />
+
+			<View
+				android:layout_width="2dp"
+				android:layout_height="match_parent"
+				android:background="#FFFFFF"/>
+
+			<Button
+				android:text="Później"
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonLater" />
+
+			<View
+				android:layout_width="2dp"
+				android:layout_height="match_parent"
+				android:background="#FFFFFF"/>
+
+			<Button
+				android:text="Weź"
+				android:layout_width="0dp"
+				android:layout_weight="50"
+				android:layout_height="wrap_content"
+				android:background="@color/card_button_background"
+				android:textColor="@color/card_button_text"
+				android:textStyle="bold"
+				android:id="@+id/buttonConfirm" />
+			</LinearLayout>
+	</android.support.v7.widget.CardView>
 </LinearLayout>

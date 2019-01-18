@@ -4,6 +4,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:id="@+id/cardView"
 	android:layout_margin="3dp"
 	app:cardCornerRadius="4dp">
 
@@ -19,21 +20,34 @@
 			android:padding="2dp"
 			android:id="@+id/imageView" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Tytuł"
-			android:textSize="18sp"
-			android:textStyle="bold"
+		<LinearLayout
+			android:orientation="vertical"
 			android:layout_marginLeft="10dp"
-			android:layout_marginBottom="4dp"
-			android:layout_gravity="bottom"
-			android:textColor="@android:color/black"
-			android:id="@+id/textTitle" />
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content" >
+
+			<TextView
+				android:textSize="14sp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/static_text"
+				android:id="@+id/textCount" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Tytuł"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:layout_marginBottom="4dp"
+				android:layout_gravity="bottom"
+				android:textColor="@android:color/black"
+				android:id="@+id/textTitle" />
+		</LinearLayout>
 
 		<TextView
-			android:layout_width="100dp"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Data czas"
 			android:gravity="right"

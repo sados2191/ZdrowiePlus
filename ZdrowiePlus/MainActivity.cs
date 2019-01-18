@@ -18,13 +18,17 @@ using System.Linq;
 
 namespace ZdrowiePlus
 {
-    [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "@string/app_name", MainLauncher = true, Theme ="@style/MyTheme.Splash",
+        ScreenOrientation = ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        //kliki w historii
+        //wygląd powiadomienia
+        //spinner type dialog?
         //active text bold?
-        //leki dawka
-        //minutesBefore - powiadomienie, edycja
-        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar, jako nowe aktywności???
+        //usuwanie serii - sprawdzać dateAdded?
+        //usuwanie serii w aktywnych czy w historii
+        //potwierdzenie usuwania
         //pytanie o wyjscie po kliknieciu cofnij
         //sprawdzać datę przed dodawaniem
         //jak jest w OnResume nie musi byc w OnCreate
@@ -32,11 +36,7 @@ namespace ZdrowiePlus
         //poprawne ustawianie textu labelki w actionBar
         //edycja pomiarów
         //godzina i data OnResume
-        //potwierdzenie usuwania
-        //usuwanie serii w aktywnych czy w historii
         //short date???
-        //kliki w historii
-        //wygląd powiadomienia
         //inicjalizacja fragmentów w OnCreateView
         //usunąć id z xml, gdzie niepotrzebne
         //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej
@@ -51,6 +51,9 @@ namespace ZdrowiePlus
         //tętno w spoczynku czy w czasie aktywności
         //ogarnąć nazwy class itd
         //ogarnąć dostępy (private, public)
+
+        //minutesBefore - powiadomienie, edycja - gotowe?
+        //po kliknięciu na powiadomienie otwiera dodanie pomiaru / widok wizyty / leki - zrobione pomiar, jako nowe aktywności???
 
         //list filter
         public static int listFilter = 0;//zmienic tak jak w liscie pomiarów

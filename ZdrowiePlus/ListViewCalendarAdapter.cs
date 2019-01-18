@@ -69,7 +69,7 @@ namespace ZdrowiePlus
                     break;
                 case EventType.Measurement:
                     iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
-                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#3700b3"));
+                    txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#be03e5"));
                     break;
                 default:
                     break;

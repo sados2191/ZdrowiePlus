@@ -17,6 +17,7 @@ namespace ZdrowiePlus
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; } //change to GUID
+        public int Skipped { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public int ReminderMinutesBefore { get; set; } //for visit reminder

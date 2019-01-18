@@ -45,24 +45,28 @@ namespace ZdrowiePlus
             reminder.reminderDate.Text = mItems[position].Date.ToString("dd/MM/yyyy HH:mm");
             reminder.reminderTitle.Text = mItems[position].Title;
 
+            if (mItems[position].Skipped == 1)
+            {
+                reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#ffe6eb"));
+            }
+            if (mItems[position].Skipped == 2 && mItems[position].Date < DateTime.Now)
+            {
+                reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#e6ffee"));
+            }
+
             switch (mItems[position].EventType)
             {
                 case EventType.Visit:
-                    //txtType.Text = "Wizyta";
-                    //txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#cc6600"));
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#e54d03"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.doctor_icon);
                     break;
                 case EventType.Medicine:
-                    //txtType.Text = "Leki";
-                    //txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.medical_pill);
+                    reminder.medicalCount.Text = $"Dawka: {mItems[position].Count}";
                     break;
                 case EventType.Measurement:
-                    //txtType.Text = "Pomiar";
-                    //txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#3700b3"));
-                    reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#3700b3"));
+                    reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#be03e5"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.pulsometer_icon);
                     break;
                 default:
@@ -82,6 +86,8 @@ namespace ZdrowiePlus
             public ImageView reminderType;
             public TextView reminderDate;
             public TextView reminderTitle;
+            public TextView medicalCount;
+            public CardView cardView;
 
             public MyViewHolder(View itemView, Action<int> listener)
                 : base(itemView)
@@ -89,6 +95,8 @@ namespace ZdrowiePlus
                 reminderType = itemView.FindViewById<ImageView>(Resource.Id.imageView);
                 reminderDate = itemView.FindViewById<TextView>(Resource.Id.textDate);
                 reminderTitle = itemView.FindViewById<TextView>(Resource.Id.textTitle);
+                medicalCount = itemView.FindViewById<TextView>(Resource.Id.textCount);
+                cardView = itemView.FindViewById<CardView>(Resource.Id.cardView);
 
                 itemView.Click += (sender, e) => listener (base.LayoutPosition);
             }

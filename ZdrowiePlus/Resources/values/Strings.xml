@@ -36,8 +36,8 @@
   </string-array>
 
   <string-array name="visits_reminder_array">
-    <item>min. przed</item>
-    <item>godz. przed</item>
+    <item>minut przed</item>
+    <item>godzin przed</item>
     <item>dni przed</item>>
   </string-array>
 </resources>

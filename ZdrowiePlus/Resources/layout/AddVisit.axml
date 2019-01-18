@@ -122,11 +122,12 @@
 
 			<EditText
 				android:inputType="textMultiLine"
-				android:maxLines="4"
+				android:maxLines="5"
 				android:scrollbars="vertical"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:hint="Opis wizyty"
+				android:textSize="18sp"
 				android:textColor="@color/active_text"
 				android:id="@+id/visitDescription" />
 		</LinearLayout>

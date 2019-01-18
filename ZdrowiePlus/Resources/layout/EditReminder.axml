@@ -45,54 +45,54 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Tytuł zdarzenia"
+				android:inputType="text"
+				android:selectAllOnFocus="true"
+				android:imeOptions="actionDone"
+				android:textColor="@color/active_text"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:id="@+id/eventEditTitle" />
+
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal">
+				android:orientation="horizontal"
+				android:visibility="visible"
+				android:id="@+id/layoutMedicine">
+
+				<TextView
+					android:text="Dawka:"
+					android:layout_width="0dp"
+					android:layout_weight="25"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:textColor="@color/static_text" />
 
 				<EditText
 					android:layout_width="0dp"
-					android:layout_weight="1"
+					android:layout_weight="10"
 					android:layout_height="wrap_content"
-					android:hint="Tytuł zdarzenia"
-					android:inputType="text"
+					android:inputType="number"
 					android:imeOptions="actionDone"
+					android:maxLength="1"
+					android:selectAllOnFocus="true"
 					android:textColor="@color/active_text"
 					android:textSize="18sp"
 					android:textStyle="bold"
-					android:layout_marginLeft="5dp"
-					android:layout_marginRight="5dp"
-					android:id="@+id/eventEditTitle" />
+					android:id="@+id/medicineCount" />
 
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:visibility="gone"
-					android:id="@+id/layoutMedicine">
-
-					<TextView
-						android:text="Dawka:"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textSize="18sp"
-						android:textStyle="bold"
-						android:textColor="@color/static_text" />
-
-					<EditText
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:inputType="number"
-						android:imeOptions="actionDone"
-						android:maxLength="1"
-						android:selectAllOnFocus="true"
-						android:textColor="@color/active_text"
-						android:textSize="18sp"
-						android:textStyle="bold"
-						android:layout_marginLeft="5dp"
-						android:layout_marginRight="50dp"
-						android:id="@+id/medicineCount" />
-				</LinearLayout>
+				<View
+					android:layout_width="0dp"
+					android:layout_weight="65"
+					android:layout_height="0dp"/>
 			</LinearLayout>
 
 			<LinearLayout
@@ -100,7 +100,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="7dp"
 				android:layout_marginBottom="7dp"
-				android:visibility="gone"
+				android:visibility="visible"
 				android:orientation="horizontal"
 				android:id="@+id/layoutMeasurement">
 
@@ -134,7 +134,7 @@
 				<TextView
 					android:text="Data:"
 					android:layout_width="0dp"
-					android:layout_weight="35"
+					android:layout_weight="25"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -144,7 +144,7 @@
 				<TextView
 					android:text="Data"
 					android:layout_width="0dp"
-					android:layout_weight="65"
+					android:layout_weight="75"
 					android:layout_height="wrap_content"
 					android:textSize="18sp"
 					android:textColor="@color/active_text"
@@ -162,7 +162,7 @@
 				<TextView
 					android:text="Godzina:"
 					android:layout_width="0dp"
-					android:layout_weight="35"
+					android:layout_weight="25"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:textSize="18sp"
@@ -172,7 +172,7 @@
 				<TextView
 					android:text="Godzina"
 					android:layout_width="0dp"
-					android:layout_weight="65"
+					android:layout_weight="75"
 					android:layout_height="wrap_content"
 					android:textSize="18sp"
 					android:gravity="left"
@@ -183,7 +183,7 @@
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:visibility="gone"
+				android:visibility="visible"
 				android:id="@+id/remindBeforeLayout"
 				android:orientation="horizontal">
 
@@ -199,7 +199,7 @@
 
 				<EditText
 					android:layout_width="0dp"
-					android:layout_weight="20"
+					android:layout_weight="15"
 					android:layout_height="wrap_content"
 					android:inputType="number"
 					android:imeOptions="actionDone"
@@ -211,7 +211,7 @@
 
 				<Spinner
 					android:layout_width="0dp"
-					android:layout_weight="45"
+					android:layout_weight="50"
 					android:layout_height="wrap_content"
 					android:dropDownSelector="@color/spinner_selector"
 					android:popupBackground="#ffffff"
@@ -221,11 +221,12 @@
 			
 			<EditText
 				android:inputType="textMultiLine"
-				android:maxLines="4"
+				android:maxLines="5"
 				android:scrollbars="vertical"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:hint="Opis zdarzenia"
+				android:textSize="18sp"
 				android:textColor="@color/active_text"
 				android:id="@+id/eventEditDescription" />
 		</LinearLayout>
@@ -264,7 +265,7 @@
 				android:background="@color/card_button_background"
 				android:textColor="@color/card_button_text"
 				android:textStyle="bold"
-				android:visibility="gone"
+				android:visibility="visible"
 				android:id="@+id/buttonDeleteSeries" />
 
 			<View

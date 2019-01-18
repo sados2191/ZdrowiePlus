@@ -42,7 +42,7 @@
 		<TextView
 			android:text="Data czas"
 			android:textSize="14sp"
-			android:layout_width="100dp"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="right"
 			android:textColor="@color/static_text"
