@@ -60,6 +60,7 @@ namespace ZdrowiePlus
             else
             {
                 reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#ffffff"));
+                skipped = 0;
             }
 
             switch (mItems[position].EventType)
