@@ -152,13 +152,13 @@ namespace ZdrowiePlus.Fragments
 
                     //database connection
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"zdrowieplus.db"));
-                    db.CreateTable<Event>();
-                    var newEvent = new Event();
+                    db.CreateTable<Reminder>();
+                    var newEvent = new Reminder();
                     newEvent.Date = visitTime;
-                    newEvent.ReminderMinutesBefore = reminderMinutesBefore;
+                    newEvent.MinutesBefore = reminderMinutesBefore;
                     newEvent.Title = title;
                     newEvent.Description = description;
-                    newEvent.EventType = EventType.Visit;
+                    newEvent.ReminderType = ReminderType.Visit;
                     db.Insert(newEvent); //change to GUID
 
                     this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = string.Empty;

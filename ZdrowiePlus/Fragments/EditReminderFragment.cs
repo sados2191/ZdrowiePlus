@@ -29,7 +29,7 @@ namespace ZdrowiePlus.Fragments
         TextView eventStatus;
         EditText eventTitle;
         EditText eventDescription;
-        Event eventToEdit;
+        Reminder eventToEdit;
         TextView eventType;
         ImageView iconType;
 
@@ -104,7 +104,7 @@ namespace ZdrowiePlus.Fragments
             medicineLayout = view.FindViewById<LinearLayout>(Resource.Id.layoutMedicine);
             medicineCount = view.FindViewById<EditText>(Resource.Id.medicineCount);
 
-            if (eventToEdit.EventType == EventType.Measurement)
+            if (eventToEdit.ReminderType == ReminderType.Measurement)
             {
                 eventType.Text = "Przypomienie o pomiarze";
                 iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
@@ -136,7 +136,7 @@ namespace ZdrowiePlus.Fragments
 
                 //measurementSpinner.SetSelection(adapterM.GetPosition(eventToEdit.Title), true);
             }
-            else if (eventToEdit.EventType == EventType.Visit)
+            else if (eventToEdit.ReminderType == ReminderType.Visit)
             {
                 eventTitle.Visibility = ViewStates.Visible;
                 measurementLayout.Visibility = ViewStates.Gone;
@@ -226,7 +226,7 @@ namespace ZdrowiePlus.Fragments
                 //    remindBeforeSpinner.SetSelection(0, true);
                 //}
             }
-            else if (eventToEdit.EventType == EventType.Medicine)
+            else if (eventToEdit.ReminderType == ReminderType.Medicine)
             {
                 if (eventToEdit.Skipped == 1)
                 {
@@ -277,7 +277,7 @@ namespace ZdrowiePlus.Fragments
             //Delete series button
             Button buttonDeleteSeries = view.FindViewById<Button>(Resource.Id.buttonDeleteSeries);
             buttonDeleteSeries.Click += DeleteSeries;
-            if (eventToEdit.EventType == EventType.Medicine || eventToEdit.EventType == EventType.Measurement)
+            if (eventToEdit.ReminderType == ReminderType.Medicine || eventToEdit.ReminderType == ReminderType.Measurement)
             {
                 buttonDeleteSeries.Visibility = ViewStates.Visible;
             }
@@ -303,14 +303,14 @@ namespace ZdrowiePlus.Fragments
         {
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             //db.CreateTable<Event>();
-            eventToEdit = db.Get<Event>(id);
+            eventToEdit = db.Get<Reminder>(id);
         }
 
         private void DeleteVisit(object sender, EventArgs e)
         {
             //delete from database
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-            db.CreateTable<Event>();
+            db.CreateTable<Reminder>();
             db.Delete(eventToEdit);
 
             //cancel alarm manager
@@ -330,8 +330,8 @@ namespace ZdrowiePlus.Fragments
         {
             //selecting events to delete
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-            db.CreateTable<Event>();
-            var events = db.Table<Event>().Where(x => x.Title == eventToEdit.Title && x.Description == eventToEdit.Description)
+            db.CreateTable<Reminder>();
+            var events = db.Table<Reminder>().Where(x => x.Title == eventToEdit.Title && x.Description == eventToEdit.Description)
                                           .OrderBy(x => x.Date).ToList();
             foreach (var item in events)
             {
@@ -355,12 +355,12 @@ namespace ZdrowiePlus.Fragments
         {
             eventToEdit.Date = new DateTime(year, month, day, hour, minute, 0);
 
-            if (eventToEdit.EventType == EventType.Measurement)
+            if (eventToEdit.ReminderType == ReminderType.Measurement)
             {
                 //eventToEdit.Title = measurementSpinner.GetItemAtPosition(measurementSpinner.SelectedItemPosition).ToString();
                 eventToEdit.Title = measurementSpinner.SelectedItem.ToString();
             }
-            else if (eventToEdit.EventType == EventType.Visit)
+            else if (eventToEdit.ReminderType == ReminderType.Visit)
             {
                 eventToEdit.Title = eventTitle.Text;
 
@@ -388,9 +388,9 @@ namespace ZdrowiePlus.Fragments
                     remindMinutesBefore = remindMinutesBefore * remindBeforeMultiplier;
                 }
                 
-                eventToEdit.ReminderMinutesBefore = remindMinutesBefore;
+                eventToEdit.MinutesBefore = remindMinutesBefore;
             }
-            else if (eventToEdit.EventType == EventType.Medicine)
+            else if (eventToEdit.ReminderType == ReminderType.Medicine)
             {
                 eventToEdit.Title = eventTitle.Text;
 
@@ -421,7 +421,7 @@ namespace ZdrowiePlus.Fragments
 
                     //database connection
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                    db.CreateTable<Event>();
+                    db.CreateTable<Reminder>();
                     db.Update(eventToEdit);
 
                     Toast.MakeText(this.Activity, $"Zapisano", ToastLength.Short).Show();
@@ -431,18 +431,18 @@ namespace ZdrowiePlus.Fragments
                         //Notification
                         Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
 
-                        if (eventToEdit.EventType == EventType.Visit)
+                        if (eventToEdit.ReminderType == ReminderType.Visit)
                         {
                             notificationIntent.PutExtra("title", "Wizyta");
                             notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}");
                             eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
                         }
-                        else if (eventToEdit.EventType == EventType.Medicine)
+                        else if (eventToEdit.ReminderType == ReminderType.Medicine)
                         {
                             notificationIntent.PutExtra("title", "Leki");
                             notificationIntent.PutExtra("message", $"{eventToEdit.Title} dawka: {eventToEdit.Count}. {eventToEdit.Date.ToString("HH:mm")}");
                         }
-                        else if (eventToEdit.EventType == EventType.Measurement)
+                        else if (eventToEdit.ReminderType == ReminderType.Measurement)
                         {
                             notificationIntent.PutExtra("title", "Pomiar");
                             notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("HH:mm")}");
@@ -532,7 +532,7 @@ namespace ZdrowiePlus.Fragments
             measurementSpinner.SetSelection(adapterM.GetPosition(eventToEdit.Title), true);
 
             //set remindBefore views fields
-            remindMinutesBefore = eventToEdit.ReminderMinutesBefore;
+            remindMinutesBefore = eventToEdit.MinutesBefore;
             var adapterV = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapterV.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             remindBeforeSpinner.Adapter = adapterV;

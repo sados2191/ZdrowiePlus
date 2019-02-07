@@ -212,7 +212,7 @@ namespace ZdrowiePlus.Fragments
 
                 //database connection
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Event>();
+                db.CreateTable<Reminder>();
 
                 List<int> weekDays = new List<int>();
                 if (Sunday.Selected) weekDays.Add(0);
@@ -242,11 +242,11 @@ namespace ZdrowiePlus.Fragments
                             DateTime date = new DateTime(eventDay.Year, eventDay.Month, eventDay.Day, item.Hour, item.Minute, 0);
                             if (date >= DateTime.Now)
                             {
-                                var newEvent = new Event();
+                                var newEvent = new Reminder();
                                 newEvent.Date = date;
                                 //newEvent.Title = spinnerMeasurementType.GetItemAtPosition(spinnerMeasurementType.SelectedItemPosition).ToString();
                                 newEvent.Title = spinnerMeasurementType.SelectedItem.ToString();
-                                newEvent.EventType = EventType.Measurement;
+                                newEvent.ReminderType = ReminderType.Measurement;
                                 db.Insert(newEvent);
 
                                 //Notification

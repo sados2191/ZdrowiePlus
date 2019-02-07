@@ -246,8 +246,8 @@ namespace ZdrowiePlus
             {
                 case Resource.Id.menu_delete_events:
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                    db.CreateTable<Event>();
-                    var events = db.Table<Event>().ToList();
+                    db.CreateTable<Reminder>();
+                    var events = db.Table<Reminder>().ToList();
                     foreach (var x in events)
                     {
                         //canceling alarm manager
@@ -256,7 +256,7 @@ namespace ZdrowiePlus
                         AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                         alarmManager.Cancel(pendingIntent);
                     }
-                    db.DeleteAll<Event>();
+                    db.DeleteAll<Reminder>();
                     db.DeleteAll<Measurement>();
                     ReplaceFragment(reminderListFragment);
                     break;

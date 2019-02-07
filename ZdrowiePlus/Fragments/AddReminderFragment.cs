@@ -46,18 +46,18 @@ namespace ZdrowiePlus.Fragments
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
 
-            //load reminder type fragment based on spinner position
-            LoadReminderType(spinner.SelectedItemPosition);
+            //get reminder type fragment based on spinner position
+            GetReminderType(spinner.SelectedItemPosition);
 
             return view;
         }
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            LoadReminderType(e.Position);
+            GetReminderType(e.Position);
         }
 
-        private void LoadReminderType(int switch_case)
+        private void GetReminderType(int switch_case)
         {
             var trans = FragmentManager.BeginTransaction();
 

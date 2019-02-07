@@ -27,7 +27,7 @@ namespace ZdrowiePlus.Fragments
         RecyclerView reminderRecyclerView;
         Spinner spinner;
 
-        List<Event> events;
+        List<Reminder> events;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -86,25 +86,25 @@ namespace ZdrowiePlus.Fragments
 
                 //database connection
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Event>();
+                db.CreateTable<Reminder>();
 
-                events = new List<Event>();
+                events = new List<Reminder>();
                 switch (MainActivity.listFilter)
                 {
                     case 0:
-                        events = db.Table<Event>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                        events = db.Table<Reminder>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     case 1:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Visit && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Visit && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     case 2:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Medicine && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Medicine && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     case 3:
-                        events = db.Table<Event>().Where(e => e.EventType == EventType.Measurement && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Measurement && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                     default:
-                        events = db.Table<Event>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                        events = db.Table<Reminder>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
                         break;
                 }
 

@@ -106,7 +106,7 @@ namespace ZdrowiePlus.Fragments
                 if (reminderId > 0)
                 {
                     var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                    Event fromNotification = db.Get<Event>(reminderId);
+                    Reminder fromNotification = db.Get<Reminder>(reminderId);
                     fromNotification.Skipped = 1;
                     db.Update(fromNotification);
                 }
@@ -246,7 +246,7 @@ namespace ZdrowiePlus.Fragments
                     //if opened from notification
                     if (reminderId > 0)
                     {
-                        Event fromNotification = db.Get<Event>(reminderId);
+                        Reminder fromNotification = db.Get<Reminder>(reminderId);
                         fromNotification.Skipped = 2;
                         db.Update(fromNotification);
                     }

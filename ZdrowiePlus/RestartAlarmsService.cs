@@ -29,27 +29,27 @@ namespace ZdrowiePlus
         {
             //database connection
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-            db.CreateTable<Event>();
+            db.CreateTable<Reminder>();
 
-            List<Event> eventsToRestart = new List<Event>();
-            eventsToRestart = db.Table<Event>().Where(e => e.Date > DateTime.Now).OrderBy(e => e.Date).ToList();
+            List<Reminder> eventsToRestart = new List<Reminder>();
+            eventsToRestart = db.Table<Reminder>().Where(e => e.Date > DateTime.Now).OrderBy(e => e.Date).ToList();
 
             foreach (var item in eventsToRestart)
             {
                 //Notification
                 Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                 
-                if (item.EventType == EventType.Visit)
+                if (item.ReminderType == ReminderType.Visit)
                 {
                     notificationIntent.PutExtra("title", "Wizyta");
                     notificationIntent.PutExtra("message", $"{item.Title}. {item.Date.ToString("dd.MM.yyyy HH:mm")}");
                 }
-                else if (item.EventType == EventType.Medicine)
+                else if (item.ReminderType == ReminderType.Medicine)
                 {
                     notificationIntent.PutExtra("title", "Leki");
                     notificationIntent.PutExtra("message", $"{item.Title} dawka: {item.Count}. {item.Date.ToString("HH:mm")}");
                 }
-                else if (item.EventType == EventType.Measurement)
+                else if (item.ReminderType == ReminderType.Measurement)
                 {
                     notificationIntent.PutExtra("title", "Pomiar");
                     notificationIntent.PutExtra("message", $"{item.Title}. {item.Date.ToString("HH:mm")}");
@@ -67,9 +67,9 @@ namespace ZdrowiePlus
                 }
                 notificationIntent.PutExtra("id", item.Id);
 
-                if (item.ReminderMinutesBefore != 0)
+                if (item.MinutesBefore != 0)
                 {
-                    item.Date = item.Date.AddMinutes(item.ReminderMinutesBefore * (-1));
+                    item.Date = item.Date.AddMinutes(item.MinutesBefore * (-1));
                 }
 
                 var timer = (long)item.Date.ToUniversalTime().Subtract(

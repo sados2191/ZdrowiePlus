@@ -26,7 +26,7 @@ namespace ZdrowiePlus.Fragments
         public CalendarView calendarView;
         ListView remindersListView;
 
-        List<Event> events = new List<Event>();
+        List<Reminder> events = new List<Reminder>();
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -50,14 +50,14 @@ namespace ZdrowiePlus.Fragments
 
                 //database connection
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Event>();
+                db.CreateTable<Reminder>();
 
                 //List<Event> events = new List<Event>();
 
                 DateTime nextDay = DateTime.Today.AddDays(1);
 
                 events.Clear();
-                events = db.Table<Event>().Where(e => e.Date >= DateTime.Today && e.Date < nextDay).OrderBy(e => e.Date).ToList();
+                events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today && e.Date < nextDay).OrderBy(e => e.Date).ToList();
 
                 //foreach (var visit in events)
                 //{
@@ -116,12 +116,12 @@ namespace ZdrowiePlus.Fragments
 
             //database connection
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-            db.CreateTable<Event>();
+            db.CreateTable<Reminder>();
 
             DateTime nextDay = selectedDate.AddDays(1);
 
             events.Clear();
-            events = db.Table<Event>().Where(x => x.Date >= selectedDate && x.Date < nextDay).OrderBy(x => x.Date).ToList();
+            events = db.Table<Reminder>().Where(x => x.Date >= selectedDate && x.Date < nextDay).OrderBy(x => x.Date).ToList();
 
             listAdapter = new ListViewCalendarAdapter(this.Activity, events);
             remindersListView.Adapter = listAdapter;

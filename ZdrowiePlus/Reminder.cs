@@ -13,21 +13,20 @@ using SQLite;
 
 namespace ZdrowiePlus
 {
-    public class Event
+    public class Reminder
     {
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; } //change to GUID
-        public int Skipped { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
-        public int ReminderMinutesBefore { get; set; } //for visit reminder
-        public int Count { get; set; } //foe medicine reminder
-        public EventType EventType { get; set; }
+        public int MinutesBefore { get; set; }
+        public int Skipped { get; set; }
+        public int Count { get; set; } //for medicine reminder
+        public ReminderType ReminderType { get; set; }
         public string Description { get; set; }
-        //public MeasurementType MeasurementType { get; set; } // if event = measurement
     }
 
-    public enum EventType
+    public enum ReminderType
     {
         Visit,
         Medicine,

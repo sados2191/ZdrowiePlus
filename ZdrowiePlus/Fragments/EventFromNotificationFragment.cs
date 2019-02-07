@@ -30,7 +30,7 @@ namespace ZdrowiePlus.Fragments
         TextView eventDate;
         TextView eventTime;
         EditText eventDescription;
-        Event selectedEvent;
+        Reminder selectedEvent;
         LinearLayout medicineLayout;
         TextView medicineCount;
         EditText eventLaterValue;
@@ -111,12 +111,12 @@ namespace ZdrowiePlus.Fragments
             {
                 Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
 
-                if (selectedEvent.EventType == EventType.Visit)
+                if (selectedEvent.ReminderType == ReminderType.Visit)
                 {
                     notificationIntent.PutExtra("title", "Wizyta");
                     notificationIntent.PutExtra("message", $"{selectedEvent.Title}. {selectedEvent.Date.ToString("dd.MM.yyyy HH:mm")}");
                 }
-                else if (selectedEvent.EventType == EventType.Medicine)
+                else if (selectedEvent.ReminderType == ReminderType.Medicine)
                 {
                     notificationIntent.PutExtra("title", "Leki");
                     notificationIntent.PutExtra("message", $"{selectedEvent.Title} dawka: {selectedEvent.Count}. {selectedEvent.Date.ToString("HH:mm")}");
@@ -162,7 +162,7 @@ namespace ZdrowiePlus.Fragments
         {
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             //db.CreateTable<Event>();
-            selectedEvent = db.Get<Event>(id);
+            selectedEvent = db.Get<Reminder>(id);
         }
 
         public override void OnResume()
@@ -176,7 +176,7 @@ namespace ZdrowiePlus.Fragments
             eventTitle.Text = selectedEvent.Title;
             eventDescription.Text = selectedEvent.Description;
 
-            if (selectedEvent.EventType == EventType.Medicine)
+            if (selectedEvent.ReminderType == ReminderType.Medicine)
             {
                 eventIcon.SetBackgroundResource(Resource.Drawable.medical_pill);
                 eventType.Text = "Przypomnienie o leku";
@@ -190,7 +190,7 @@ namespace ZdrowiePlus.Fragments
                 medicineLayout.Visibility = ViewStates.Visible;
                 medicineCount.Text = selectedEvent.Count.ToString();
             }
-            else if (selectedEvent.EventType == EventType.Visit)
+            else if (selectedEvent.ReminderType == ReminderType.Visit)
             {
                 eventIcon.SetBackgroundResource(Resource.Drawable.doctor_icon);
                 eventType.Text = "Przypomnienie o wizycie";

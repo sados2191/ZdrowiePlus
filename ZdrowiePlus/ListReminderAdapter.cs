@@ -15,13 +15,13 @@ namespace ZdrowiePlus
 {
     public class ListReminderAdapter : RecyclerView.Adapter
     {
-        private List<Event> mItems;
+        private List<Reminder> mItems;
 
         public event EventHandler<int> ItemClick;
 
         private int skipped;
 
-        public ListReminderAdapter(List<Event> items)
+        public ListReminderAdapter(List<Reminder> items)
         {
             mItems = items;
         }
@@ -63,9 +63,9 @@ namespace ZdrowiePlus
                 skipped = 0;
             }
 
-            switch (mItems[position].EventType)
+            switch (mItems[position].ReminderType)
             {
-                case EventType.Visit:
+                case ReminderType.Visit:
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#e54d03"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.doctor_icon);
                     if (skipped == 1)
@@ -81,7 +81,7 @@ namespace ZdrowiePlus
                         reminder.medicalCount.Text = $"";
                     }
                     break;
-                case EventType.Medicine:
+                case ReminderType.Medicine:
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.medical_pill);
                     if (skipped == 1)
@@ -97,7 +97,7 @@ namespace ZdrowiePlus
                         reminder.medicalCount.Text = $"Dawka: {mItems[position].Count}";
                     }
                     break;
-                case EventType.Measurement:
+                case ReminderType.Measurement:
                     reminder.reminderTitle.SetTextColor(Android.Graphics.Color.ParseColor("#be03e5"));
                     reminder.reminderType.SetImageResource(Resource.Drawable.pulsometer_icon);
                     if (skipped == 1)

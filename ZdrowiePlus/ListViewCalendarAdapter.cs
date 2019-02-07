@@ -12,18 +12,18 @@ using Android.Widget;
 
 namespace ZdrowiePlus
 {
-    public class ListViewCalendarAdapter : BaseAdapter<Event>
+    public class ListViewCalendarAdapter : BaseAdapter<Reminder>
     {
-        private List<Event> mItems;
+        private List<Reminder> mItems;
         private Context mContext;
 
-        public ListViewCalendarAdapter(Context context, List<Event> items)
+        public ListViewCalendarAdapter(Context context, List<Reminder> items)
         {
             mItems = items;
             mContext = context;
         }
 
-        public override Event this[int position]
+        public override Reminder this[int position]
         {
             get { return mItems[position]; }
         }
@@ -57,17 +57,17 @@ namespace ZdrowiePlus
             txtDesc.Text = mItems[position].Title;
 
             ImageView iconType = row.FindViewById<ImageView>(Resource.Id.iconType);
-            switch (mItems[position].EventType)
+            switch (mItems[position].ReminderType)
             {
-                case EventType.Visit:
+                case ReminderType.Visit:
                     iconType.SetImageResource(Resource.Drawable.doctor_icon);
                     txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#e54d03"));
                     break;
-                case EventType.Medicine:
+                case ReminderType.Medicine:
                     iconType.SetImageResource(Resource.Drawable.medical_pill);
                     txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#33cc33"));
                     break;
-                case EventType.Measurement:
+                case ReminderType.Measurement:
                     iconType.SetImageResource(Resource.Drawable.pulsometer_icon);
                     txtDesc.SetTextColor(Android.Graphics.Color.ParseColor("#be03e5"));
                     break;
