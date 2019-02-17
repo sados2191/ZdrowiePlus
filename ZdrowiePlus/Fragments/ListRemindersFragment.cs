@@ -24,16 +24,14 @@ namespace ZdrowiePlus.Fragments
     {
         private static EditReminderFragment editReminderFragment = new EditReminderFragment();
         AddReminderFragment addReminderFragment = new AddReminderFragment();
-        //private static AddVisitFragment addVisitFragment = new AddVisitFragment();
-        //private static AddMedicineTherapyFragment medicineTherapyFragment = new AddMedicineTherapyFragment();
 
         ListReminderAdapter reminderAdapter;
         RecyclerView reminderRecyclerView;
-        //Button buttonAddMedicine;
-        //Button buttonAddVisit;
         Spinner spinner;
 
         List<Reminder> events;
+
+        int listFilter;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -50,9 +48,6 @@ namespace ZdrowiePlus.Fragments
             reminderRecyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
             reminderRecyclerView.HasFixedSize = true;
 
-            //buttonAddMedicine = view.FindViewById<Button>(Resource.Id.btnAddMedicine_list);
-            //buttonAddVisit = view.FindViewById<Button>(Resource.Id.btnAddVisit_list);
-
             //event type spinner
             spinner = view.FindViewById<Spinner>(Resource.Id.reminderSpinner);
             spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
@@ -60,14 +55,9 @@ namespace ZdrowiePlus.Fragments
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
 
-            //MainActivity.visitList.Clear();
             loadData();
 
-            //reminderAdapter.ItemClick += reminderCard_ItemClick;
-
-            //buttonAddMedicine.Click += AddMedicine;
-            //buttonAddVisit.Click += AddVisit;
-
+            //floating add button
             var fabAdd = view.FindViewById<FloatingActionButton>(Resource.Id.fab_add);
             fabAdd.Click += (s, e) =>
             {
@@ -83,27 +73,9 @@ namespace ZdrowiePlus.Fragments
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner spinner = (Spinner)sender;
-            MainActivity.listFilter = e.Position;
+            listFilter = e.Position;
             loadData();
         }
-
-        //private void AddMedicine(object sender, EventArgs e)
-        //{
-        //    var trans = FragmentManager.BeginTransaction();
-
-        //    trans.Replace(Resource.Id.fragmentContainer, medicineTherapyFragment);
-        //    trans.AddToBackStack(null);
-        //    trans.Commit();
-        //}
-
-        //private void AddVisit(object sender, EventArgs e)
-        //{
-        //    var trans = FragmentManager.BeginTransaction();
-
-        //    trans.Replace(Resource.Id.fragmentContainer, addVisitFragment);
-        //    trans.AddToBackStack(null);
-        //    trans.Commit();
-        //}
 
         private void reminderCard_ItemClick(object sender, int position)
         {
@@ -120,65 +92,35 @@ namespace ZdrowiePlus.Fragments
             trans.Commit();
         }
 
-        public void loadData() //zmienić na przekazywanie enuma
+        public void loadData()
         {
-            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
-            {
-                // We have permission
+             //database connection
+             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+             db.CreateTable<Reminder>();
 
-                //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Reminder>();
+             events = new List<Reminder>();
+             switch (listFilter)
+             {
+                 case 0:
+                     events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                     break;
+                 case 1:
+                     events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Visit && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                     break;
+                 case 2:
+                     events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                     break;
+                 case 3:
+                     events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Measurement && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                     break;
+                 default:
+                     events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+                     break;
+             }
 
-                events = new List<Reminder>();
-                switch (MainActivity.listFilter)
-                {
-                    case 0:
-                        events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    case 1:
-                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Visit && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    case 2:
-                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    case 3:
-                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Measurement && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                    default:
-                        events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                        break;
-                }
-
-                reminderAdapter = new ListReminderAdapter(events);
-                reminderAdapter.ItemClick += reminderCard_ItemClick;
-                reminderRecyclerView.SetAdapter(reminderAdapter);
-
-                // Event list is empty
-                if (events.Count == 0)
-                {
-                    //buttonAddVisit.Visibility = ViewStates.Visible;
-                    //buttonAddMedicine.Visibility = ViewStates.Visible;
-                }
-
-            }
-            else
-            {
-                // Permission is not granted. If necessary display rationale & request.
-
-                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.ReadExternalStorage))
-                //{
-                //    //Explain to the user why we need permission
-                //    Snackbar.Make(View, "Read external storage is required to read the events", Snackbar.LengthIndefinite)
-                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage}, 2))
-                //            .Show();
-
-                //    return;
-                //}
-
-                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
-
-            }
+             reminderAdapter = new ListReminderAdapter(events);
+             reminderAdapter.ItemClick += reminderCard_ItemClick;
+             reminderRecyclerView.SetAdapter(reminderAdapter);
         }
 
         public override void OnResume()
@@ -186,8 +128,6 @@ namespace ZdrowiePlus.Fragments
             base.OnResume();
 
             this.Activity.Title = "Przypomnienia";
-
-            //visitAdapter.NotifyDataSetChanged();
         }
     }
 }

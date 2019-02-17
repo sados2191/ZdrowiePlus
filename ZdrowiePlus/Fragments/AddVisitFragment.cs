@@ -56,38 +56,12 @@ namespace ZdrowiePlus.Fragments
             reminderBeforeValue = view.FindViewById<EditText>(Resource.Id.textAddVisitReminder);
             reminderBeforeValue.SetSelectAllOnFocus(true);
             reminderBeforeValue.Text = "0";
-            //reminderBeforeValue.TextChanged += (s, e) => {
-            //    //EditText value = (EditText)s;
-            //    //if (!int.TryParse(value.Text, out int x)) x = 0;
-            //    //reminderMinutesBefore = x * reminderBeforeMultiplier;
-            //    //Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
-            //};
 
             //spinner set remind time before visit
             remindBeforeSpinner = view.FindViewById<Spinner>(Resource.Id.addVisitReminderSpinner);
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             remindBeforeSpinner.Adapter = adapter;
-            //reminderBefore.ItemSelected += (s, e) => {
-            //    //reminderMinutesBefore = int.Parse(reminderBeforeValue.Text.ToString());
-            //    switch (e.Position)
-            //    {
-            //        case 0:
-            //            reminderBeforeMultiplier = 1;
-            //            break;
-            //        case 1:
-            //            reminderBeforeMultiplier = 60;
-            //            break;
-            //        case 2:
-            //            reminderBeforeMultiplier = 60 * 24;
-            //            break;
-            //        default:
-            //            break;
-            //    }
-
-            //    //reminderMinutesBefore *= reminderBeforeMultiplier;
-            //    //Toast.MakeText(this.Activity, $"{reminderMinutesBefore} minut przed", ToastLength.Short).Show();
-            //};
 
             //Add visit button
             Button buttonAddVisit = view.FindViewById<Button>(Resource.Id.buttonAdd);
@@ -117,9 +91,6 @@ namespace ZdrowiePlus.Fragments
                 return;
             }
 
-            //if (!int.TryParse(reminderBeforeValue.Text, out int x)) x = 0;
-            //reminderMinutesBefore = x * reminderBeforeMultiplier;
-
             if (!int.TryParse(reminderBeforeValue.Text, out reminderMinutesBefore))
             {
                 reminderMinutesBefore = 0;
@@ -146,65 +117,43 @@ namespace ZdrowiePlus.Fragments
 
             if (title != string.Empty)
             {
-                if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
-                {
-                    // We have permission
+                //database connection
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"zdrowieplus.db"));
+                db.CreateTable<Reminder>();
+                var newEvent = new Reminder();
+                newEvent.Date = visitTime;
+                newEvent.MinutesBefore = reminderMinutesBefore;
+                newEvent.Title = title;
+                newEvent.Description = description;
+                newEvent.ReminderType = ReminderType.Visit;
+                db.Insert(newEvent); //change to GUID
 
-                    //database connection
-                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"zdrowieplus.db"));
-                    db.CreateTable<Reminder>();
-                    var newEvent = new Reminder();
-                    newEvent.Date = visitTime;
-                    newEvent.MinutesBefore = reminderMinutesBefore;
-                    newEvent.Title = title;
-                    newEvent.Description = description;
-                    newEvent.ReminderType = ReminderType.Visit;
-                    db.Insert(newEvent); //change to GUID
+                this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = string.Empty;
+                this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = string.Empty;
+                Toast.MakeText(this.Activity, $"Dodano", ToastLength.Short).Show();
 
-                    this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = string.Empty;
-                    this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = string.Empty;
-                    Toast.MakeText(this.Activity, $"Dodano", ToastLength.Short).Show();
+                //Notification
+                Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                notificationIntent.PutExtra("message", $"{title}. {visitTime.ToString("dd.MM.yyyy HH:mm")}");
+                notificationIntent.PutExtra("title", "Wizyta");
+                notificationIntent.PutExtra("id", newEvent.Id);
 
-                    //Notification
-                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                    notificationIntent.PutExtra("message", $"{title}. {visitTime.ToString("dd.MM.yyyy HH:mm")}");
-                    notificationIntent.PutExtra("title", "Wizyta");
-                    notificationIntent.PutExtra("id", newEvent.Id);
+                //notificate time
+                DateTime reminderTime = visitTime.AddMinutes(reminderMinutesBefore * (-1));
 
-                    //notificate time
-                    DateTime reminderTime = visitTime.AddMinutes(reminderMinutesBefore * (-1));
+                var timer = (long)reminderTime.ToUniversalTime().Subtract(
+                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                    ).TotalMilliseconds;
 
-                    var timer = (long)reminderTime.ToUniversalTime().Subtract(
-                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                        ).TotalMilliseconds;
+                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
 
-                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
-
-                    //go to list after save
-                    var trans = FragmentManager.BeginTransaction();
-                    trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
-                    //trans.AddToBackStack(null);
-                    trans.Commit();
-                }
-                else
-                {
-                    // Permission is not granted. If necessary display rationale & request.
-
-                    //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.WriteExternalStorage))
-                    //{
-                    //    //Explain to the user why we need permission
-                    //    Snackbar.Make(View, "Write external storage is required to save a visit", Snackbar.LengthIndefinite)
-                    //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage}, 1))
-                    //            .Show();
-
-                    //    return;
-                    //}
-                    
-                    ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
-
-                }
+                //go to list after save
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, visitListFragment);
+                //trans.AddToBackStack(null);
+                trans.Commit();
             }
             else
             {

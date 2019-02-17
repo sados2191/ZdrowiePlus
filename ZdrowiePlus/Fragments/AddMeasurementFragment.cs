@@ -59,22 +59,8 @@ namespace ZdrowiePlus.Fragments
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinner.Adapter = adapter;
-            //spinner.SetSelection(1, true);
 
-            ////if opened by notification get measurement type position that was passed
-            //moved to OnViewStateRestored
-            //if (Arguments != null)
-            //{
-            //    //jak nie działa - if contain???
-            //    //spinner.DispatchSetSelected(false);
-            //    int spinnerPosition = Arguments.GetInt("type", 0);
-            //    spinner.SetSelection(spinnerPosition, true);
-            //    Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
-            //    //Arguments.Clear();
-            //    Arguments = null;
-            //}
-
-            //additional for blood presure
+            //additional for blood presure and height
             linearLayout2 = view.FindViewById<LinearLayout>(Resource.Id.measurementLayout2);
 
             //Edit text boxes for values
@@ -181,7 +167,6 @@ namespace ZdrowiePlus.Fragments
             int measurementType = spinner.SelectedItemPosition;
             DateTime measurementTime = new DateTime(year, month, day, hour, minute, 0);
             string value = string.Empty;
-            //string description = this.Activity.FindViewById<EditText>(Resource.Id.).Text;
 
             var newMeasurement = new Measurement();
             newMeasurement.Date = measurementTime;
@@ -189,19 +174,15 @@ namespace ZdrowiePlus.Fragments
             {
                 case 0:
                     newMeasurement.MeasurementType = MeasurementType.BloodPressure;
-                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 1:
                     newMeasurement.MeasurementType = MeasurementType.GlucoseLevel;
-                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 2:
                     newMeasurement.MeasurementType = MeasurementType.Temperature;
-                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 3:
                     newMeasurement.MeasurementType = MeasurementType.HeartRate;
-                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
                     break;
                 case 4:
                     newMeasurement.MeasurementType = MeasurementType.BodyWeight;
@@ -210,8 +191,7 @@ namespace ZdrowiePlus.Fragments
                     ISharedPreferencesEditor editor = sharedPreferences.Edit();
                     editor.PutString(HEIGHT, measurementValue2.Text.Trim());
                     editor.Apply();
-
-                    //Toast.MakeText(this.Activity, $"{newMeasurement.MeasurementType} {measurementType}", ToastLength.Short).Show();
+                    
                     break;
                 default:
                     break;
@@ -230,53 +210,31 @@ namespace ZdrowiePlus.Fragments
             newMeasurement.Value = value;
             if (value != string.Empty)
             {
-                if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
+                //database connection
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+                db.CreateTable<Measurement>();
+                db.Insert(newMeasurement);
+
+                measurementValue.Text = string.Empty;
+                measurementValue2.Text = string.Empty;
+                Toast.MakeText(this.Activity, $"Dodano", ToastLength.Short).Show();
+
+                //if opened from notification
+                if (reminderId > 0)
                 {
-                    // We have permission
-
-                    //database connection
-                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                    db.CreateTable<Measurement>();
-                    db.Insert(newMeasurement); //change to GUID
-
-                    measurementValue.Text = string.Empty;
-                    measurementValue2.Text = string.Empty;
-                    Toast.MakeText(this.Activity, $"Dodano", ToastLength.Short).Show();
-
-                    //if opened from notification
-                    if (reminderId > 0)
-                    {
-                        Reminder fromNotification = db.Get<Reminder>(reminderId);
-                        fromNotification.Skipped = 2;
-                        db.Update(fromNotification);
-                    }
-
-                    //go to list after save
-                    var trans = FragmentManager.BeginTransaction();
-                    Bundle bundle = new Bundle();
-                    bundle.PutInt("type", measurementType);
-                    measurementListFragment.Arguments = bundle;
-                    trans.Replace(Resource.Id.fragmentContainer, measurementListFragment);
-                    //trans.AddToBackStack(null);
-                    trans.Commit();
+                    Reminder fromNotification = db.Get<Reminder>(reminderId);
+                    fromNotification.Skipped = 2;
+                    db.Update(fromNotification);
                 }
-                else
-                {
-                    // Permission is not granted. If necessary display rationale & request.
 
-                    //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.WriteExternalStorage))
-                    //{
-                    //    //Explain to the user why we need permission
-                    //    Snackbar.Make(View, "Write external storage is required to save a visit", Snackbar.LengthIndefinite)
-                    //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage}, 1))
-                    //            .Show();
-
-                    //    return;
-                    //}
-
-                    ActivityCompat.RequestPermissions(this.Activity, new string[] { Manifest.Permission.WriteExternalStorage }, 1);
-
-                }
+                //go to list after save
+                var trans = FragmentManager.BeginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.PutInt("type", measurementType);
+                measurementListFragment.Arguments = bundle;
+                trans.Replace(Resource.Id.fragmentContainer, measurementListFragment);
+                //trans.AddToBackStack(null);
+                trans.Commit();
             }
             else
             {
@@ -328,14 +286,6 @@ namespace ZdrowiePlus.Fragments
             timeDisplay.Text = currentTime.ToShortTimeString();
             measurementValue.Text = string.Empty;
             measurementValue2.Text = string.Empty;
-
-            //if (Arguments != null)
-            //{
-            //    int spinnerPosition = Arguments.GetInt("type", 0);
-            //    spinner.SetSelection(spinnerPosition, true);
-            //    //Arguments.Clear();
-            //    Arguments = null;
-            //}
         }
 
         public override void OnViewStateRestored(Bundle savedInstanceState)
@@ -345,14 +295,9 @@ namespace ZdrowiePlus.Fragments
             //if opened by notification get measurement type position that was passed
             if (Arguments != null)
             {
-                //jak nie działa - if contain???
-                //spinner.DispatchSetSelected(false);
                 reminderId = Arguments.GetInt("id", 0);
                 int spinnerPosition = Arguments.GetInt("type", 0);
-                //spinner.SetSelection(0, false);
                 spinner.SetSelection(spinnerPosition, true);
-                //Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
-                //Arguments.Clear();
                 Arguments = null;
 
                 if (reminderId > 0)

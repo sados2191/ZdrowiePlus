@@ -29,6 +29,8 @@ namespace ZdrowiePlus.Fragments
 
         List<Reminder> events;
 
+        int listFilter;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -74,68 +76,39 @@ namespace ZdrowiePlus.Fragments
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner spinner = (Spinner)sender;
-            MainActivity.listFilter = e.Position;
+            listFilter = e.Position;
             loadData();
         }
 
-        public void loadData() //zmienić na przekazywanie enuma
+        public void loadData()
         {
-            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
+            //database connection
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+            db.CreateTable<Reminder>();
+
+            events = new List<Reminder>();
+            switch (listFilter)
             {
-                // We have permission
-
-                //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Reminder>();
-
-                events = new List<Reminder>();
-                switch (MainActivity.listFilter)
-                {
-                    case 0:
-                        events = db.Table<Reminder>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
-                        break;
-                    case 1:
-                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Visit && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
-                        break;
-                    case 2:
-                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Medicine && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
-                        break;
-                    case 3:
-                        events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Measurement && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
-                        break;
-                    default:
-                        events = db.Table<Reminder>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
-                        break;
-                }
-
-                reminderAdapter = new ListReminderAdapter(events);
-                reminderAdapter.ItemClick += reminderCard_ItemClick;
-                reminderRecyclerView.SetAdapter(reminderAdapter);
-
-                // Event list is empty
-                if (events.Count == 0)
-                {
-
-                }
-
+                case 0:
+                    events = db.Table<Reminder>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                    break;
+                case 1:
+                    events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Visit && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                    break;
+                case 2:
+                    events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Medicine && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                    break;
+                case 3:
+                    events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Measurement && e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                    break;
+                default:
+                    events = db.Table<Reminder>().Where(e => e.Date < DateTime.Now).OrderByDescending(e => e.Date).ToList();
+                    break;
             }
-            else
-            {
-                // Permission is not granted. If necessary display rationale & request.
 
-                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.ReadExternalStorage))
-                //{
-                //    //Explain to the user why we need permission
-                //    Snackbar.Make(View, "Read external storage is required to read the events", Snackbar.LengthIndefinite)
-                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage}, 2))
-                //            .Show();
-
-                //    return;
-                //}
-
-                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
-
-            }
+            reminderAdapter = new ListReminderAdapter(events);
+            reminderAdapter.ItemClick += reminderCard_ItemClick;
+            reminderRecyclerView.SetAdapter(reminderAdapter);
         }
 
         public override void OnResume()
@@ -143,8 +116,6 @@ namespace ZdrowiePlus.Fragments
             base.OnResume();
 
             this.Activity.Title = "Historia";
-
-            //visitAdapter.NotifyDataSetChanged();
         }
     }
 }

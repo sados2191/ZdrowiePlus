@@ -16,7 +16,7 @@ namespace ZdrowiePlus
     public class Measurement
     {
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; } //change to GUID
+        public int Id { get; set; }
         public MeasurementType MeasurementType { get; set; }
         public string Value { get; set; }
         public DateTime Date { get; set; }

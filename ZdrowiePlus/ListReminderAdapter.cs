@@ -50,17 +50,17 @@ namespace ZdrowiePlus
             if (mItems[position].Skipped == 1)
             {
                 reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#ffe6eb"));
-                skipped = 1;
+                skipped = 1; //reminder skipped
             }
             else if (mItems[position].Skipped == 2 && mItems[position].Date < DateTime.Now)
             {
                 reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#e6ffee"));
-                skipped = 2;
+                skipped = 2; //reminder confirmed
             }
             else
             {
                 reminder.cardView.SetCardBackgroundColor(Android.Graphics.Color.ParseColor("#ffffff"));
-                skipped = 0;
+                skipped = 0; //no action
             }
 
             switch (mItems[position].ReminderType)

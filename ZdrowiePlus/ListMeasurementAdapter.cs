@@ -83,7 +83,6 @@ namespace ZdrowiePlus
                     {
                         measurement.measurementAnalysis.Text = "Niskie";
                         measurement.measurementValue.SetTextColor(Android.Graphics.Color.ParseColor("#4da6ff"));
-                        //linearLayout.SetBackgroundColor(Android.Graphics.Color.ParseColor("#4da6ff"));
                     }
                     break;
                 case MeasurementType.Temperature:

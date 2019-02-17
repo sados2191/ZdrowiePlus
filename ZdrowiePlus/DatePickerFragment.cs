@@ -23,7 +23,7 @@ namespace ZdrowiePlus
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             DateTime current = DateTime.Now;
-            DatePickerDialog dialog = new DatePickerDialog(Activity, /* AlertDialog.ThemeHoloLight,*/ this, current.Year, current.Month - 1, current.Day);
+            DatePickerDialog dialog = new DatePickerDialog(Activity, this, current.Year, current.Month - 1, current.Day);
             return dialog;
         }
 

@@ -36,9 +36,6 @@ namespace ZdrowiePlus.Fragments
         public DateTime dateTime;
         public List<DateTime> measurementTimes = new List<DateTime>();
         public static ListViewTimeAdapter timeListAdapter;
-        //public List<string> measurementTimesString = new List<string>(); //add custom list adapter
-        //ArrayAdapter<string> arrayTimeAdapter;
-        //MeasurementType measurementType;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -54,23 +51,18 @@ namespace ZdrowiePlus.Fragments
 
             View view = inflater.Inflate(Resource.Layout.AddMeasurementReminder, container, false);
 
-            //measurementTimesString.Clear();
             measurementTimes.Clear();
 
             //measurement type spinner
             spinnerMeasurementType = view.FindViewById<Spinner>(Resource.Id.measurementReminderSpinner);
-            //spinnerMeasurementType.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
             var adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             spinnerMeasurementType.Adapter = adapter;
-            //measurementType = (MeasurementType)spinnerMeasurementType.SelectedItemPosition;
 
             //times list
-            //measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).ToString("HH:mm"));
             measurementTimes.Add(new DateTime(2000, 12, 12, 8, 0, 0));
             measurementTimesListView = view.FindViewById<ListView>(Resource.Id.listViewMeasurementReminder);
             measurementTimesListView.FastScrollEnabled = true;
-            //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
             timeListAdapter = new ListViewTimeAdapter(this.Activity, measurementTimes);
             measurementTimesListView.Adapter = timeListAdapter;
             measurementTimesListView.ItemClick += MeasurementTimesListView_ItemClick;
@@ -83,8 +75,7 @@ namespace ZdrowiePlus.Fragments
             seekbarFrequency.ProgressChanged += (s, e) => {
                 if (e.Progress < 1) seekbarFrequency.Progress = 1;
                 labelFrequency.Text = $"Ile pomiarów dziennie:  {seekbarFrequency.Progress}";
-
-                //measurementTimesString.Clear();
+                
                 measurementTimes.Clear();
 
                 int delay = 0;
@@ -96,10 +87,7 @@ namespace ZdrowiePlus.Fragments
                 for (int i = 0; i < seekbarFrequency.Progress; i++)
                 {
                     measurementTimes.Add(new DateTime(2000, 12, 12, 8, 0, 0).AddMinutes(delay * i));
-                    //measurementTimesString.Add(new DateTime(2000, 12, 12, 8, 0, 0).AddMinutes(delay * i).ToString("HH:mm"));
                 }
-                //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
-                //measurementTimesListView.Adapter = arrayTimeAdapter;
                 timeListAdapter.NotifyDataSetChanged();
             };
 
@@ -180,12 +168,8 @@ namespace ZdrowiePlus.Fragments
         {
             TimePickerFragment frag = TimePickerFragment.NewInstance(delegate (DateTime time)
             {
-                //property hour and minute are read only
                 measurementTimes[e.Position] = time;
-                //measurementTimesString[e.Position] = measurementTimes[e.Position].ToString("HH:mm");
                 timeListAdapter.NotifyDataSetChanged();
-                //arrayTimeAdapter = new ArrayAdapter<string>(this.Activity, Android.Resource.Layout.SimpleListItem1, measurementTimesString);
-                //measurementTimesListView.Adapter = arrayTimeAdapter;
             });
 
             frag.Show(FragmentManager, TimePickerFragment.TAG);
@@ -204,105 +188,81 @@ namespace ZdrowiePlus.Fragments
                 Toast.MakeText(this.Activity, $"Nie można zaplanować w przeszłości", ToastLength.Short).Show();
                 return;
             }
-            //List<DateTime> times = new List<DateTime>();
 
-            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
+            //database connection
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+            db.CreateTable<Reminder>();
+
+            List<int> weekDays = new List<int>();
+            if (Sunday.Selected) weekDays.Add(0);
+            if (Monday.Selected) weekDays.Add(1);
+            if (Tuesday.Selected) weekDays.Add(2);
+            if (Wednesday.Selected) weekDays.Add(3);
+            if (Thursday.Selected) weekDays.Add(4);
+            if (Friday.Selected) weekDays.Add(5);
+            if (Saturday.Selected) weekDays.Add(6);
+
+            if(weekDays.Count == 0)
             {
-                // We have permission
+                Toast.MakeText(this.Activity, $"Nie wybrano żadnego dnia dygodnia", ToastLength.Short).Show();
+                return;
+            }
 
-                //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Reminder>();
+            int i = 0;
 
-                List<int> weekDays = new List<int>();
-                if (Sunday.Selected) weekDays.Add(0);
-                if (Monday.Selected) weekDays.Add(1);
-                if (Tuesday.Selected) weekDays.Add(2);
-                if (Wednesday.Selected) weekDays.Add(3);
-                if (Thursday.Selected) weekDays.Add(4);
-                if (Friday.Selected) weekDays.Add(5);
-                if (Saturday.Selected) weekDays.Add(6);
+            DateTime eventDay = startDay;
 
-                if(weekDays.Count == 0)
+            while (eventDay <= endDay)
+            {
+                if (weekDays.Contains((int)eventDay.DayOfWeek))
                 {
-                    Toast.MakeText(this.Activity, $"Nie wybrano żadnego dnia dygodnia", ToastLength.Short).Show();
-                    return;
-                }
-
-                int i = 0;
-
-                DateTime eventDay = startDay;
-
-                while (eventDay <= endDay)
-                {
-                    if (weekDays.Contains((int)eventDay.DayOfWeek))
+                    foreach (var item in measurementTimes)
                     {
-                        foreach (var item in measurementTimes)
+                        DateTime date = new DateTime(eventDay.Year, eventDay.Month, eventDay.Day, item.Hour, item.Minute, 0);
+                        if (date >= DateTime.Now)
                         {
-                            DateTime date = new DateTime(eventDay.Year, eventDay.Month, eventDay.Day, item.Hour, item.Minute, 0);
-                            if (date >= DateTime.Now)
-                            {
-                                var newEvent = new Reminder();
-                                newEvent.Date = date;
-                                //newEvent.Title = spinnerMeasurementType.GetItemAtPosition(spinnerMeasurementType.SelectedItemPosition).ToString();
-                                newEvent.Title = spinnerMeasurementType.SelectedItem.ToString();
-                                newEvent.ReminderType = ReminderType.Measurement;
-                                db.Insert(newEvent);
+                            var newEvent = new Reminder();
+                            newEvent.Date = date;
+                            newEvent.Title = spinnerMeasurementType.SelectedItem.ToString();
+                            newEvent.ReminderType = ReminderType.Measurement;
+                            db.Insert(newEvent);
 
-                                //Notification
-                                Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                                notificationIntent.PutExtra("message", $"{newEvent.Title}. {newEvent.Date.ToString("HH:mm")}");
-                                notificationIntent.PutExtra("title", "Pomiar");
-                                notificationIntent.PutExtra("id", newEvent.Id);
-                                notificationIntent.PutExtra("type", spinnerMeasurementType.SelectedItemPosition);
+                            //Notification
+                            Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
+                            notificationIntent.PutExtra("message", $"{newEvent.Title}. {newEvent.Date.ToString("HH:mm")}");
+                            notificationIntent.PutExtra("title", "Pomiar");
+                            notificationIntent.PutExtra("id", newEvent.Id);
+                            notificationIntent.PutExtra("type", spinnerMeasurementType.SelectedItemPosition);
 
-                                var timer = (long)newEvent.Date.ToUniversalTime().Subtract(
-                                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                                    ).TotalMilliseconds;
+                            var timer = (long)newEvent.Date.ToUniversalTime().Subtract(
+                                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                ).TotalMilliseconds;
 
-                                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                                AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                                alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                            AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                            alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
 
-                                //go to list after save
-                                var trans = FragmentManager.BeginTransaction();
-                                trans.Replace(Resource.Id.fragmentContainer, remindersListFragment);
-                                //trans.AddToBackStack(null);
-                                trans.Commit();
+                            //go to list after save
+                            var trans = FragmentManager.BeginTransaction();
+                            trans.Replace(Resource.Id.fragmentContainer, remindersListFragment);
+                            //trans.AddToBackStack(null);
+                            trans.Commit();
 
-                                i++;
-                            }
+                            i++;
                         }
                     }
-                    eventDay = eventDay.AddDays(1);
                 }
+                eventDay = eventDay.AddDays(1);
+            }
 
-                if (i == 0)
-                {
-                    Toast.MakeText(this.Activity, $"Wybrane dni tygodnia nie zawierają się w przedziale dat.", ToastLength.Short).Show();
-                    return;
-                }
-                else
-                {
-                    Toast.MakeText(this.Activity, $"Zaplanowano {i} pomiarów.", ToastLength.Short).Show();
-                }
+            if (i == 0)
+            {
+                Toast.MakeText(this.Activity, $"Wybrane dni tygodnia nie zawierają się w przedziale dat.", ToastLength.Short).Show();
+                return;
             }
             else
             {
-                // Permission is not granted. If necessary display rationale & request.
-
-                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.WriteExternalStorage))
-                //{
-                //    //Explain to the user why we need permission
-                //    Snackbar.Make(View, "Write external storage is required to save a visit", Snackbar.LengthIndefinite)
-                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage}, 1))
-                //            .Show();
-
-                //    return;
-                //}
-
-                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
-
+                Toast.MakeText(this.Activity, $"Zaplanowano {i} pomiarów.", ToastLength.Short).Show();
             }
         }
 
@@ -317,13 +277,6 @@ namespace ZdrowiePlus.Fragments
             frag.Show(FragmentManager, DatePickerFragment.TAG);
         }
 
-        //private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        //{
-        //    int selected = e.Position;
-        //    //Toast.MakeText(this.Activity, $"{selected}", ToastLength.Short).Show();
-        //    measurementType = (MeasurementType)selected;
-        //}
-
         public override void OnResume()
         {
             base.OnResume();
@@ -333,9 +286,7 @@ namespace ZdrowiePlus.Fragments
             dateTime = DateTime.Now;
             startDate.Text = dateTime.ToLongDateString();
             endDate.Text = dateTime.ToLongDateString();
-
-            //measurementTimesString.Clear();
-            //measurementTimes.Clear();
+            
             startDate.Text = dateTime.ToLongDateString();
             startDate.Text = dateTime.ToLongDateString();
         }

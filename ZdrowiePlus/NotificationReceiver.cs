@@ -42,14 +42,12 @@ namespace ZdrowiePlus
             if (title == "Wizyta")
             {
                 notifyIntent.PutExtra("notification", "visit");
-                //notifyIntent.PutExtra("id", id);
 
                 largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.doctor_icon);
             }
             if (title == "Leki")
             {
                 notifyIntent.PutExtra("notification", "medicine");
-                //notifyIntent.PutExtra("id", id);
 
                 largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.medical_pill);
             }
@@ -57,10 +55,6 @@ namespace ZdrowiePlus
             // Set the activity to start in a new, empty task
             notifyIntent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
             PendingIntent contentIntent = PendingIntent.GetActivity(context, id, notifyIntent, PendingIntentFlags.UpdateCurrent);
-            // Create the TaskStackBuilder and add the intent, which inflates the back stack
-            //Android.App.TaskStackBuilder stackBuilder = Android.App.TaskStackBuilder.Create(context);
-            //stackBuilder.AddNextIntentWithParentStack(notifyIntent);
-            //PendingIntent contentIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
 
             // Get the notification manager:
             NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;

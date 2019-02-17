@@ -30,7 +30,7 @@ namespace ZdrowiePlus
         {
             DateTime currentTime = DateTime.Now;
             bool is24HourFormat = DateFormat.Is24HourFormat(Activity);
-            TimePickerDialog dialog = new TimePickerDialog(Activity, /*AlertDialog.ThemeHoloLight,*/ this, currentTime.Hour, currentTime.Minute, is24HourFormat);
+            TimePickerDialog dialog = new TimePickerDialog(Activity, this, currentTime.Hour, currentTime.Minute, is24HourFormat);
             return dialog;
         }
 

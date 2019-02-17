@@ -59,17 +59,10 @@ namespace ZdrowiePlus.Fragments
             if (Arguments != null)
             {
                 int id = Arguments.GetInt("id", 0);
-                //Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
-                //Arguments.Clear();
                 Arguments = null;
 
                 SelectEvent(id);
             }
-
-            //remindMinutesBefore = eventToEdit.ReminderMinutesBefore;
-            //remindBeforeMultiplier = 1;
-
-            //Toast.MakeText(this.Activity, $"{eventToEdit.ReminderMinutesBefore} min", ToastLength.Short).Show();
 
             year = eventToEdit.Date.Year;
             month = eventToEdit.Date.Month;
@@ -82,11 +75,9 @@ namespace ZdrowiePlus.Fragments
             //type
             eventType = view.FindViewById<TextView>(Resource.Id.textEditType);
             iconType = view.FindViewById<ImageView>(Resource.Id.imageEditType);
-            //eventType.Text = eventToEdit.EventType.ToString();
 
             //title
             eventTitle = view.FindViewById<EditText>(Resource.Id.eventEditTitle);
-            //eventTitle.Text = eventToEdit.Title;
 
             eventStatus = view.FindViewById<TextView>(Resource.Id.eventStatus);
 
@@ -124,17 +115,10 @@ namespace ZdrowiePlus.Fragments
                     eventStatus.Text = string.Empty;
                 }
 
-                //spinner behavior
-                //var adapterM = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.measurements_array, Android.Resource.Layout.SimpleSpinnerItem);
-                //adapterM.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-                //measurementSpinner.Adapter = adapterM;
-
                 eventTitle.Visibility = ViewStates.Gone;
                 measurementLayout.Visibility = ViewStates.Visible;
                 remindBeforeLayout.Visibility = ViewStates.Gone;
                 medicineLayout.Visibility = ViewStates.Gone;
-
-                //measurementSpinner.SetSelection(adapterM.GetPosition(eventToEdit.Title), true);
             }
             else if (eventToEdit.ReminderType == ReminderType.Visit)
             {
@@ -161,70 +145,6 @@ namespace ZdrowiePlus.Fragments
                 }
 
                 remindBeforeLayout.Visibility = ViewStates.Visible;
-
-                //Edit text value behavior
-                
-                //remindBeforeValue.TextChanged += (s, e) => {
-                //    //EditText value = (EditText)s;
-                //    //if (!int.TryParse(value.Text, out int x)) x = 0;
-                //    //remindMinutesBefore = x * remindBeforeMultiplier;
-                //    //Toast.MakeText(this.Activity, $"{remindMinutesBefore} minut przed", ToastLength.Short).Show();
-                //};
-
-                //spinner set remind time before visit
-                //var adapterV = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.visits_reminder_array, Android.Resource.Layout.SimpleSpinnerItem);
-                //adapterV.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-                //remindBeforeSpinner.Adapter = adapterV;
-                //remindBeforeSpinner.ItemSelected += (s, e) => {
-                //    //remindMinutesBefore = int.Parse(remindBeforeValue.Text.ToString());
-                //    switch (e.Position)
-                //    {
-                //        case 0:
-                //            remindBeforeMultiplier = 1;
-                //            break;
-                //        case 1:
-                //            remindBeforeMultiplier = 60;
-                //            break;
-                //        case 2:
-                //            remindBeforeMultiplier = 60 * 24;
-                //            break;
-                //        default:
-                //            break;
-                //    }
-
-                //    //remindMinutesBefore *= remindBeforeMultiplier;
-                //    //Toast.MakeText(this.Activity, $"{remindMinutesBefore} minut przed", ToastLength.Short).Show();
-                //};
-
-                //set remindBefore views
-                //int z = 0;
-                //if (remindMinutesBefore % 1440 == 0)
-                //{
-                //    remindBeforeMultiplier = 60 * 24;
-
-                //    z = remindMinutesBefore / 1440;
-                //    remindBeforeValue.Text = z.ToString();
-
-                //    remindBeforeSpinner.SetSelection(2, true);
-                //}
-                //else if (remindMinutesBefore % 60 == 0)
-                //{
-                //    remindBeforeMultiplier = 60;
-
-                //    z = remindMinutesBefore / 60;
-                //    remindBeforeValue.Text = z.ToString();
-
-                //    remindBeforeSpinner.SetSelection(1, true);
-                //}
-                //else
-                //{
-                //    remindBeforeMultiplier = 1;
-
-                //    z = remindMinutesBefore;
-                //    remindBeforeValue.Text = z.ToString();
-
-                //    remindBeforeSpinner.SetSelection(0, true);
-                //}
             }
             else if (eventToEdit.ReminderType == ReminderType.Medicine)
             {
@@ -302,7 +222,6 @@ namespace ZdrowiePlus.Fragments
         private void SelectEvent(int id)
         {
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-            //db.CreateTable<Event>();
             eventToEdit = db.Get<Reminder>(id);
         }
 
@@ -357,7 +276,6 @@ namespace ZdrowiePlus.Fragments
 
             if (eventToEdit.ReminderType == ReminderType.Measurement)
             {
-                //eventToEdit.Title = measurementSpinner.GetItemAtPosition(measurementSpinner.SelectedItemPosition).ToString();
                 eventToEdit.Title = measurementSpinner.SelectedItem.ToString();
             }
             else if (eventToEdit.ReminderType == ReminderType.Visit)
@@ -415,73 +333,51 @@ namespace ZdrowiePlus.Fragments
 
             if (eventToEdit.Title != string.Empty)
             {
-                if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.WriteExternalStorage) == (int)Permission.Granted)
+                //database connection
+                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+                db.CreateTable<Reminder>();
+                db.Update(eventToEdit);
+
+                Toast.MakeText(this.Activity, $"Zapisano", ToastLength.Short).Show();
+
+                if (eventToEdit.Date > DateTime.Now)
                 {
-                    // We have permission
+                    //Notification
+                    Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
 
-                    //database connection
-                    var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                    db.CreateTable<Reminder>();
-                    db.Update(eventToEdit);
-
-                    Toast.MakeText(this.Activity, $"Zapisano", ToastLength.Short).Show();
-
-                    if (eventToEdit.Date > DateTime.Now)
+                    if (eventToEdit.ReminderType == ReminderType.Visit)
                     {
-                        //Notification
-                        Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-
-                        if (eventToEdit.ReminderType == ReminderType.Visit)
-                        {
-                            notificationIntent.PutExtra("title", "Wizyta");
-                            notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}");
-                            eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
-                        }
-                        else if (eventToEdit.ReminderType == ReminderType.Medicine)
-                        {
-                            notificationIntent.PutExtra("title", "Leki");
-                            notificationIntent.PutExtra("message", $"{eventToEdit.Title} dawka: {eventToEdit.Count}. {eventToEdit.Date.ToString("HH:mm")}");
-                        }
-                        else if (eventToEdit.ReminderType == ReminderType.Measurement)
-                        {
-                            notificationIntent.PutExtra("title", "Pomiar");
-                            notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("HH:mm")}");
-                            notificationIntent.PutExtra("type", measurementSpinner.SelectedItemPosition);
-                        }
-                        notificationIntent.PutExtra("id", eventToEdit.Id);
-
-                        var timer = (long)eventToEdit.Date.ToUniversalTime().Subtract(
-                            new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                            ).TotalMilliseconds;
-
-                        PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                        AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-                        alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
+                        notificationIntent.PutExtra("title", "Wizyta");
+                        notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}");
+                        eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
                     }
+                    else if (eventToEdit.ReminderType == ReminderType.Medicine)
+                    {
+                        notificationIntent.PutExtra("title", "Leki");
+                        notificationIntent.PutExtra("message", $"{eventToEdit.Title} dawka: {eventToEdit.Count}. {eventToEdit.Date.ToString("HH:mm")}");
+                    }
+                    else if (eventToEdit.ReminderType == ReminderType.Measurement)
+                    {
+                        notificationIntent.PutExtra("title", "Pomiar");
+                        notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("HH:mm")}");
+                        notificationIntent.PutExtra("type", measurementSpinner.SelectedItemPosition);
+                    }
+                    notificationIntent.PutExtra("id", eventToEdit.Id);
 
-                    //go to list after save
-                    var trans = FragmentManager.BeginTransaction();
-                    trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
-                    //trans.AddToBackStack(null);
-                    trans.Commit();
+                    var timer = (long)eventToEdit.Date.ToUniversalTime().Subtract(
+                        new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                        ).TotalMilliseconds;
+
+                    PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, eventToEdit.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                    AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                    alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
                 }
-                else
-                {
-                    // Permission is not granted. If necessary display rationale & request.
 
-                    //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.WriteExternalStorage))
-                    //{
-                    //    //Explain to the user why we need permission
-                    //    Snackbar.Make(View, "Write external storage is required to save a visit", Snackbar.LengthIndefinite)
-                    //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage}, 1))
-                    //            .Show();
-
-                    //    return;
-                    //}
-
-                    ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.WriteExternalStorage }, 1);
-
-                }
+                //go to list after save
+                var trans = FragmentManager.BeginTransaction();
+                trans.Replace(Resource.Id.fragmentContainer, reminderListFragment);
+                //trans.AddToBackStack(null);
+                trans.Commit();
             }
             else
             {

@@ -59,8 +59,6 @@ namespace ZdrowiePlus.Fragments
             measurementType = (MeasurementType)selected;
             loadData(measurementType);
 
-            //measurementListView.ItemClick += measurementListView_ItemClick;
-
             var fabAdd = view.FindViewById<FloatingActionButton>(Resource.Id.fab_add);
             fabAdd.Click += (s, e) =>
             {
@@ -78,7 +76,6 @@ namespace ZdrowiePlus.Fragments
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            Spinner spinner = (Spinner)sender;//raczej niepotrzebne
             selected = e.Position;
             measurementType = (MeasurementType)selected;
             loadData(measurementType);
@@ -86,45 +83,16 @@ namespace ZdrowiePlus.Fragments
 
         public void loadData(MeasurementType measurementType)
         {
-            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
-            {
-                // We have permission
+            //database connection
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+            db.CreateTable<Measurement>();
 
-                //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Measurement>();
+            measurements = new List<Measurement>();
 
-                measurements = new List<Measurement>();
+            measurements = db.Table<Measurement>().Where(e => e.MeasurementType == measurementType).OrderByDescending(e => e.Date).ToList();
 
-                measurements = db.Table<Measurement>().Where(e => e.MeasurementType == measurementType).OrderByDescending(e => e.Date).ToList();
-
-                measurementAdapter = new ListMeasurementAdapter(measurements);
-                measurementRecyclerView.SetAdapter(measurementAdapter);
-
-                // Measurements list is empty
-                if (measurements.Count == 0)
-                {
-                    
-                }
-
-            }
-            else
-            {
-                // Permission is not granted. If necessary display rationale & request.
-
-                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.ReadExternalStorage))
-                //{
-                //    //Explain to the user why we need permission
-                //    Snackbar.Make(View, "Read external storage is required to read the events", Snackbar.LengthIndefinite)
-                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage}, 2))
-                //            .Show();
-
-                //    return;
-                //}
-
-                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
-
-            }
+            measurementAdapter = new ListMeasurementAdapter(measurements);
+            measurementRecyclerView.SetAdapter(measurementAdapter);
         }
 
         public override void OnViewStateRestored(Bundle savedInstanceState)
@@ -134,11 +102,8 @@ namespace ZdrowiePlus.Fragments
             //if opened by AddMeasurementFragment
             if (Arguments != null)
             {
-                //spinner.DispatchSetSelected(false);
                 int spinnerPosition = Arguments.GetInt("type", 0);
                 spinner.SetSelection(spinnerPosition, true);
-                //Toast.MakeText(this.Activity, $"{spinnerPosition}", ToastLength.Short).Show();
-                //Arguments.Clear();
                 Arguments = null;
             }
         }

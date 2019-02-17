@@ -53,8 +53,6 @@ namespace ZdrowiePlus.Fragments
             if (Arguments != null)
             {
                 int id = Arguments.GetInt("id", 0);
-                //Toast.MakeText(this.Activity, $"{id}", ToastLength.Short).Show();
-                //Arguments.Clear();
                 Arguments = null;
 
                 SelectEvent(id);
@@ -161,7 +159,6 @@ namespace ZdrowiePlus.Fragments
         private void SelectEvent(int id)
         {
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-            //db.CreateTable<Event>();
             selectedEvent = db.Get<Reminder>(id);
         }
 

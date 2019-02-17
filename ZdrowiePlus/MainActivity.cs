@@ -32,17 +32,13 @@ namespace ZdrowiePlus
         //inicjalizacja fragmentów w OnCreateView
         //wczytywanie z bazy w nowym Thred i progress bar (kręcące się kółko? Resource.Id.progressBar1 ? )
         //maksymalnie 500 alarmów - error, dodać alarmy jako powtarzające? (set repeating)
-        //sprawdzić czy wymagane uprawnienia zapisu/odczytu sd, wywala błąd - wcześniej nie było
         //cukier na czczo czy po posiłku
         //tętno w spoczynku czy w czasie aktywności
         //ogarnąć nazwy class itd
         //ogarnąć dostępy (private, public)
-        //powiadomienie otweiera dialog?
         //czy wszystkie fragmenty powinny miec AddToBackstack? - usunieto z menu po lewej, skomentowano wszystkie
 
-        //list filter
-        public static int listFilter = 0;//zmienic tak jak w liscie pomiarów
-
+        //double press back button to exit
         bool doubleBackExit = false;
 
         ////left menu
@@ -157,7 +153,7 @@ namespace ZdrowiePlus
             }
 
             trans.Replace(Resource.Id.fragmentContainer, fragment);
-            //trans.AddToBackStack(null); sprawdzic czy działa, nie chcemy wracac po fragmentach
+            //trans.AddToBackStack(null); nie chcemy wracac po fragmentach
             trans.Commit();
         }
 
@@ -263,36 +259,6 @@ namespace ZdrowiePlus
             }
 
             return base.OnOptionsItemSelected(item);
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            switch (requestCode)
-            {
-                case 1: //write_external_storage
-                    if (grantResults[0] == Permission.Granted)
-                    {
-                        Toast.MakeText(this, "Permission granted", ToastLength.Short).Show();
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Permission denied", ToastLength.Short).Show();
-                    }
-                    break;
-                case 2: //read_external_storage
-                    if (grantResults[0] == Permission.Granted)
-                    {
-                        Toast.MakeText(this, "Permission granted", ToastLength.Short).Show();
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Permission denied", ToastLength.Short).Show();
-                    }
-                    break;
-                default:
-                    break;
-            }
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

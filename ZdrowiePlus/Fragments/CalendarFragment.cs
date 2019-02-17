@@ -42,52 +42,21 @@ namespace ZdrowiePlus.Fragments
 
             calendarView.DateChange += DateSelect;
 
-            if (ContextCompat.CheckSelfPermission(this.Activity, Manifest.Permission.ReadExternalStorage) == (int)Permission.Granted)
-            {
-                //We have permission
+            //database connection
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+            db.CreateTable<Reminder>();
 
-                //MainActivity.visitList.Clear();
+            DateTime nextDay = DateTime.Today.AddDays(1);
 
-                //database connection
-                var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-                db.CreateTable<Reminder>();
+            events.Clear();
+            events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today && e.Date < nextDay).OrderBy(e => e.Date).ToList();
 
-                //List<Event> events = new List<Event>();
+            listAdapter = new ListViewCalendarAdapter(this.Activity, events);
+            remindersListView = view.FindViewById<ListView>(Resource.Id.listViewCalendar);
+            remindersListView.Adapter = listAdapter;
+            remindersListView.FastScrollEnabled = true;
 
-                DateTime nextDay = DateTime.Today.AddDays(1);
-
-                events.Clear();
-                events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today && e.Date < nextDay).OrderBy(e => e.Date).ToList();
-
-                //foreach (var visit in events)
-                //{
-                //    MainActivity.visitList.Add(visit);
-                //}
-
-                listAdapter = new ListViewCalendarAdapter(this.Activity, /* MainActivity.visitList */ events);
-                remindersListView = view.FindViewById<ListView>(Resource.Id.listViewCalendar);
-                remindersListView.Adapter = listAdapter;
-                remindersListView.FastScrollEnabled = true;
-
-                remindersListView.ItemClick += reminder_ItemClick;
-            }
-            else
-            {
-                // Permission is not granted. If necessary display rationale & request.
-
-                //if (ActivityCompat.ShouldShowRequestPermissionRationale(this.Activity, Manifest.Permission.ReadExternalStorage))
-                //{
-                //    //Explain to the user why we need permission
-                //    Snackbar.Make(View, "Read external storage is required to read the events", Snackbar.LengthIndefinite)
-                //            .SetAction("OK", v => ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage}, 2))
-                //            .Show();
-
-                //    return;
-                //}
-
-                ActivityCompat.RequestPermissions(this.Activity, new String[] { Manifest.Permission.ReadExternalStorage }, 2);
-
-            }
+            remindersListView.ItemClick += reminder_ItemClick;
 
             return view; 
         }
@@ -112,8 +81,6 @@ namespace ZdrowiePlus.Fragments
             // Month is a value beetwen 0 and 11
             DateTime selectedDate = new DateTime(e.Year, e.Month + 1, e.DayOfMonth);
 
-            //MainActivity.visitList.Clear();
-
             //database connection
             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
             db.CreateTable<Reminder>();
@@ -125,7 +92,6 @@ namespace ZdrowiePlus.Fragments
 
             listAdapter = new ListViewCalendarAdapter(this.Activity, events);
             remindersListView.Adapter = listAdapter;
-            //visitAdapter.NotifyDataSetChanged();
         }
 
         public override void OnResume()
