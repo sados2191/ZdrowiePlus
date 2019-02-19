@@ -30,8 +30,8 @@ namespace ZdrowiePlus.Fragments
         Spinner spinner;
 
         List<Reminder> events;
-
-        int listFilter;
+        
+        ReminderType reminderType;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -72,9 +72,17 @@ namespace ZdrowiePlus.Fragments
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            Spinner spinner = (Spinner)sender;
-            listFilter = e.Position;
-            loadData();
+            int position = e.Position - 1; //pozycja 0 spinnera to wybór wszystkich przypomnień, enum o wartosci 0 to wizyty
+
+            if (position < 0)
+            {
+                loadData();
+            }
+            else
+            {
+                reminderType = (ReminderType)position;
+                loadData(reminderType);
+            }
         }
 
         private void reminderCard_ItemClick(object sender, int position)
@@ -92,35 +100,26 @@ namespace ZdrowiePlus.Fragments
             trans.Commit();
         }
 
-        public void loadData()
+        public void loadData(ReminderType? reminderType = null)
         {
-             //database connection
-             var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
-             db.CreateTable<Reminder>();
+            //database connection
+            var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "zdrowieplus.db"));
+            db.CreateTable<Reminder>();
 
-             events = new List<Reminder>();
-             switch (listFilter)
-             {
-                 case 0:
-                     events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                     break;
-                 case 1:
-                     events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Visit && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                     break;
-                 case 2:
-                     events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Medicine && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                     break;
-                 case 3:
-                     events = db.Table<Reminder>().Where(e => e.ReminderType == ReminderType.Measurement && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                     break;
-                 default:
-                     events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
-                     break;
-             }
+            events = new List<Reminder>();
 
-             reminderAdapter = new ListReminderAdapter(events);
-             reminderAdapter.ItemClick += reminderCard_ItemClick;
-             reminderRecyclerView.SetAdapter(reminderAdapter);
+            if (reminderType != null)
+            {
+                events = db.Table<Reminder>().Where(e => e.ReminderType == reminderType && e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+            }
+            else
+            {
+                events = db.Table<Reminder>().Where(e => e.Date >= DateTime.Today).OrderBy(e => e.Date).ToList();
+            }
+
+            reminderAdapter = new ListReminderAdapter(events);
+            reminderAdapter.ItemClick += reminderCard_ItemClick;
+            reminderRecyclerView.SetAdapter(reminderAdapter);
         }
 
         public override void OnResume()
