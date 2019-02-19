@@ -122,8 +122,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootBroadcastReceiver.cs" />
-    <Compile Include="DatePickerFragment.cs" />
+    <Compile Include="BroadcastReceivers\BootBroadcastReceiver.cs" />
+    <Compile Include="DialogFragments\DatePickerFragment.cs" />
     <Compile Include="Fragments\AddReminderFragment.cs" />
     <Compile Include="Fragments\AddVisitFragment.cs" />
     <Compile Include="Fragments\CalendarFragment.cs" />
@@ -135,18 +135,18 @@
     <Compile Include="Fragments\ListHistoryFragment.cs" />
     <Compile Include="Fragments\AddMedicineTherapyFragment.cs" />
     <Compile Include="Fragments\ListRemindersFragment.cs" />
-    <Compile Include="ListReminderAdapter.cs" />
-    <Compile Include="ListMeasurementAdapter.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="Measurement.cs" />
-    <Compile Include="ListViewTimeAdapter.cs" />
-    <Compile Include="ListViewCalendarAdapter.cs" />
-    <Compile Include="NotificationReceiver.cs" />
+    <Compile Include="Adapters\ListReminderAdapter.cs" />
+    <Compile Include="Adapters\ListMeasurementAdapter.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="DatabaseObjects\Measurement.cs" />
+    <Compile Include="Adapters\ListViewTimeAdapter.cs" />
+    <Compile Include="Adapters\ListViewCalendarAdapter.cs" />
+    <Compile Include="BroadcastReceivers\NotificationReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestartAlarmsService.cs" />
-    <Compile Include="TimePickerFragment.cs" />
-    <Compile Include="Reminder.cs" />
+    <Compile Include="Services\RestartAlarmsService.cs" />
+    <Compile Include="DialogFragments\TimePickerFragment.cs" />
+    <Compile Include="DatabaseObjects\Reminder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
