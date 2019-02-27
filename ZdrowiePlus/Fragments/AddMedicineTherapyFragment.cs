@@ -241,24 +241,24 @@ namespace ZdrowiePlus.Fragments
                         DateTime date = new DateTime(eventDay.Year, eventDay.Month, eventDay.Day, item.Hour, item.Minute, 0);
                         if (date >= DateTime.Now)
                         {
-                            var newEvent = new Reminder();
-                            newEvent.Date = date;
-                            newEvent.Title = medicineNameString;
-                            newEvent.ReminderType = ReminderType.Medicine;
-                            newEvent.Count = count;
-                            db.Insert(newEvent);
+                            var reminder = new Reminder();
+                            reminder.Date = date;
+                            reminder.Title = medicineNameString;
+                            reminder.ReminderType = ReminderType.Medicine;
+                            reminder.Count = count;
+                            db.Insert(reminder);
 
                             //Notification
                             Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
-                            notificationIntent.PutExtra("message", $"{newEvent.Title} dawka: {count}. {newEvent.Date.ToString("HH:mm")}");
+                            notificationIntent.PutExtra("message", $"{reminder.Title} dawka: {count}. {reminder.Date.ToString("HH:mm")}");
                             notificationIntent.PutExtra("title", "Leki");
-                            notificationIntent.PutExtra("id", newEvent.Id);
+                            notificationIntent.PutExtra("id", reminder.Id);
 
-                            var timer = (long)newEvent.Date.ToUniversalTime().Subtract(
+                            var timer = (long)reminder.Date.ToUniversalTime().Subtract(
                                 new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                                 ).TotalMilliseconds;
 
-                            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, reminder.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
                             AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                             alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
 

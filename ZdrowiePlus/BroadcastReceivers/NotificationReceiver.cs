@@ -29,7 +29,7 @@ namespace ZdrowiePlus
             string channelId = "zdrowieplus-111";
             string channelName = "ZdrowiePlus";
 
-            // When user click notification start a activity
+            // When user click notification, start an activity
             Intent notifyIntent = new Intent(context, typeof(MainActivity));
             if (title == "Pomiar")
             {
@@ -52,6 +52,7 @@ namespace ZdrowiePlus
                 largeIcon = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.medical_pill);
             }
             notifyIntent.PutExtra("id", id);
+
             // Set the activity to start in a new, empty task
             notifyIntent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
             PendingIntent contentIntent = PendingIntent.GetActivity(context, id, notifyIntent, PendingIntentFlags.UpdateCurrent);
@@ -84,7 +85,7 @@ namespace ZdrowiePlus
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
                 .SetSmallIcon(Resource.Drawable.round_schedule_24)
                 .SetLargeIcon(largeIcon)
-                .SetVisibility((int)NotificationVisibility.Private);
+                .SetVisibility((int)NotificationVisibility.Secret);
 
             // Build the notification:
             Notification notification = builder.Build();

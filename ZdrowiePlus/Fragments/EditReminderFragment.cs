@@ -349,7 +349,7 @@ namespace ZdrowiePlus.Fragments
                     {
                         notificationIntent.PutExtra("title", "Wizyta");
                         notificationIntent.PutExtra("message", $"{eventToEdit.Title}. {eventToEdit.Date.ToString("dd.MM.yyyy HH:mm")}");
-                        eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change date to save notification date earlier than visit date
+                        eventToEdit.Date = eventToEdit.Date.AddMinutes(remindMinutesBefore * (-1)); //change the date to publish notification by chosen minutes before
                     }
                     else if (eventToEdit.ReminderType == ReminderType.Medicine)
                     {

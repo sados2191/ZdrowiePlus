@@ -120,13 +120,13 @@ namespace ZdrowiePlus.Fragments
                 //database connection
                 var db = new SQLiteConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"zdrowieplus.db"));
                 db.CreateTable<Reminder>();
-                var newEvent = new Reminder();
-                newEvent.Date = visitTime;
-                newEvent.MinutesBefore = reminderMinutesBefore;
-                newEvent.Title = title;
-                newEvent.Description = description;
-                newEvent.ReminderType = ReminderType.Visit;
-                db.Insert(newEvent); //change to GUID
+                var reminder = new Reminder();
+                reminder.Date = visitTime;
+                reminder.MinutesBefore = reminderMinutesBefore;
+                reminder.Title = title;
+                reminder.Description = description;
+                reminder.ReminderType = ReminderType.Visit;
+                db.Insert(reminder);
 
                 this.Activity.FindViewById<EditText>(Resource.Id.visitTitle).Text = string.Empty;
                 this.Activity.FindViewById<EditText>(Resource.Id.visitDescription).Text = string.Empty;
@@ -136,7 +136,7 @@ namespace ZdrowiePlus.Fragments
                 Intent notificationIntent = new Intent(Application.Context, typeof(NotificationReceiver));
                 notificationIntent.PutExtra("message", $"{title}. {visitTime.ToString("dd.MM.yyyy HH:mm")}");
                 notificationIntent.PutExtra("title", "Wizyta");
-                notificationIntent.PutExtra("id", newEvent.Id);
+                notificationIntent.PutExtra("id", reminder.Id);
 
                 //notificate time
                 DateTime reminderTime = visitTime.AddMinutes(reminderMinutesBefore * (-1));
@@ -145,7 +145,7 @@ namespace ZdrowiePlus.Fragments
                     new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                     ).TotalMilliseconds;
 
-                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, newEvent.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Application.Context, reminder.Id, notificationIntent, PendingIntentFlags.UpdateCurrent);
                 AlarmManager alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                 alarmManager.Set(AlarmType.RtcWakeup, timer, pendingIntent);
 
