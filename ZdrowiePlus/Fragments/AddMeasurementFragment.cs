@@ -295,18 +295,22 @@ namespace ZdrowiePlus.Fragments
             //if opened by notification get measurement type position that was passed
             if (Arguments != null)
             {
-                reminderId = Arguments.GetInt("id", 0);
-                int spinnerPosition = Arguments.GetInt("type", 0);
-                spinner.SetSelection(spinnerPosition, true);
-                Arguments = null;
+                if (!Arguments.IsEmpty)
+                {
+                    reminderId = Arguments.GetInt("id", 0);
+                    int spinnerPosition = Arguments.GetInt("type", 0);
+                    spinner.SetSelection(spinnerPosition, true);
+                    //Arguments = null;
+                    Arguments.Clear();
 
-                if (reminderId > 0)
-                {
-                    buttonCancel.Text = "Pomiń";
-                }
-                else
-                {
-                    buttonCancel.Text = "Anuluj";
+                    if (reminderId > 0)
+                    {
+                        buttonCancel.Text = "Pomiń";
+                    }
+                    else
+                    {
+                        buttonCancel.Text = "Anuluj";
+                    }
                 }
             }
         }

@@ -52,10 +52,14 @@ namespace ZdrowiePlus.Fragments
         {
             if (Arguments != null)
             {
-                int id = Arguments.GetInt("id", 0);
-                Arguments = null;
+                if (!Arguments.IsEmpty)
+                {
+                    int id = Arguments.GetInt("id", 0);
+                    //Arguments = null;
+                    Arguments.Clear();
 
-                SelectEvent(id);
+                    SelectEvent(id);
+                }
             }
 
             reminderListFragment = new ListRemindersFragment();

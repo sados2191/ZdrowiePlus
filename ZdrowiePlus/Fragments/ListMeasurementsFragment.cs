@@ -102,9 +102,13 @@ namespace ZdrowiePlus.Fragments
             //if opened by AddMeasurementFragment
             if (Arguments != null)
             {
-                int spinnerPosition = Arguments.GetInt("type", 0);
-                spinner.SetSelection(spinnerPosition, true);
-                Arguments = null;
+                if (!Arguments.IsEmpty)
+                {
+                    int spinnerPosition = Arguments.GetInt("type", 0);
+                    spinner.SetSelection(spinnerPosition, true);
+                    //Arguments = null;
+                    Arguments.Clear();
+                }
             }
         }
 
